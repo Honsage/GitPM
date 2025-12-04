@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+       <VBox prefHeight="58.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+           <HBox prefHeight="33.0" prefWidth="600.0"/>
+           <MenuBar>
+               <Menu mnemonicParsing="false" text="Файл">
+                   <MenuItem mnemonicParsing="false" text="Close"/>
+               </Menu>
+               <Menu mnemonicParsing="false" text="Правка">
+                   <MenuItem mnemonicParsing="false" text="Delete"/>
+               </Menu>
+               <Menu mnemonicParsing="false" text="Помощь">
+                   <MenuItem mnemonicParsing="false" text="About"/>
+               </Menu>
+           </MenuBar>
+       </VBox>
+   </top>
+   <center>
+       <SplitPane dividerPositions="0.42981283422459887" prefHeight="263.0" prefWidth="600.0"
+                  BorderPane.alignment="CENTER">
+           <VBox prefHeight="286.0" prefWidth="254.0">
+               <HBox prefHeight="41.0" prefWidth="254.0"/>
+               <ListView prefHeight="318.0" prefWidth="254.0"/>
+           </VBox>
+           <VBox prefHeight="200.0" prefWidth="100.0">
+               <TabPane prefHeight="342.0" prefWidth="338.0" tabClosingPolicy="UNAVAILABLE">
+                   <Tab text="Информация">
+                       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                             prefHeight="308.0" prefWidth="338.0"/>
+                   </Tab>
+                   <Tab text="Задачи"/>
+                   <Tab text="Сценарии"/>
+               </TabPane>
+           </VBox>
+       </SplitPane>
+   </center>
+</BorderPane>
