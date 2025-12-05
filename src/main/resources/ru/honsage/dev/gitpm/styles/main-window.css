@@ -1,0 +1,32 @@
+#header-pane {
+    color: #006464;
+}
+
+#header__title {
+    -fx-background-color: #006464;
+    -fx-max-width: infinity;
+}
+
+.menu {
+    -fx-background-color: none;
+}
+
+.menu:hover {
+    -fx-background-color: #006464AA;
+}
+
+.menu__item:hover,
+.menu__item:pressed,
+.menu__item:focused {
+    -fx-background-color: #006464AA;
+}
+
+.tab {
+    -fx-text-fill: red;
+}
+
+.tab:selected {
+    -fx-background-color: #006464AA;
+    -fx-text-fill: white;
+    -fx-highlight-text-fill: white;
+}
