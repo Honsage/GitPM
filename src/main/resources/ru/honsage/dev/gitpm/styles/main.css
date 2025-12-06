@@ -30,3 +30,9 @@
     -fx-text-fill: white;
     -fx-highlight-text-fill: white;
 }
+
+.container,
+.space {
+    -fx-max-width: infinity;
+    -fx-max-height: infinity;
+}

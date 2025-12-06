@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
@@ -12,20 +13,20 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@styles/main-window.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="root" fx:controller="ru.honsage.dev.gitpm.presentation.controllers.MainController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
        <VBox fx:id="header" prefHeight="58.0" prefWidth="600.0" BorderPane.alignment="CENTER">
            <HBox id="header-pane" fx:id="headerPane" prefHeight="33.0" prefWidth="600.0">
-               <Label id="header__title" fx:id="titleLabel" prefHeight="33.0" prefWidth="608.0"
-                      text="GitPM – Git Project Manager" textFill="#cccccc" HBox.hgrow="ALWAYS">
+               <Label id="header__title" fx:id="titleLabel" prefHeight="33.0" prefWidth="608.0" text="GitPM – Git Project Manager" textFill="#cccccc" HBox.hgrow="ALWAYS">
                    <font>
-                       <Font name="Calibri" size="18.0"/>
+                       <Font name="Calibri" size="18.0" />
                    </font>
                    <padding>
-                       <Insets left="12.0"/>
+                       <Insets left="12.0" />
                    </padding>
                </Label>
            </HBox>
@@ -43,9 +44,13 @@
        </VBox>
    </top>
    <center>
-       <SplitPane fx:id="main" dividerPositions="0.42981283422459887" prefHeight="263.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-           <VBox fx:id="projectContainer" prefHeight="286.0" prefWidth="254.0">
-               <HBox fx:id="projectPane" prefHeight="41.0" prefWidth="254.0" />
+       <SplitPane fx:id="main" dividerPositions="0.42981283422459887" prefHeight="263.0" prefWidth="600.0" styleClass="container" BorderPane.alignment="CENTER">
+           <VBox id="projects" fx:id="projectContainer" prefHeight="340.0" prefWidth="255.0" styleClass="container">
+               <HBox fx:id="projectPane" prefHeight="41.0" prefWidth="254.0" styleClass="container">
+                   <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="70.0"/>
+                   <Region prefHeight="31.0" prefWidth="144.0" styleClass="space"/>
+                   <Button contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="35.0" prefWidth="76.0"/>
+               </HBox>
                <ListView fx:id="projectFlow" prefHeight="318.0" prefWidth="254.0" />
            </VBox>
            <VBox fx:id="toolContainer" prefHeight="200.0" prefWidth="100.0">
@@ -55,9 +60,9 @@
                    </Tab>
                    <Tab fx:id="taskTab" closable="false" text="Задачи">
                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <HBox fx:id="taskPane" prefHeight="35.0" prefWidth="338.0"/>
+                           <HBox fx:id="taskPane" prefHeight="35.0" prefWidth="338.0" />
                            <ScrollPane fx:id="taskScroll" hbarPolicy="NEVER" prefHeight="278.0" prefWidth="338.0">
-                               <VBox fx:id="taskFlow" prefHeight="277.0" prefWidth="323.0"/>
+                               <VBox fx:id="taskFlow" prefHeight="277.0" prefWidth="323.0" />
                            </ScrollPane>
                        </VBox>
                    </Tab>
