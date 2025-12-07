@@ -29,14 +29,21 @@ public class Project {
         this.addedAt = addedAt;
     }
 
-    public Project(LocalRepositoryPath localPath) {
+    public Project(
+            LocalRepositoryPath localPath,
+            GitRemoteURL remoteURL
+    ) {
         this(
                 localPath.getRepoName(),
                 null,
                 localPath,
-                null,
+                remoteURL,
                 LocalDateTime.now()
         );
+    }
+
+    public Project(LocalRepositoryPath localPath) {
+        this(localPath,null);
     }
 
     private void validateTitle(String title) {
@@ -61,13 +68,11 @@ public class Project {
     public void update(
             String newTitle,
             String newDescription,
-            LocalRepositoryPath newLocalPath,
             GitRemoteURL newRemoteURL
     ) {
         validateTitle(newTitle);
         this.title = newTitle;
         this.description = newDescription;
-        this.localPath = newLocalPath;
         this.remoteURL = newRemoteURL;
     }
 
