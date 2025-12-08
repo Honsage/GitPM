@@ -53,6 +53,14 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
+    public List<Project> getProjectsByTitlePrefix(String titlePrefix) {
+        return projectRepository.findByTitlePrefix(titlePrefix);
+    }
+
+    public List<Project> getProjectsWithRemote() {
+        return projectRepository.findWithRemote();
+    }
+
     public Project updateProject(
             Long id,
             String newTitle,
@@ -64,6 +72,7 @@ public class ProjectService {
 
         // Project from another local repository is another project
         if (!project.getLocalPath().equals(new LocalRepositoryPath(newLocalPath))) {
+            projectRepository.delete(id);
             return createProject(
                     newTitle,
                     newDescription,
@@ -77,9 +86,8 @@ public class ProjectService {
                 new GitRemoteURL(newRemoteURL)
         );
 
-        return projectRepository.save(project);
+        return projectRepository.update(id, project);
     }
-
 
     public void deleteProject(Long id) {
         projectRepository.delete(id);
@@ -87,15 +95,17 @@ public class ProjectService {
 
     public List<Project> scanForGitRepositories(Path rootDirectory) {
         List<Path> gitDirs = gitClient.findGitRepositories(rootDirectory);
-
-        // TODO: add checking of already loaded repositories to prevent duplication
-
-        return gitDirs.stream().map(this::createProjectFromDirectory).collect(Collectors.toList());
+        return gitDirs.stream().filter(this::isLocalPathAvailable)
+                .map(this::createProjectFromDirectory).collect(Collectors.toList());
     }
 
     private Project createProjectFromDirectory(Path directory) {
         LocalRepositoryPath path = new LocalRepositoryPath(directory.toString());
         GitRemoteURL url = new GitRemoteURL(gitClient.getRemoteURL(directory));
         return new Project(path, url);
+    }
+
+    private boolean isLocalPathAvailable(Path directory) {
+        return projectRepository.findByLocalPath(directory).isEmpty();
     }
 }
