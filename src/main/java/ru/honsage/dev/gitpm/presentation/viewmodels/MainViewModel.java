@@ -1,0 +1,127 @@
+package ru.honsage.dev.gitpm.presentation.viewmodels;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import ru.honsage.dev.gitpm.application.services.ProjectService;
+import ru.honsage.dev.gitpm.domain.valueobjects.ProjectId;
+import ru.honsage.dev.gitpm.presentation.dto.ProjectDTO;
+import ru.honsage.dev.gitpm.presentation.mappers.ProjectMapper;
+
+import java.nio.file.Path;
+
+// Логика представления
+public class MainViewModel {
+    private final ProjectService projectService;
+
+    private final ObservableList<ProjectViewModel> projects = FXCollections.observableArrayList();
+    private final FilteredList<ProjectViewModel> filteredProjects = new FilteredList<>(projects);
+
+    private ProjectViewModel selectedProject;
+
+    public MainViewModel(ProjectService projectService) {
+        this.projectService = projectService;
+    }
+
+    public ObservableList<ProjectViewModel> getProjects() {
+        return this.filteredProjects;
+    }
+
+    public ProjectViewModel getSelectedProject() {
+        return this.selectedProject;
+    }
+
+    public void setSelectedProject(ProjectViewModel project) {
+        this.selectedProject = project;
+        this.projects.forEach(p -> p.setSelected(p == project));
+    }
+
+    public void loadProjects() {
+        this.projects.clear();
+
+        this.projectService.getAllProjects().stream()
+                .map(ProjectMapper::toDTO)
+                .map(ProjectViewModel::new)
+                .forEach(projects::add);
+    }
+
+    public void scanForProjects(Path rootDirectory) {
+        projectService.scanForGitRepositories(rootDirectory).stream()
+                .map(ProjectMapper::toDTO)
+                .map(ProjectViewModel::new)
+                .forEach(projects::add);
+    }
+
+    public void addProject(
+            String title,
+            String description,
+            String localPath,
+            String remoteURL
+    ) {
+        var project = projectService.createProject(
+                title,
+                description,
+                localPath,
+                remoteURL
+        );
+
+        ProjectDTO dto = ProjectMapper.toDTO(project);
+        projects.add(new ProjectViewModel(dto));
+    }
+
+    public void updateSelected(
+            String newTitle,
+            String newDescription,
+            String newLocalPath,
+            String newRemoteURL
+    ) {
+        if (selectedProject == null) return;
+
+        ProjectId id = ProjectId.fromString(selectedProject.getId());
+        var updated = projectService.updateProject(
+                id,
+                newTitle,
+                newDescription,
+                newLocalPath,
+                newRemoteURL
+        );
+
+        this.updateProjectInList(ProjectMapper.toDTO(updated));
+    }
+
+    public void deleteSelected() {
+        if (selectedProject == null) return;
+
+        ProjectId id = ProjectId.fromString(selectedProject.getId());
+        projectService.deleteProject(id);
+
+        projects.remove(selectedProject);
+    }
+
+    public void filterByTitlePrefix(String prefix) {
+        filteredProjects.setPredicate(p ->
+                prefix == null ||
+                prefix.isBlank() ||
+                p.getTitle().toLowerCase().startsWith(prefix.toLowerCase())
+        );
+    }
+
+    public void filterOnlyWithRemote(boolean enabled) {
+        if (!enabled) {
+            filteredProjects.setPredicate(p -> true);
+        } else {
+            filteredProjects.setPredicate(p ->
+                    p.remoteURLProperty().get() != null &&
+                    !p.remoteURLProperty().get().isBlank());
+        }
+    }
+
+    private void updateProjectInList(ProjectDTO dto) {
+        for (int i = 0; i < projects.size(); ++i) {
+            if (projects.get(i).getId().equals(dto.id())) {
+                projects.set(i, new ProjectViewModel(dto));
+                return;
+            }
+        }
+    }
+}
