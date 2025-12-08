@@ -6,6 +6,7 @@ import ru.honsage.dev.gitpm.domain.ports.GitOperations;
 import ru.honsage.dev.gitpm.domain.repositories.ProjectRepository;
 import ru.honsage.dev.gitpm.domain.valueobjects.GitRemoteURL;
 import ru.honsage.dev.gitpm.domain.valueobjects.LocalRepositoryPath;
+import ru.honsage.dev.gitpm.domain.valueobjects.ProjectId;
 
 import java.nio.file.Path;
 import java.time.LocalDateTime;
@@ -28,13 +29,14 @@ public class ProjectService {
             String remoteURL
     ) {
         LocalRepositoryPath path = new LocalRepositoryPath(localPath);
-        GitRemoteURL url = new GitRemoteURL(remoteURL);
+        GitRemoteURL url = remoteURL == null ? null : new GitRemoteURL(remoteURL);
 
         if (!gitClient.isGitRepository(path.toPath())) {
             throw ExceptionFactory.businessRule(String.format("Directory '%s' must be a Git repository", localPath));
         }
 
         Project project = new Project(
+                ProjectId.random(),
                 title,
                 description,
                 path,
@@ -44,7 +46,7 @@ public class ProjectService {
         return projectRepository.save(project);
     }
 
-    public Project getProject(Long id) {
+    public Project getProject(ProjectId id) {
         return projectRepository.findById(id)
                 .orElseThrow(() -> ExceptionFactory.entityNotFound("Project", id.toString()));
     }
@@ -62,7 +64,7 @@ public class ProjectService {
     }
 
     public Project updateProject(
-            Long id,
+            ProjectId id,
             String newTitle,
             String newDescription,
             String newLocalPath,
@@ -70,8 +72,9 @@ public class ProjectService {
     ) {
         Project project = getProject(id);
 
-        // Project from another local repository is another project
-        if (!project.getLocalPath().equals(new LocalRepositoryPath(newLocalPath))) {
+        LocalRepositoryPath newPath = new LocalRepositoryPath(newLocalPath);
+        // Project with another local repository is another project
+        if (!project.getLocalPath().equals(newPath)) {
             projectRepository.delete(id);
             return createProject(
                     newTitle,
@@ -86,26 +89,30 @@ public class ProjectService {
                 new GitRemoteURL(newRemoteURL)
         );
 
-        return projectRepository.update(id, project);
+        return projectRepository.update(project);
     }
 
-    public void deleteProject(Long id) {
+    public void deleteProject(ProjectId id) {
         projectRepository.delete(id);
     }
 
     public List<Project> scanForGitRepositories(Path rootDirectory) {
         List<Path> gitDirs = gitClient.findGitRepositories(rootDirectory);
-        return gitDirs.stream().filter(this::isLocalPathAvailable)
-                .map(this::createProjectFromDirectory).collect(Collectors.toList());
+        return gitDirs.stream()
+                .filter(this::isLocalPathAvailable)
+                .map(this::createProjectFromDirectory)
+                .collect(Collectors.toList());
     }
 
     private Project createProjectFromDirectory(Path directory) {
         LocalRepositoryPath path = new LocalRepositoryPath(directory.toString());
-        GitRemoteURL url = new GitRemoteURL(gitClient.getRemoteURL(directory));
-        return new Project(path, url);
+        String remoteUrl = gitClient.getRemoteURL(directory);
+        GitRemoteURL url = remoteUrl == null || remoteUrl.isBlank() ? null : new GitRemoteURL(remoteUrl);
+        return new Project(ProjectId.random(), path, url);
     }
 
     private boolean isLocalPathAvailable(Path directory) {
-        return projectRepository.findByLocalPath(directory).isEmpty();
+        LocalRepositoryPath localPath = new LocalRepositoryPath(directory.toString());
+        return projectRepository.findByLocalPath(localPath).isEmpty();
     }
 }

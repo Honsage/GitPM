@@ -3,10 +3,13 @@ package ru.honsage.dev.gitpm.domain.models;
 import ru.honsage.dev.gitpm.domain.exceptions.ExceptionFactory;
 import ru.honsage.dev.gitpm.domain.valueobjects.GitRemoteURL;
 import ru.honsage.dev.gitpm.domain.valueobjects.LocalRepositoryPath;
+import ru.honsage.dev.gitpm.domain.valueobjects.ProjectId;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Project {
+    private final ProjectId id;
     private String title;
     private String description;
     private LocalRepositoryPath localPath;
@@ -14,12 +17,14 @@ public class Project {
     private final LocalDateTime addedAt;
 
     public Project(
-        String title,
-        String description,
-        LocalRepositoryPath localPath,
-        GitRemoteURL remoteURL,
-        LocalDateTime addedAt
+            ProjectId id,
+            String title,
+            String description,
+            LocalRepositoryPath localPath,
+            GitRemoteURL remoteURL,
+            LocalDateTime addedAt
     ) {
+        this.id = Objects.requireNonNull(id, "Project id must be notNull");
         validateTitle(title);
         validateAddedAt(addedAt);
         this.title = title;
@@ -30,10 +35,12 @@ public class Project {
     }
 
     public Project(
+            ProjectId id,
             LocalRepositoryPath localPath,
             GitRemoteURL remoteURL
     ) {
         this(
+                id,
                 localPath.getRepoName(),
                 null,
                 localPath,
@@ -42,8 +49,8 @@ public class Project {
         );
     }
 
-    public Project(LocalRepositoryPath localPath) {
-        this(localPath,null);
+    public Project(ProjectId id, LocalRepositoryPath localPath) {
+        this(id, localPath, null);
     }
 
     private void validateTitle(String title) {
@@ -76,23 +83,10 @@ public class Project {
         this.remoteURL = newRemoteURL;
     }
 
-    public String getTitle() {
-        return this.title;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public LocalRepositoryPath getLocalPath() {
-        return this.localPath;
-    }
-
-    public GitRemoteURL getRemoteURL() {
-        return this.remoteURL;
-    }
-
-    public LocalDateTime getAddedAt() {
-        return this.addedAt;
-    }
+    public ProjectId getId() { return id;}
+    public String getTitle() { return this.title; }
+    public String getDescription() { return this.description; }
+    public LocalRepositoryPath getLocalPath() { return this.localPath; }
+    public GitRemoteURL getRemoteURL() { return this.remoteURL; }
+    public LocalDateTime getAddedAt() { return this.addedAt; }
 }
