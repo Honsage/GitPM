@@ -11,13 +11,14 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="root" fx:controller="ru.honsage.dev.gitpm.presentation.controllers.MainController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.honsage.dev.gitpm.presentation.controllers.MainController">
    <top>
        <VBox fx:id="header" prefHeight="58.0" prefWidth="600.0" BorderPane.alignment="CENTER">
            <HBox id="header-pane" fx:id="headerPane" prefHeight="33.0" prefWidth="600.0">
@@ -31,13 +32,13 @@
                </Label>
            </HBox>
            <MenuBar id="menu-bar" fx:id="menuBar">
-               <Menu fx:id="menuFile" mnemonicParsing="false" styleClass="menu" text="Файл">
+               <Menu fx:id="fileMenu" mnemonicParsing="false" styleClass="menu" text="Файл">
                    <MenuItem mnemonicParsing="false" styleClass="menu__item" text="Закрыть" />
                </Menu>
-               <Menu fx:id="menuEdit" mnemonicParsing="false" styleClass="menu" text="Правка">
+               <Menu fx:id="editMenu" mnemonicParsing="false" styleClass="menu" text="Правка">
                    <MenuItem mnemonicParsing="false" styleClass="menu__item" text="Добавить проект" />
                </Menu>
-               <Menu fx:id="menuHelp" mnemonicParsing="false" styleClass="menu" text="Помощь">
+               <Menu fx:id="helpMenu" mnemonicParsing="false" styleClass="menu" text="Помощь">
                    <MenuItem mnemonicParsing="false" styleClass="menu__item" text="О программе" />
                </Menu>
            </MenuBar>
@@ -47,11 +48,18 @@
        <SplitPane fx:id="main" dividerPositions="0.42981283422459887" prefHeight="263.0" prefWidth="600.0" styleClass="container" BorderPane.alignment="CENTER">
            <VBox id="projects" fx:id="projectContainer" prefHeight="340.0" prefWidth="255.0" styleClass="container">
                <HBox fx:id="projectPane" prefHeight="41.0" prefWidth="254.0" styleClass="container">
-                   <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="70.0"/>
-                   <Region prefHeight="31.0" prefWidth="144.0" styleClass="space"/>
-                   <Button contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="35.0" prefWidth="76.0"/>
+                   <Button fx:id="addProjectButton" mnemonicParsing="false" onAction="#onAddProject" prefHeight="26.0" prefWidth="32.0" text="+" />
+                   <Button fx:id="scanDirectoryButton" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onScanDirectory" prefHeight="2.0" prefWidth="33.0" text="-o" />
+               <TextField fx:id="searchEntry" prefHeight="26.0" prefWidth="130.0" />
+               <ToggleButton fx:id="filterRemoteButton" mnemonicParsing="false" onAction="#onFilterRemoteToggled" text="Remote" />
                </HBox>
                <ListView fx:id="projectFlow" prefHeight="318.0" prefWidth="254.0" />
+            <HBox alignment="TOP_RIGHT" prefHeight="51.0" prefWidth="254.0">
+               <children>
+                  <Button fx:id="editProjectButton" mnemonicParsing="false" onAction="#onEditProject" prefHeight="26.0" prefWidth="34.0" text="&lt;=" />
+                  <Button fx:id="deleteProjectButton" mnemonicParsing="false" onAction="#onDeleteProject" prefHeight="26.0" prefWidth="23.0" text="X" />
+               </children>
+            </HBox>
            </VBox>
            <VBox fx:id="toolContainer" prefHeight="200.0" prefWidth="100.0">
                <TabPane id="tab-container" fx:id="tabContainer" prefHeight="342.0" prefWidth="338.0" tabClosingPolicy="UNAVAILABLE">

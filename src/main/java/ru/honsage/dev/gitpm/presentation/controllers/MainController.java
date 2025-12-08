@@ -1,5 +1,6 @@
 package ru.honsage.dev.gitpm.presentation.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -48,4 +49,18 @@ public class MainController {
     @FXML
     protected VBox taskFlow;
 
+    public void onAddProject(ActionEvent actionEvent) {
+    }
+
+    public void onScanDirectory(ActionEvent actionEvent) {
+    }
+
+    public void onFilterRemoteToggled(ActionEvent actionEvent) {
+    }
+
+    public void onEditProject(ActionEvent actionEvent) {
+    }
+
+    public void onDeleteProject(ActionEvent actionEvent) {
+    }
 }
