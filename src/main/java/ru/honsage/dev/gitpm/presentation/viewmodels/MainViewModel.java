@@ -9,6 +9,7 @@ import ru.honsage.dev.gitpm.presentation.dto.ProjectDTO;
 import ru.honsage.dev.gitpm.presentation.mappers.ProjectMapper;
 
 import java.nio.file.Path;
+import java.util.stream.IntStream;
 
 // Логика представления
 public class MainViewModel {
@@ -117,11 +118,9 @@ public class MainViewModel {
     }
 
     private void updateProjectInList(ProjectDTO dto) {
-        for (int i = 0; i < projects.size(); ++i) {
-            if (projects.get(i).getId().equals(dto.id())) {
-                projects.set(i, new ProjectViewModel(dto));
-                return;
-            }
-        }
+        IntStream.range(0, projects.size())
+                .filter(i -> projects.get(i).getId().equals(dto.id()))
+                .findFirst()
+                .ifPresent(i -> projects.set(i, new ProjectViewModel(dto)));
     }
 }
