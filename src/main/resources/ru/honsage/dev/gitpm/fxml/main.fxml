@@ -54,12 +54,12 @@
                <ToggleButton fx:id="filterRemoteButton" mnemonicParsing="false" onAction="#onFilterRemoteToggled" text="Remote" />
                </HBox>
                <ListView fx:id="projectFlow" prefHeight="318.0" prefWidth="254.0" />
-            <HBox alignment="TOP_RIGHT" prefHeight="51.0" prefWidth="254.0">
-               <children>
-                  <Button fx:id="editProjectButton" mnemonicParsing="false" onAction="#onEditProject" prefHeight="26.0" prefWidth="34.0" text="&lt;=" />
-                  <Button fx:id="deleteProjectButton" mnemonicParsing="false" onAction="#onDeleteProject" prefHeight="26.0" prefWidth="23.0" text="X" />
-               </children>
-            </HBox>
+               <HBox alignment="TOP_RIGHT" prefHeight="51.0" prefWidth="254.0">
+                   <Button fx:id="editProjectButton" mnemonicParsing="false" onAction="#onEditProject" prefHeight="26.0"
+                           prefWidth="34.0" text="&lt;="/>
+                   <Button fx:id="deleteProjectButton" mnemonicParsing="false" onAction="#onDeleteProject"
+                           prefHeight="26.0" prefWidth="23.0" text="X"/>
+               </HBox>
            </VBox>
            <VBox fx:id="toolContainer" prefHeight="200.0" prefWidth="100.0">
                <TabPane id="tab-container" fx:id="tabContainer" prefHeight="342.0" prefWidth="338.0" tabClosingPolicy="UNAVAILABLE">

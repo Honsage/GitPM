@@ -6,13 +6,50 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import ru.honsage.dev.gitpm.application.services.ProjectService;
+import ru.honsage.dev.gitpm.domain.ports.GitOperations;
+import ru.honsage.dev.gitpm.domain.repositories.ProjectRepository;
+import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.DatabaseManager;
+import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.ProjectRepositoryImpl;
+import ru.honsage.dev.gitpm.presentation.controllers.MainController;
+import ru.honsage.dev.gitpm.presentation.viewmodels.MainViewModel;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.List;
 
 public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fxml/main.fxml"));
+
+        DatabaseManager db = DatabaseManager.getInstance("gitpm.db");
+        ProjectRepository projectRepo = new ProjectRepositoryImpl(db);
+        GitOperations git = new GitOperations() {
+            @Override
+            public boolean isGitRepository(Path directory) {
+                return true;
+            }
+
+            @Override
+            public List<Path> findGitRepositories(Path rootDirectory) {
+                return List.of();
+            }
+
+            @Override
+            public void cloneRepository(String url, Path directory) {
+
+            }
+
+            @Override
+            public String getRemoteURL(Path repository) {
+                return "";
+            }
+        };
+        ProjectService projectService = new ProjectService(projectRepo, git);
+        MainViewModel viewModel = new MainViewModel(projectService);
+        fxmlLoader.setControllerFactory(_ -> new MainController(viewModel));
+
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root, 800,600);
         stage.setTitle("GitPM – Git Project Manager");

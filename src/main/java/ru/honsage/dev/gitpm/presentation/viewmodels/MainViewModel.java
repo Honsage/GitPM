@@ -6,7 +6,7 @@ import javafx.collections.transformation.FilteredList;
 import ru.honsage.dev.gitpm.application.services.ProjectService;
 import ru.honsage.dev.gitpm.domain.valueobjects.ProjectId;
 import ru.honsage.dev.gitpm.presentation.dto.ProjectDTO;
-import ru.honsage.dev.gitpm.presentation.mappers.ProjectMapper;
+import ru.honsage.dev.gitpm.presentation.mappers.ProjectDTOMapper;
 
 import java.nio.file.Path;
 import java.util.stream.IntStream;
@@ -41,14 +41,14 @@ public class MainViewModel {
         this.projects.clear();
 
         this.projectService.getAllProjects().stream()
-                .map(ProjectMapper::toDTO)
+                .map(ProjectDTOMapper::toDTO)
                 .map(ProjectViewModel::new)
                 .forEach(projects::add);
     }
 
     public void scanForProjects(Path rootDirectory) {
         projectService.scanForGitRepositories(rootDirectory).stream()
-                .map(ProjectMapper::toDTO)
+                .map(ProjectDTOMapper::toDTO)
                 .map(ProjectViewModel::new)
                 .forEach(projects::add);
     }
@@ -66,7 +66,7 @@ public class MainViewModel {
                 remoteURL
         );
 
-        ProjectDTO dto = ProjectMapper.toDTO(project);
+        ProjectDTO dto = ProjectDTOMapper.toDTO(project);
         projects.add(new ProjectViewModel(dto));
     }
 
@@ -87,7 +87,7 @@ public class MainViewModel {
                 newRemoteURL
         );
 
-        this.updateProjectInList(ProjectMapper.toDTO(updated));
+        this.updateProjectInList(ProjectDTOMapper.toDTO(updated));
     }
 
     public void deleteSelected() {
