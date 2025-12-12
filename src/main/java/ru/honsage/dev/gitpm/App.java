@@ -11,7 +11,7 @@ import ru.honsage.dev.gitpm.domain.ports.GitOperations;
 import ru.honsage.dev.gitpm.domain.repositories.ProjectRepository;
 import ru.honsage.dev.gitpm.infrastructure.git.JGitOperations;
 import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.DatabaseManager;
-import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.ProjectRepositoryImpl;
+import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.repositories.ProjectRepositoryImpl;
 import ru.honsage.dev.gitpm.presentation.controllers.MainController;
 import ru.honsage.dev.gitpm.presentation.viewmodels.MainViewModel;
 

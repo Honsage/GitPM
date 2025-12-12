@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface TaskRepository {
     Optional<Task> findById(TaskId taskId, ProjectId projectId);
-    Optional<Task> findByTitlePrefix(String titlePrefix, ProjectId id);
+    List<Task> findByTitlePrefix(String titlePrefix, ProjectId id);
     List<Task> findAllByProject(ProjectId id);
     List<Task> findByCompleted(boolean isCompleted, ProjectId id);
     List<Task> findByPriority(TaskPriority priority, ProjectId id);
