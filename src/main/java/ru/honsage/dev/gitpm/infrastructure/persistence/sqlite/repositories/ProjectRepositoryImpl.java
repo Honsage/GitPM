@@ -33,7 +33,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             if (!rs.next()) return Optional.empty();
 
             return Optional.of(
-                    ProjectEntityMapper.toDomain(this.extractEntity(rs))
+                    ProjectEntityMapper.toDomain(ProjectEntityMapper.fromResultSet(rs))
             );
 
         } catch (SQLException e) {
@@ -51,7 +51,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             if (!rs.next()) return Optional.empty();
 
             return Optional.of(
-                    ProjectEntityMapper.toDomain(this.extractEntity(rs))
+                    ProjectEntityMapper.toDomain(ProjectEntityMapper.fromResultSet(rs))
             );
 
         } catch (SQLException e) {
@@ -66,7 +66,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         try (Statement st = db.getConnection().createStatement()) {
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                list.add(ProjectEntityMapper.toDomain(this.extractEntity(rs)));
+                list.add(ProjectEntityMapper.toDomain(ProjectEntityMapper.fromResultSet(rs)));
             }
         } catch (SQLException e) {
             throw new RuntimeException("DB error during query execution", e);
@@ -83,7 +83,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                list.add(ProjectEntityMapper.toDomain(this.extractEntity(rs)));
+                list.add(ProjectEntityMapper.toDomain(ProjectEntityMapper.fromResultSet(rs)));
             }
         } catch (SQLException e) {
             throw new RuntimeException("DB error during query execution", e);
@@ -98,7 +98,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         try (Statement st = db.getConnection().createStatement()) {
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                list.add(ProjectEntityMapper.toDomain(this.extractEntity(rs)));
+                list.add(ProjectEntityMapper.toDomain(ProjectEntityMapper.fromResultSet(rs)));
             }
         } catch (SQLException e) {
             throw new RuntimeException("DB error during query execution", e);
@@ -154,16 +154,5 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         } catch (SQLException e) {
             throw new RuntimeException("DB error during query execution", e);
         }
-    }
-
-    private ProjectEntity extractEntity(ResultSet rs) throws SQLException {
-        return new ProjectEntity(
-                rs.getString("id_project"),
-                rs.getString("title"),
-                rs.getString("description"),
-                rs.getString("local_path"),
-                rs.getString("remote_url"),
-                rs.getString("added_at")
-        );
     }
 }

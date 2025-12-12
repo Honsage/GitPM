@@ -6,6 +6,8 @@ import ru.honsage.dev.gitpm.domain.valueobjects.LocalRepositoryPath;
 import ru.honsage.dev.gitpm.domain.valueobjects.ProjectId;
 import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.entities.ProjectEntity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class ProjectEntityMapper {
@@ -29,6 +31,17 @@ public class ProjectEntityMapper {
                 new LocalRepositoryPath(entity.localPath()),
                 entity.remoteURL() == null ? null : new GitRemoteURL(entity.remoteURL()),
                 LocalDateTime.parse(entity.addedAt())
+        );
+    }
+
+    public static ProjectEntity fromResultSet(ResultSet rs) throws SQLException {
+        return new ProjectEntity(
+                rs.getString("id_project"),
+                rs.getString("title"),
+                rs.getString("description"),
+                rs.getString("local_path"),
+                rs.getString("remote_url"),
+                rs.getString("added_at")
         );
     }
 }
