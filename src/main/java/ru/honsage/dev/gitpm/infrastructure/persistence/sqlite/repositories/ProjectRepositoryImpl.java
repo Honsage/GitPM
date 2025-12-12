@@ -1,9 +1,10 @@
-package ru.honsage.dev.gitpm.infrastructure.persistence.sqlite;
+package ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.repositories;
 
 import ru.honsage.dev.gitpm.domain.models.Project;
 import ru.honsage.dev.gitpm.domain.repositories.ProjectRepository;
 import ru.honsage.dev.gitpm.domain.valueobjects.LocalRepositoryPath;
 import ru.honsage.dev.gitpm.domain.valueobjects.ProjectId;
+import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.DatabaseManager;
 import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.entities.ProjectEntity;
 import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.mappers.ProjectEntityMapper;
 
@@ -24,7 +25,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public Optional<Project> findById(ProjectId id) {
-        String query = "SELECT * FROM projects WHERE id_project = ?;";
+        String query = "SELECT * FROM project WHERE id_project = ?;";
         try (PreparedStatement st = db.getConnection().prepareStatement(query)) {
             st.setString(1, id.toString());
 
@@ -42,7 +43,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public Optional<Project> findByLocalPath(LocalRepositoryPath localPath) {
-        String query = "SELECT * FROM projects WHERE local_path = ?;";
+        String query = "SELECT * FROM project WHERE local_path = ?;";
         try (PreparedStatement st = db.getConnection().prepareStatement(query)) {
             st.setString(1, localPath.value());
 
@@ -61,7 +62,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     @Override
     public List<Project> findAll() {
         List<Project> list = new ArrayList<>();
-        String query = "SELECT * FROM projects;";
+        String query = "SELECT * FROM project;";
         try (Statement st = db.getConnection().createStatement()) {
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
@@ -76,7 +77,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     @Override
     public List<Project> findByTitlePrefix(String titlePrefix) {
         List<Project> list = new ArrayList<>();
-        String query = "SELECT * FROM projects WHERE title LIKE ?;";
+        String query = "SELECT * FROM project WHERE title LIKE ?;";
         try (PreparedStatement st = db.getConnection().prepareStatement(query)) {
             st.setString(1, titlePrefix + "%");
 
@@ -93,7 +94,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     @Override
     public List<Project> findWithRemote() {
         List<Project> list = new ArrayList<>();
-        String query = "SELECT * FROM projects WHERE remote_url IS NOT NULL;";
+        String query = "SELECT * FROM project WHERE remote_url IS NOT NULL;";
         try (Statement st = db.getConnection().createStatement()) {
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
@@ -109,7 +110,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     public Project save(Project project) {
         ProjectEntity entity = ProjectEntityMapper.toEntity(project);
         String query = """
-                INSERT INTO projects(id_project, title, description, local_path, remote_url, added_at)
+                INSERT INTO project(id_project, title, description, local_path, remote_url, added_at)
                 VALUES (?, ?, ?, ?, ?, ?);""";
         try (PreparedStatement st = db.getConnection().prepareStatement(query)) {
             st.setString(1, entity.id());
@@ -129,7 +130,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     public Project update(Project project) {
         ProjectEntity entity = ProjectEntityMapper.toEntity(project);
         String query = """
-                UPDATE projects
+                UPDATE project
                 SET title = ?, description = ?, remote_url = ?
                 WHERE id_project = ?;""";
         try (PreparedStatement st = db.getConnection().prepareStatement(query)) {
@@ -146,7 +147,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public void delete(ProjectId id) {
-        String query = "DELETE FROM projects WHERE id_project = ?;";
+        String query = "DELETE FROM project WHERE id_project = ?;";
         try (PreparedStatement st = db.getConnection().prepareStatement(query)) {
             st.setString(1, id.toString());
             st.executeUpdate();
