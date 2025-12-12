@@ -1,10 +1,13 @@
 package ru.honsage.dev.gitpm.domain.models;
 
 import ru.honsage.dev.gitpm.domain.exceptions.ExceptionFactory;
+import ru.honsage.dev.gitpm.domain.valueobjects.TaskId;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Task {
+    private final TaskId id;
     private String title;
     private String content;
     private final LocalDateTime createdAt;
@@ -13,6 +16,7 @@ public class Task {
     private TaskPriority priority;
 
     public Task(
+            TaskId id,
             String title,
             String content,
             LocalDateTime createdAt,
@@ -20,6 +24,7 @@ public class Task {
             LocalDateTime deadlineAt,
             TaskPriority priority
     ) {
+        this.id = Objects.requireNonNull(id, "Task id must be notNull");
         validateTitle(title);
         validateCreatedAt(createdAt);
         validateDeadline(deadlineAt);
@@ -32,8 +37,9 @@ public class Task {
         this.priority = priority;
     }
 
-    public Task(String title) {
+    public Task(TaskId id, String title) {
         this(
+                id,
                 title,
                 null,
                 LocalDateTime.now(),
