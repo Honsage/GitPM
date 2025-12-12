@@ -116,6 +116,10 @@ public class Task {
                 && this.deadlineAt.isBefore(LocalDateTime.now());
     }
 
+    public TaskId getId() {
+        return this.id;
+    }
+
     public String getTitle() {
         return this.title;
     }
