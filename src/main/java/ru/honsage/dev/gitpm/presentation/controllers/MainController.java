@@ -2,6 +2,7 @@ package ru.honsage.dev.gitpm.presentation.controllers;
 
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -146,6 +147,11 @@ public class MainController {
             if (title.isBlank()) return;
             viewModel.addTaskForSelectedProject(title);
         });
+    }
+
+    @FXML
+    public void onTaskTabSelected(Event event) {
+        refreshTaskUI();
     }
 
     // TEMP

@@ -7,6 +7,7 @@ import ru.honsage.dev.gitpm.application.services.ProjectService;
 import ru.honsage.dev.gitpm.application.services.TaskService;
 import ru.honsage.dev.gitpm.domain.models.TaskPriority;
 import ru.honsage.dev.gitpm.domain.valueobjects.ProjectId;
+import ru.honsage.dev.gitpm.domain.valueobjects.TaskId;
 import ru.honsage.dev.gitpm.presentation.dto.ProjectDTO;
 import ru.honsage.dev.gitpm.presentation.dto.TaskDTO;
 import ru.honsage.dev.gitpm.presentation.mappers.ProjectDTOMapper;
@@ -46,6 +47,8 @@ public class MainViewModel {
     public void setSelectedProject(ProjectViewModel project) {
         this.selectedProject = project;
         this.projects.forEach(p -> p.setSelected(p == project));
+        if (this.selectedProject != null) this.loadTasksForSelectedProject();
+        else tasks.clear();
     }
 
     public void loadProjects() {
@@ -153,6 +156,7 @@ public class MainViewModel {
         taskService.getAllTasks(projectId).stream()
                 .map(TaskDTOMapper::toDTO)
                 .map(TaskViewModel::new)
+                .map(this::bindHandlersToTask)
                 .forEach(tasks::add);
     }
 
@@ -168,6 +172,18 @@ public class MainViewModel {
                 TaskPriority.LOW
         );
         TaskDTO dto = TaskDTOMapper.toDTO(task);
-        this.tasks.add(new TaskViewModel(dto));
+        TaskViewModel taskViewModel = this.bindHandlersToTask(new TaskViewModel(dto));
+        this.tasks.add(taskViewModel);
+    }
+
+    private TaskViewModel bindHandlersToTask(TaskViewModel taskViewModel) {
+        taskViewModel.setOnDelete(() -> this.handleOnDelete(taskViewModel));
+        return taskViewModel;
+    }
+
+    private void handleOnDelete(TaskViewModel taskViewModel) {
+        ProjectId id = ProjectId.fromString(this.selectedProject.getId());
+        taskService.deleteTask(id, TaskId.fromString(taskViewModel.getId()));
+        tasks.remove(taskViewModel);
     }
 }

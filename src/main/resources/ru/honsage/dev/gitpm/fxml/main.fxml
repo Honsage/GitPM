@@ -55,10 +55,8 @@
                </HBox>
                <ListView fx:id="projectFlow" prefHeight="318.0" prefWidth="254.0" />
                <HBox alignment="TOP_RIGHT" prefHeight="51.0" prefWidth="254.0">
-                   <Button fx:id="editProjectButton" mnemonicParsing="false" onAction="#onEditProject" prefHeight="26.0"
-                           prefWidth="34.0" text="&lt;="/>
-                   <Button fx:id="deleteProjectButton" mnemonicParsing="false" onAction="#onDeleteProject"
-                           prefHeight="26.0" prefWidth="23.0" text="X"/>
+                   <Button fx:id="editProjectButton" mnemonicParsing="false" onAction="#onEditProject" prefHeight="26.0" prefWidth="34.0" text="&lt;=" />
+                   <Button fx:id="deleteProjectButton" mnemonicParsing="false" onAction="#onDeleteProject" prefHeight="26.0" prefWidth="23.0" text="X" />
                </HBox>
            </VBox>
            <VBox fx:id="toolContainer" prefHeight="200.0" prefWidth="100.0">
@@ -66,10 +64,10 @@
                    <Tab fx:id="infoTab" closable="false" text="Информация">
                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="308.0" prefWidth="338.0" />
                    </Tab>
-                   <Tab fx:id="taskTab" closable="false" text="Задачи">
+                   <Tab fx:id="taskTab" closable="false" onSelectionChanged="#onTaskTabSelected" text="Задачи">
                        <VBox prefHeight="200.0" prefWidth="100.0">
                            <HBox fx:id="taskPane" prefHeight="35.0" prefWidth="338.0">
-                               <Button fx:id="addTaskButton" text="+" onAction="#onAddTask" />
+                               <Button fx:id="addTaskButton" onAction="#onAddTask" text="+" />
                            </HBox>
                            <ScrollPane fx:id="taskScroll" hbarPolicy="NEVER" prefHeight="278.0" prefWidth="338.0">
                                <VBox fx:id="taskFlow" prefHeight="277.0" prefWidth="323.0" />

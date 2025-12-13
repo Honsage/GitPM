@@ -97,5 +97,6 @@ public class TaskItemController {
     @FXML
     public void onDelete(ActionEvent actionEvent) {
         // TODO: dialog
+        if (taskViewModel.getOnDelete() != null) taskViewModel.getOnDelete().run();
     }
 }
