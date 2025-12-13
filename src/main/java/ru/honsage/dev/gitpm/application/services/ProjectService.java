@@ -35,14 +35,8 @@ public class ProjectService {
             throw ExceptionFactory.businessRule(String.format("Directory '%s' must be a Git repository", localPath));
         }
 
-        Project project = new Project(
-                ProjectId.random(),
-                title,
-                description,
-                path,
-                url,
-                LocalDateTime.now()
-        );
+        Project project = (title == null && description == null) ? new Project(ProjectId.random(), path, url) :
+                new Project(ProjectId.random(), title, description, path, url, LocalDateTime.now());
         return projectRepository.save(project);
     }
 
@@ -108,7 +102,7 @@ public class ProjectService {
         LocalRepositoryPath path = new LocalRepositoryPath(directory.toString());
         String remoteUrl = gitClient.getRemoteURL(directory);
         GitRemoteURL url = remoteUrl == null || remoteUrl.isBlank() ? null : new GitRemoteURL(remoteUrl);
-        return new Project(ProjectId.random(), path, url);
+        return this.createProject(null, null, path.value(), url == null? null : url.value());
     }
 
     private boolean isLocalPathAvailable(Path directory) {
