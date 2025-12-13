@@ -177,11 +177,24 @@ public class MainViewModel {
     }
 
     private TaskViewModel bindHandlersToTask(TaskViewModel taskViewModel) {
-        taskViewModel.setOnDelete(() -> this.handleOnDelete(taskViewModel));
+        taskViewModel.setOnOpenDetails(() -> this.handleOnOpenTaskDetails(taskViewModel));
+        taskViewModel.setOnSelected(() -> this.handleOnTaskSelected(taskViewModel));
+        taskViewModel.setOnEdit(() -> this.handleOnEditTask(taskViewModel));
+        taskViewModel.setOnDelete(() -> this.handleOnDeleteTask(taskViewModel));
         return taskViewModel;
     }
 
-    private void handleOnDelete(TaskViewModel taskViewModel) {
+    private void handleOnOpenTaskDetails(TaskViewModel taskViewModel) {
+        // TODO: dialog
+    }
+
+    private void handleOnTaskSelected(TaskViewModel taskViewModel) {}
+
+    private void handleOnEditTask(TaskViewModel taskViewModel) {
+        // TODO: dialog
+    }
+
+    private void handleOnDeleteTask(TaskViewModel taskViewModel) {
         ProjectId id = ProjectId.fromString(this.selectedProject.getId());
         taskService.deleteTask(id, TaskId.fromString(taskViewModel.getId()));
         tasks.remove(taskViewModel);

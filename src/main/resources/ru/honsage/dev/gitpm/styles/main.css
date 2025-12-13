@@ -1,3 +1,9 @@
+#root {
+    -fx-red-priority: #f0506e;
+    -fx-yellow-priority: #f6c132;
+    -fx-green-priority: #31c48d;
+}
+
 #header-pane {
     color: #006464;
 }
@@ -32,7 +38,8 @@
 }
 
 .container,
-.space {
+.space,
+.scrollable {
     -fx-max-width: infinity;
     -fx-max-height: infinity;
 }
@@ -46,8 +53,12 @@
 }
 
 .task-card:hover {
-    -fx-translate-y: -3;
+    -fx-translate-y: -2;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.35), 10, 0, 0, 6);
+}
+
+.task-card.completed {
+    -fx-background-color: #005454FF;
 }
 
 .task-title {
@@ -85,7 +96,7 @@
 .priority.medium.selected { -fx-opacity: 1.0; -fx-background-color: #f6c132; }
 .priority.high.selected { -fx-opacity: 1.0; -fx-background-color: #f0506e; }
 
-.priority.low { -fx-background-color: #31c48d; }
+.priority.low { -fx-background-color: -fx-green-priority; }
 .priority.medium { -fx-background-color: #f6c132; }
 .priority.high { -fx-background-color: #f0506e; }
 

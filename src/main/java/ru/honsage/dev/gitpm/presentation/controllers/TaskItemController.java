@@ -40,7 +40,7 @@ public class TaskItemController {
     public void initialize() {
         // TODO: card animation
         taskCard.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-            // TODO: dialog
+            if (taskViewModel.getOnOpenDetails() != null) taskViewModel.getOnOpenDetails().run();
         });
     }
 
@@ -89,6 +89,14 @@ public class TaskItemController {
         taskViewModel.setPriority(TaskPriority.HIGH);
     }
 
+
+    @FXML
+    public void onCheckSelected(ActionEvent actionEvent) {
+        boolean isSelected = ((CheckBox)actionEvent.getSource()).isSelected();
+        if (isSelected) taskCard.getStyleClass().add("completed");
+        else taskCard.getStyleClass().remove("completed");
+    }
+
     @FXML
     public void onEdit(ActionEvent actionEvent) {
         // TODO: dialog
@@ -96,7 +104,6 @@ public class TaskItemController {
 
     @FXML
     public void onDelete(ActionEvent actionEvent) {
-        // TODO: dialog
         if (taskViewModel.getOnDelete() != null) taskViewModel.getOnDelete().run();
     }
 }

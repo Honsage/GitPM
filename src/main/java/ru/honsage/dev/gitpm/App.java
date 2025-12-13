@@ -39,6 +39,8 @@ public class App extends Application {
         fxmlLoader.setControllerFactory(_ -> new MainController(viewModel));
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root, 800,600);
+        stage.setMinHeight(250);
+        stage.setMinWidth(600);
         stage.setTitle("GitPM – Git Project Manager");
         stage.getIcons().add(new Image(String.valueOf(App.class.getResource("images/icon.png"))));
         stage.setScene(scene);

@@ -18,65 +18,81 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.honsage.dev.gitpm.presentation.controllers.MainController">
-   <top>
-       <VBox fx:id="header" prefHeight="58.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-           <HBox id="header-pane" fx:id="headerPane" prefHeight="33.0" prefWidth="600.0">
-               <Label id="header__title" fx:id="titleLabel" prefHeight="33.0" prefWidth="608.0" text="GitPM – Git Project Manager" textFill="#cccccc" HBox.hgrow="ALWAYS">
-                   <font>
-                       <Font name="Calibri" size="18.0" />
-                   </font>
-                   <padding>
-                       <Insets left="12.0" />
-                   </padding>
-               </Label>
-           </HBox>
-           <MenuBar id="menu-bar" fx:id="menuBar">
-               <Menu fx:id="fileMenu" mnemonicParsing="false" styleClass="menu" text="Файл">
-                   <MenuItem mnemonicParsing="false" styleClass="menu__item" text="Закрыть" />
-               </Menu>
-               <Menu fx:id="editMenu" mnemonicParsing="false" styleClass="menu" text="Правка">
-                   <MenuItem mnemonicParsing="false" styleClass="menu__item" text="Добавить проект" />
-               </Menu>
-               <Menu fx:id="helpMenu" mnemonicParsing="false" styleClass="menu" text="Помощь">
-                   <MenuItem mnemonicParsing="false" styleClass="menu__item" text="О программе" />
-               </Menu>
-           </MenuBar>
-       </VBox>
-   </top>
-   <center>
-       <SplitPane fx:id="main" dividerPositions="0.42981283422459887" prefHeight="263.0" prefWidth="600.0" styleClass="container" BorderPane.alignment="CENTER">
-           <VBox id="projects" fx:id="projectContainer" prefHeight="340.0" prefWidth="255.0" styleClass="container">
-               <HBox fx:id="projectPane" prefHeight="41.0" prefWidth="254.0" styleClass="container">
-                   <Button fx:id="addProjectButton" mnemonicParsing="false" onAction="#onAddProject" prefHeight="26.0" prefWidth="32.0" text="+" />
-                   <Button fx:id="scanDirectoryButton" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onScanDirectory" prefHeight="2.0" prefWidth="33.0" text="-o" />
-               <TextField fx:id="searchEntry" prefHeight="26.0" prefWidth="130.0" />
-               <ToggleButton fx:id="filterRemoteButton" mnemonicParsing="false" onAction="#onFilterRemoteToggled" text="Remote" />
-               </HBox>
-               <ListView fx:id="projectFlow" prefHeight="318.0" prefWidth="254.0" />
-               <HBox alignment="TOP_RIGHT" prefHeight="51.0" prefWidth="254.0">
-                   <Button fx:id="editProjectButton" mnemonicParsing="false" onAction="#onEditProject" prefHeight="26.0" prefWidth="34.0" text="&lt;=" />
-                   <Button fx:id="deleteProjectButton" mnemonicParsing="false" onAction="#onDeleteProject" prefHeight="26.0" prefWidth="23.0" text="X" />
-               </HBox>
-           </VBox>
-           <VBox fx:id="toolContainer" prefHeight="200.0" prefWidth="100.0">
-               <TabPane id="tab-container" fx:id="tabContainer" prefHeight="342.0" prefWidth="338.0" tabClosingPolicy="UNAVAILABLE">
-                   <Tab fx:id="infoTab" closable="false" text="Информация">
-                       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="308.0" prefWidth="338.0" />
-                   </Tab>
-                   <Tab fx:id="taskTab" closable="false" onSelectionChanged="#onTaskTabSelected" text="Задачи">
-                       <VBox prefHeight="200.0" prefWidth="100.0">
-                           <HBox fx:id="taskPane" prefHeight="35.0" prefWidth="338.0">
-                               <Button fx:id="addTaskButton" onAction="#onAddTask" text="+" />
-                           </HBox>
-                           <ScrollPane fx:id="taskScroll" hbarPolicy="NEVER" prefHeight="278.0" prefWidth="338.0">
-                               <VBox fx:id="taskFlow" prefHeight="277.0" prefWidth="323.0" />
-                           </ScrollPane>
-                       </VBox>
-                   </Tab>
-                   <Tab fx:id="scriptTab" closable="false" text="Сценарии" />
-               </TabPane>
-           </VBox>
-       </SplitPane>
-   </center>
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="100.0" minWidth="200.0"
+            prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/main.css"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ru.honsage.dev.gitpm.presentation.controllers.MainController">
+
+    <top>
+        <VBox fx:id="header" prefHeight="58.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <HBox id="header-pane" fx:id="headerPane" prefHeight="33.0" prefWidth="600.0">
+                <Label id="header__title" fx:id="titleLabel" prefHeight="33.0" prefWidth="608.0"
+                       text="GitPM – Git Project Manager" textFill="#cccccc" HBox.hgrow="ALWAYS">
+                    <font><Font name="Calibri" size="18.0" /></font>
+                    <padding><Insets left="12.0" /></padding>
+                </Label>
+            </HBox>
+            <MenuBar id="menu-bar" fx:id="menuBar">
+                <Menu fx:id="fileMenu" mnemonicParsing="false" styleClass="menu" text="Файл">
+                    <MenuItem mnemonicParsing="false" styleClass="menu__item" text="Закрыть" />
+                </Menu>
+                <Menu fx:id="editMenu" mnemonicParsing="false" styleClass="menu" text="Правка">
+                    <MenuItem mnemonicParsing="false" styleClass="menu__item" text="Добавить проект" />
+                </Menu>
+                <Menu fx:id="helpMenu" mnemonicParsing="false" styleClass="menu" text="Помощь">
+                    <MenuItem mnemonicParsing="false" styleClass="menu__item" text="О программе" />
+                </Menu>
+            </MenuBar>
+        </VBox>
+    </top>
+
+    <center>
+        <SplitPane fx:id="main" dividerPositions="0.42981283422459887" prefHeight="263.0" prefWidth="600.0"
+                   styleClass="container" BorderPane.alignment="CENTER">
+
+            <VBox id="projects" fx:id="projectContainer" prefHeight="340.0" prefWidth="255.0" styleClass="container">
+                <HBox fx:id="projectPane" prefHeight="41.0" prefWidth="254.0" styleClass="container">
+                    <Button fx:id="addProjectButton" mnemonicParsing="false" onAction="#onAddProject"
+                            prefHeight="26.0" prefWidth="32.0" text="+" />
+                    <Button fx:id="scanDirectoryButton" contentDisplay="RIGHT" mnemonicParsing="false"
+                            onAction="#onScanDirectory" prefHeight="2.0" prefWidth="33.0" text="-o" />
+                    <TextField fx:id="searchEntry" prefHeight="26.0" prefWidth="130.0" />
+                    <ToggleButton fx:id="filterRemoteButton" mnemonicParsing="false"
+                                  onAction="#onFilterRemoteToggled" text="Remote" />
+                </HBox>
+                <ListView fx:id="projectFlow" prefHeight="318.0" prefWidth="254.0" />
+                <HBox alignment="TOP_RIGHT" prefHeight="51.0" prefWidth="254.0">
+                    <Button fx:id="editProjectButton" mnemonicParsing="false" onAction="#onEditProject"
+                            prefHeight="26.0" prefWidth="34.0" text="&lt;=" />
+                    <Button fx:id="deleteProjectButton" mnemonicParsing="false" onAction="#onDeleteProject"
+                            prefHeight="26.0" prefWidth="23.0" text="X" />
+                </HBox>
+            </VBox>
+
+            <VBox fx:id="toolContainer" prefHeight="200.0" prefWidth="100.0">
+                <TabPane id="tab-container" fx:id="tabContainer" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                    <Tab fx:id="infoTab" closable="false" text="Информация">
+                        <VBox maxHeight="Infinity" maxWidth="Infinity" prefHeight="308.0" prefWidth="338.0" />
+                    </Tab>
+
+                    <Tab fx:id="taskTab" closable="false" onSelectionChanged="#onTaskTabSelected" text="Задачи">
+                        <VBox VBox.vgrow="ALWAYS">
+                            <HBox fx:id="taskPane" prefHeight="35.0">
+                                <Button fx:id="addTaskButton" onAction="#onAddTask" text="+" />
+                            </HBox>
+                            <ScrollPane fx:id="taskScroll" hbarPolicy="NEVER" styleClass="scrollable" VBox.vgrow="ALWAYS">
+                                <content>
+                                    <VBox fx:id="taskFlow" alignment="TOP_CENTER" spacing="8.0" minHeight="0" />
+                                </content>
+                                <padding><Insets bottom="6.0" left="10.0" right="10.0" top="6.0" /></padding>
+                            </ScrollPane>
+                        </VBox>
+                    </Tab>
+
+                    <Tab fx:id="scriptTab" closable="false" text="Сценарии" />
+                </TabPane>
+            </VBox>
+
+        </SplitPane>
+    </center>
 </BorderPane>

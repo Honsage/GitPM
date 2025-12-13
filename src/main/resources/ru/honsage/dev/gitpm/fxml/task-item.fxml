@@ -9,30 +9,36 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="taskCard" spacing="6.0" styleClass="task-card" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.honsage.dev.gitpm.presentation.controllers.TaskItemController">
-    <padding>
-        <Insets bottom="8.0" left="10.0" right="10.0" top="8.0" />
-    </padding>
+<VBox fx:id="taskCard" spacing="6.0" styleClass="task-card" stylesheets="@../styles/main.css"
+      xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ru.honsage.dev.gitpm.presentation.controllers.TaskItemController">
+
+    <padding><Insets bottom="8.0" left="10.0" right="10.0" top="8.0" /></padding>
+
     <HBox alignment="CENTER_LEFT" spacing="8.0">
-        <CheckBox fx:id="completedCheck" />
+        <CheckBox fx:id="completedCheck" onAction="#onCheckSelected" />
         <Label fx:id="titleLabel" styleClass="task-title" wrapText="true" />
         <Region HBox.hgrow="ALWAYS" />
         <HBox alignment="CENTER_RIGHT" spacing="6.0">
             <HBox fx:id="priorityBox" alignment="CENTER" spacing="6.0">
-                <Button fx:id="priorityLow" mnemonicParsing="false" onAction="#onPriorityLow" styleClass="priority, low" />
+                <Button fx:id="priorityLow" mnemonicParsing="false" onAction="#onPriorityLow"
+                        styleClass="priority, low" />
                 <Button fx:id="priorityMedium" mnemonicParsing="false" onAction="#onPriorityMedium">
-               <styleClass>
-                  <String fx:value="priority" />
-                  <String fx:value="medium" />
-               </styleClass></Button>
-                <Button fx:id="priorityHigh" mnemonicParsing="false" onAction="#onPriorityHigh" styleClass="priority, high" />
+                    <styleClass>
+                        <String fx:value="priority" />
+                        <String fx:value="medium" />
+                    </styleClass>
+                </Button>
+                <Button fx:id="priorityHigh" mnemonicParsing="false" onAction="#onPriorityHigh"
+                        styleClass="priority, high" />
             </HBox>
-
             <Button fx:id="editButton" onAction="#onEdit" styleClass="icon-button" text="E" />
             <Button fx:id="deleteButton" onAction="#onDelete" styleClass="icon-button" text="X" />
         </HBox>
     </HBox>
+
     <Label fx:id="contentLabel" styleClass="task-content" wrapText="true" />
+
     <HBox alignment="CENTER_LEFT" spacing="8.0">
         <Label fx:id="deadlineLabel" styleClass="task-deadline" />
         <Region HBox.hgrow="ALWAYS" />
