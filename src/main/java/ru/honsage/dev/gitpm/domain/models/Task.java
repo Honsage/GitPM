@@ -26,14 +26,14 @@ public class Task {
     ) {
         this.id = Objects.requireNonNull(id, "Task id must be notNull");
         validateTitle(title);
-        validateCreatedAt(createdAt);
-        validateDeadline(deadlineAt);
-        validatePriority(priority);
         this.title = title;
-        this.content = content;
+        validateCreatedAt(createdAt);
         this.createdAt = createdAt;
+        this.content = content;
         this.isCompleted = isCompleted;
+        validateDeadline(deadlineAt);
         this.deadlineAt = deadlineAt;
+        validatePriority(priority);
         this.priority = priority;
     }
 
