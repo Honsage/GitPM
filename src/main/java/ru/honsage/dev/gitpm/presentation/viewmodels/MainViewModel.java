@@ -4,25 +4,36 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import ru.honsage.dev.gitpm.application.services.ProjectService;
+import ru.honsage.dev.gitpm.application.services.TaskService;
+import ru.honsage.dev.gitpm.domain.models.TaskPriority;
 import ru.honsage.dev.gitpm.domain.valueobjects.ProjectId;
 import ru.honsage.dev.gitpm.presentation.dto.ProjectDTO;
+import ru.honsage.dev.gitpm.presentation.dto.TaskDTO;
 import ru.honsage.dev.gitpm.presentation.mappers.ProjectDTOMapper;
+import ru.honsage.dev.gitpm.presentation.mappers.TaskDTOMapper;
 
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.stream.IntStream;
 
 // Логика представления
 public class MainViewModel {
     private final ProjectService projectService;
+    private final TaskService taskService;
 
     private final ObservableList<ProjectViewModel> projects = FXCollections.observableArrayList();
     private final FilteredList<ProjectViewModel> filteredProjects = new FilteredList<>(projects);
 
+    private final ObservableList<TaskViewModel> tasks = FXCollections.observableArrayList();
+
     private ProjectViewModel selectedProject;
 
-    public MainViewModel(ProjectService projectService) {
+    public MainViewModel(ProjectService projectService, TaskService taskService) {
         this.projectService = projectService;
+        this.taskService = taskService;
     }
+
+    // Projects
 
     public ObservableList<ProjectViewModel> getProjects() {
         return this.filteredProjects;
@@ -122,5 +133,41 @@ public class MainViewModel {
                 .filter(i -> projects.get(i).getId().equals(dto.id()))
                 .findFirst()
                 .ifPresent(i -> projects.set(i, new ProjectViewModel(dto)));
+    }
+
+    // Tasks
+
+    public ObservableList<TaskViewModel> getTasks() {
+        return this.tasks;
+    }
+
+    public void loadTasksForSelectedProject() {
+        if (this.selectedProject == null) {
+            tasks.clear();
+            return;
+        }
+
+        ProjectId projectId = ProjectId.fromString(selectedProject.getId());
+        this.tasks.clear();
+
+        taskService.getAllTasks(projectId).stream()
+                .map(TaskDTOMapper::toDTO)
+                .map(TaskViewModel::new)
+                .forEach(tasks::add);
+    }
+
+    // TODO: fix add with dialog
+    public void addTaskForSelectedProject(String title) {
+        if (this.selectedProject == null) return;
+
+        var task = taskService.createTask(
+                ProjectId.fromString(this.selectedProject.getId()),
+                title,
+                "content",
+                LocalDateTime.now().plusDays(20),
+                TaskPriority.LOW
+        );
+        TaskDTO dto = TaskDTOMapper.toDTO(task);
+        this.tasks.add(new TaskViewModel(dto));
     }
 }

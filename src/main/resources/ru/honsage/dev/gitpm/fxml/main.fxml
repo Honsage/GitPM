@@ -68,7 +68,9 @@
                    </Tab>
                    <Tab fx:id="taskTab" closable="false" text="Задачи">
                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <HBox fx:id="taskPane" prefHeight="35.0" prefWidth="338.0" />
+                           <HBox fx:id="taskPane" prefHeight="35.0" prefWidth="338.0">
+                               <Button fx:id="addTaskButton" text="+" onAction="#onAddTask" />
+                           </HBox>
                            <ScrollPane fx:id="taskScroll" hbarPolicy="NEVER" prefHeight="278.0" prefWidth="338.0">
                                <VBox fx:id="taskFlow" prefHeight="277.0" prefWidth="323.0" />
                            </ScrollPane>

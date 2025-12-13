@@ -1,7 +1,10 @@
 package ru.honsage.dev.gitpm.presentation.controllers;
 
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -9,8 +12,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import ru.honsage.dev.gitpm.presentation.viewmodels.MainViewModel;
 import ru.honsage.dev.gitpm.presentation.viewmodels.ProjectViewModel;
+import ru.honsage.dev.gitpm.presentation.viewmodels.TaskViewModel;
 
 import java.io.File;
+import java.io.IOException;
 
 public class MainController {
     @FXML
@@ -52,6 +57,8 @@ public class MainController {
     @FXML
     protected HBox taskPane;
     @FXML
+    protected Button addTaskButton;
+    @FXML
     protected VBox taskFlow;
 
     private final MainViewModel viewModel;
@@ -78,6 +85,10 @@ public class MainController {
         projectFlow.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldValue, newValue) ->
                         viewModel.setSelectedProject(newValue)
+        );
+
+        viewModel.getTasks().addListener(
+                (ListChangeListener<TaskViewModel>) _ -> refreshTaskUI()
         );
 
         viewModel.loadProjects();
@@ -120,5 +131,48 @@ public class MainController {
     @FXML
     public void onDeleteProject(ActionEvent event) {
         viewModel.deleteSelected();
+    }
+
+    @FXML
+    public void onAddTask(ActionEvent actionEvent) {
+        if (viewModel.getSelectedProject() == null) {
+            // TODO: красивый алерт
+            Alert a = new Alert(Alert.AlertType.WARNING, "Необходимо выбрать проект!");
+            a.show();
+            return;
+        }
+
+        this.createTextDialog().showAndWait().ifPresent(title -> {
+            if (title.isBlank()) return;
+            viewModel.addTaskForSelectedProject(title);
+        });
+    }
+
+    // TEMP
+    private TextInputDialog createTextDialog() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Добавить задачу");
+        dialog.setHeaderText("Введите название задачи");
+        dialog.setContentText("Название:");
+        return dialog;
+    }
+
+    private void refreshTaskUI() {
+        taskFlow.getChildren().clear();
+        for (TaskViewModel tvm : viewModel.getTasks()) {
+            try {
+                FXMLLoader loader = new FXMLLoader(
+                        getClass().getResource("/ru/honsage/dev/gitpm/fxml/task-item.fxml")
+                );
+                Node node = loader.load();
+                TaskItemController controller = loader.getController();
+                controller.setViewModel(tvm);
+
+                node.setUserData(tvm.getId());
+                taskFlow.getChildren().add(node);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
