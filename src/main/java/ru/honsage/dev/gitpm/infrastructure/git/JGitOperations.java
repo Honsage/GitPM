@@ -21,16 +21,7 @@ public class JGitOperations implements GitOperations {
 
     @Override
     public boolean isGitRepository(Path directory) {
-        try {
-            new FileRepositoryBuilder()
-                    .setGitDir(directory.resolve(".git").toFile())
-                    .readEnvironment()
-                    .findGitDir()
-                    .build();
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
+        return Files.exists(directory.resolve(".git"));
     }
 
     @Override

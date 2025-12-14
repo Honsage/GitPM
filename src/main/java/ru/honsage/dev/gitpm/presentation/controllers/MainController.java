@@ -6,11 +6,17 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import ru.honsage.dev.gitpm.domain.ports.GitOperations;
 import ru.honsage.dev.gitpm.presentation.viewmodels.MainViewModel;
 import ru.honsage.dev.gitpm.presentation.viewmodels.ProjectViewModel;
 import ru.honsage.dev.gitpm.presentation.viewmodels.TaskViewModel;
@@ -73,6 +79,7 @@ public class MainController {
     protected  Label projectDescriptionLabel;
 
     private final MainViewModel viewModel;
+    private GitOperations git;
 
     public MainController(MainViewModel viewModel) {
         this.viewModel = viewModel;
@@ -109,10 +116,41 @@ public class MainController {
         viewModel.loadProjects();
     }
 
+    public void setGitClient(GitOperations git) {
+        this.git = git;
+    }
+
     @FXML
     public void onAddProject(ActionEvent event) {
-        // TODO: replace mock with dialog
-        viewModel.addProject("Project", "", "C:/", null);
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/ru/honsage/dev/gitpm/fxml/dialogs/add-project-dialog.fxml")
+            );
+
+            Parent root = loader.load();
+            AddProjectDialogController controller = loader.getController();
+            Stage stage = new Stage();
+            stage.setTitle("Добавление Git проекта");
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/ru/honsage/dev/gitpm/images/icon.png"))));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(this.root.getScene().getWindow());
+            stage.setScene(new Scene(root));
+
+            controller.setStage(stage);
+            controller.setGitClient(this.git);
+            stage.showAndWait();
+
+            controller.getResult().ifPresent(project ->
+                    viewModel.addProject(
+                            project.title(),
+                            project.description(),
+                            project.localPath(),
+                            project.remoteURL()
+                    )
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

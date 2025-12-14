@@ -36,7 +36,9 @@ public class App extends Application {
 
         MainViewModel viewModel = new MainViewModel(projectService, taskService);
 
-        fxmlLoader.setControllerFactory(_ -> new MainController(viewModel));
+        MainController mainController = new MainController(viewModel);
+        mainController.setGitClient(git);
+        fxmlLoader.setControllerFactory(_ -> mainController);
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root, 800,600);
         stage.setMinHeight(250);

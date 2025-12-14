@@ -17,12 +17,13 @@
 
 /* Menu */
 
-.menu:hover {
+.menu:hover,
+.menu:showing {
     -fx-background-color: -fx-transparent-main-color;
 }
 
 .menu:showing .label {
-    -fx-text-fill: black;
+    -fx-text-fill: white;
 }
 
 .menu:hover .label {
@@ -32,7 +33,6 @@
 .menu:hover .menu__item .label {
     -fx-text-fill: black;
 }
-
 
 .menu__item:hover,
 .menu__item:pressed,
