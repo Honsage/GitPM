@@ -46,7 +46,7 @@
         <SplitPane fx:id="main" dividerPositions="0.42981283422459887" prefHeight="263.0" prefWidth="600.0" styleClass="container" BorderPane.alignment="CENTER">
 
             <VBox id="projects" fx:id="projectContainer" prefHeight="340.0" prefWidth="255.0" styleClass="container">
-                <HBox fx:id="projectPane" prefHeight="41.0" prefWidth="254.0" styleClass="container">
+                <HBox fx:id="projectPane" maxWidth="Infinity" prefHeight="41.0" spacing="3.0" styleClass="container" alignment="CENTER" >
                     <Button fx:id="addProjectButton" mnemonicParsing="false" onAction="#onAddProject" prefHeight="26.0" prefWidth="32.0" text="+" />
                     <Button fx:id="scanDirectoryButton" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onScanDirectory" prefHeight="2.0" prefWidth="33.0" text="-o" />
                     <TextField fx:id="searchEntry" prefHeight="26.0" prefWidth="130.0" />
@@ -62,7 +62,7 @@
             <VBox fx:id="toolContainer" prefHeight="200.0" prefWidth="100.0">
                 <TabPane id="tab-container" fx:id="tabContainer" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                     <Tab fx:id="infoTab" closable="false" onSelectionChanged="#onInfoTabSelected" text="Информация">
-                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
+                        <ScrollPane fx:id="infoTabScroll" fitToWidth="true" hbarPolicy="NEVER">
                             <content>
                                 <VBox fx:id="infoRoot" prefWidth="330" spacing="16" styleClass="info-root">
 

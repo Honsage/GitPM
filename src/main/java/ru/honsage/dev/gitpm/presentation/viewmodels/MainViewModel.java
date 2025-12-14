@@ -160,16 +160,20 @@ public class MainViewModel {
                 .forEach(tasks::add);
     }
 
-    // TODO: fix add with dialog
-    public void addTaskForSelectedProject(String title) {
+    public void addTaskForSelectedProject(
+            String title,
+            String content,
+            LocalDateTime deadlineAt,
+            TaskPriority priority
+    ) {
         if (this.selectedProject == null) return;
 
         var task = taskService.createTask(
                 ProjectId.fromString(this.selectedProject.getId()),
                 title,
-                "content",
-                LocalDateTime.now().plusDays(20),
-                TaskPriority.LOW
+                content,
+                deadlineAt,
+                priority
         );
         TaskDTO dto = TaskDTOMapper.toDTO(task);
         TaskViewModel taskViewModel = this.bindHandlersToTask(new TaskViewModel(dto));

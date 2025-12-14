@@ -167,13 +167,13 @@
     -fx-border-color: rgba(255, 255, 255, 0.06);
 }
 
-.priority.low.selected { -fx-opacity: 1.0; -fx-background-color: -fx-green-priority; }
-.priority.medium.selected { -fx-opacity: 1.0; -fx-background-color: -fx-yellow-priority; }
-.priority.high.selected { -fx-opacity: 1.0; -fx-background-color: -fx-red-priority; }
+.priority.low.selected { -fx-opacity: 1.0; -fx-background-color: #31c48d; }
+.priority.medium.selected { -fx-opacity: 1.0; -fx-background-color: #f6c132; }
+.priority.high.selected { -fx-opacity: 1.0; -fx-background-color: #f0506e; }
 
-.priority.low { -fx-background-color: -fx-green-priority; }
-.priority.medium { -fx-background-color: -fx-yellow-priority; }
-.priority.high { -fx-background-color: -fx-red-priority; }
+.priority.low { -fx-background-color: #31c48d; }
+.priority.medium { -fx-background-color: #f6c132; }
+.priority.high { -fx-background-color: #f0506e; }
 
 .icon-button {
     -fx-background-color: transparent;

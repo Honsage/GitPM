@@ -1,3 +1,5 @@
+@import "main.css";
+
 .approve-button {
     -fx-background-color: #006464;
     -fx-text-fill: white;

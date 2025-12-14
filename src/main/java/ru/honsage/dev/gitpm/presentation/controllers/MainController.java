@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ru.honsage.dev.gitpm.domain.models.TaskPriority;
 import ru.honsage.dev.gitpm.domain.ports.GitOperations;
 import ru.honsage.dev.gitpm.presentation.viewmodels.MainViewModel;
 import ru.honsage.dev.gitpm.presentation.viewmodels.ProjectViewModel;
@@ -23,8 +24,11 @@ import ru.honsage.dev.gitpm.presentation.viewmodels.TaskViewModel;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 public class MainController {
+    @FXML
+    protected ScrollPane infoTabScroll;
     @FXML
     protected BorderPane root;
     @FXML
@@ -218,10 +222,32 @@ public class MainController {
             return;
         }
 
-        this.createTextDialog().showAndWait().ifPresent(title -> {
-            if (title.isBlank()) return;
-            viewModel.addTaskForSelectedProject(title);
-        });
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/ru/honsage/dev/gitpm/fxml/dialogs/add-task-dialog.fxml")
+            );
+
+            Stage stage = new Stage();
+            stage.setTitle("Добавление задачи");
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/ru/honsage/dev/gitpm/images/icon.png"))));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(this.root.getScene().getWindow());
+            stage.setScene(new Scene(loader.load()));
+            stage.showAndWait();
+
+            AddTaskDialogController controller = loader.getController();
+
+            controller.getResult().ifPresent(task ->
+                    viewModel.addTaskForSelectedProject(
+                            task.title(),
+                            task.content(),
+                            LocalDateTime.parse(task.deadlineAt()),
+                            TaskPriority.valueOf(task.priority())
+                    )
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -232,15 +258,6 @@ public class MainController {
     @FXML
     public void onInfoTabSelected(Event event) {
         refreshInfoUI();
-    }
-
-    // TEMP
-    private TextInputDialog createTextDialog() {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Добавить задачу");
-        dialog.setHeaderText("Введите название задачи");
-        dialog.setContentText("Название:");
-        return dialog;
     }
 
     private void refreshTaskUI() {
@@ -269,12 +286,15 @@ public class MainController {
     private void refreshInfoUI() {
         var projectViewModel = viewModel.getSelectedProject();
         if (projectViewModel == null) {
+            infoTabScroll.setVisible(false);
             // TODO: show banner 'choose project'
             return;
         }
+        infoTabScroll.setVisible(true);
         projectTitleLabel.setText(projectViewModel.getTitle());
-        if (projectViewModel.getDescription() != null)
-            projectDescriptionLabel.setText(projectViewModel.getDescription());
+        projectDescriptionLabel.setText(
+                (projectViewModel.getDescription() != null)? projectViewModel.getDescription() : null
+        );
         localPathLabel.setText(projectViewModel.getLocalPath());
         remoteUrlLabel.setText(projectViewModel.getRemoteURL());
         addedAtLabel.setText(projectViewModel.getAddedAt());
