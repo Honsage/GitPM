@@ -154,6 +154,47 @@ public class MainController {
     }
 
     @FXML
+    public void onEditProject(ActionEvent event) {
+        var projectViewModel = viewModel.getSelectedProject();
+        if (projectViewModel == null) return;
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/ru/honsage/dev/gitpm/fxml/dialogs/edit-project-dialog.fxml")
+            );
+
+            Parent root = loader.load();
+            EditProjectDialogController controller = loader.getController();
+            Stage stage = new Stage();
+            stage.setTitle("Редактирование Git проекта");
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/ru/honsage/dev/gitpm/images/icon.png"))));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(this.root.getScene().getWindow());
+            stage.setScene(new Scene(root));
+
+            controller.setStage(stage);
+            controller.setGitClient(this.git);
+            controller.setProjectInfo(projectViewModel);
+            stage.showAndWait();
+
+            controller.getResult().ifPresent(project ->
+                    viewModel.updateSelected(
+                            project.title(),
+                            project.description(),
+                            project.localPath(),
+                            project.remoteURL()
+                    )
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onDeleteProject(ActionEvent event) {
+        viewModel.deleteSelected();
+    }
+
+    @FXML
     public void onScanDirectory(ActionEvent event) {
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Scan for Git Repositories");
@@ -166,24 +207,6 @@ public class MainController {
     @FXML
     public void onFilterRemoteToggled(ActionEvent event) {
         viewModel.filterOnlyWithRemote(((ToggleButton) event.getSource()).isSelected());
-    }
-
-    @FXML
-    public void onEditProject(ActionEvent event) {
-        if (viewModel.getSelectedProject() == null) return;
-
-        // TODO: replace mock with dialog
-        viewModel.updateSelected(
-                viewModel.getSelectedProject().getTitle() + " (edited)",
-                viewModel.getSelectedProject().descriptionProperty().get(),
-                viewModel.getSelectedProject().getLocalPath(),
-                viewModel.getSelectedProject().remoteURLProperty().get()
-        );
-    }
-
-    @FXML
-    public void onDeleteProject(ActionEvent event) {
-        viewModel.deleteSelected();
     }
 
     @FXML

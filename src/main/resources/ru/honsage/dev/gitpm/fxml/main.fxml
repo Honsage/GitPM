@@ -106,7 +106,7 @@
                            <HBox spacing="10.0">
                               <children>
                                            <Button fx:id="openFolderButton" text="Открыть папку проекта" />
-                                           <Button fx:id="editProjectButtonInfo" text="Редактировать проект" />
+                                           <Button fx:id="editProjectButtonInfo" onAction="#onEditProject" text="Редактировать проект" />
                               </children>
                            </HBox>
 
