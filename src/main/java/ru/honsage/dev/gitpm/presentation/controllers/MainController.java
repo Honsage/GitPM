@@ -61,6 +61,16 @@ public class MainController {
     protected Button addTaskButton;
     @FXML
     protected VBox taskFlow;
+    @FXML
+    protected Label localPathLabel;
+    @FXML
+    protected Label remoteUrlLabel;
+    @FXML
+    protected Label addedAtLabel;
+    @FXML
+    protected Label projectTitleLabel;
+    @FXML
+    protected  Label projectDescriptionLabel;
 
     private final MainViewModel viewModel;
 
@@ -84,12 +94,16 @@ public class MainController {
         });
 
         projectFlow.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldValue, newValue) ->
-                        viewModel.setSelectedProject(newValue)
+                (obs, oldValue, newValue) -> {
+                    viewModel.setSelectedProject(newValue);
+                    refreshInfoUI();
+                }
         );
 
         viewModel.getTasks().addListener(
-                (ListChangeListener<TaskViewModel>) _ -> refreshTaskUI()
+                (ListChangeListener<TaskViewModel>) _ -> {
+                    refreshTaskUI();
+                }
         );
 
         viewModel.loadProjects();
@@ -154,6 +168,11 @@ public class MainController {
         refreshTaskUI();
     }
 
+    @FXML
+    public void onInfoTabSelected(Event event) {
+        refreshInfoUI();
+    }
+
     // TEMP
     private TextInputDialog createTextDialog() {
         TextInputDialog dialog = new TextInputDialog();
@@ -164,8 +183,12 @@ public class MainController {
     }
 
     private void refreshTaskUI() {
+        if (viewModel.getSelectedProject() == null) {
+            // TODO: show banner 'choose project'
+            return;
+        }
         taskFlow.getChildren().clear();
-        for (TaskViewModel tvm : viewModel.getTasks()) {
+        for (var tvm : viewModel.getTasks()) {
             try {
                 FXMLLoader loader = new FXMLLoader(
                         getClass().getResource("/ru/honsage/dev/gitpm/fxml/task-item.fxml")
@@ -180,5 +203,19 @@ public class MainController {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void refreshInfoUI() {
+        var projectViewModel = viewModel.getSelectedProject();
+        if (projectViewModel == null) {
+            // TODO: show banner 'choose project'
+            return;
+        }
+        projectTitleLabel.setText(projectViewModel.getTitle());
+        if (projectViewModel.getDescription() != null)
+            projectDescriptionLabel.setText(projectViewModel.getDescription());
+        localPathLabel.setText(projectViewModel.getLocalPath());
+        remoteUrlLabel.setText(projectViewModel.getRemoteURL());
+        addedAtLabel.setText(projectViewModel.getAddedAt());
     }
 }

@@ -35,7 +35,10 @@ public class ProjectViewModel {
 
     public String getId() { return this.id.get(); }
     public String getTitle() { return this.title.get(); }
+    public String getDescription() { return this.description.get(); }
     public String getLocalPath() { return this.localPath.get(); }
+    public String getRemoteURL() { return this.remoteURL.get(); }
+    public String getAddedAt() { return this.addedAt.get(); }
 
     public boolean isSelected() { return selected.get(); }
     public void setSelected(boolean isSelected) { this.selected.set(isSelected); }

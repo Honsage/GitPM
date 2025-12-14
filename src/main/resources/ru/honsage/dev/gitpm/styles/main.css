@@ -2,39 +2,66 @@
     -fx-red-priority: #f0506e;
     -fx-yellow-priority: #f6c132;
     -fx-green-priority: #31c48d;
+    -fx-main-color: #006464;
+    -fx-transparent-main-color: #006464AA;
 }
 
 #header-pane {
-    color: #006464;
+    color: -fx-main-color;
 }
 
 #header__title {
-    -fx-background-color: #006464;
+    -fx-background-color: -fx-main-color;
     -fx-max-width: infinity;
 }
 
-.menu {
-    -fx-background-color: none;
-}
+/* Menu */
 
 .menu:hover {
-    -fx-background-color: #006464AA;
+    -fx-background-color: -fx-transparent-main-color;
 }
+
+.menu:showing .label {
+    -fx-text-fill: black;
+}
+
+.menu:hover .label {
+    -fx-text-fill: white;
+}
+
+.menu:hover .menu__item .label {
+    -fx-text-fill: black;
+}
+
 
 .menu__item:hover,
 .menu__item:pressed,
 .menu__item:focused {
-    -fx-background-color: #006464AA;
+    -fx-background-color: -fx-transparent-main-color;
 }
 
-.tab {
-    -fx-text-fill: red;
+.menu__item:hover,
+.menu__item:pressed,
+.menu__item:focused .label {
+    -fx-text-fill: white;
 }
+
+/* Projects */
+
+.list-view .list-cell:selected {
+    -fx-background-color: -fx-transparent-main-color;
+    -fx-text-fill: white;
+}
+
+/* Tabs */
 
 .tab:selected {
-    -fx-background-color: #006464AA;
+    -fx-background-color: -fx-transparent-main-color;
+}
+
+.tab:selected .tab-label {
     -fx-text-fill: white;
-    -fx-highlight-text-fill: white;
+    -fx-font-weight: 400;
 }
 
 .container,
@@ -43,6 +70,53 @@
     -fx-max-width: infinity;
     -fx-max-height: infinity;
 }
+
+/* Tab - info */
+
+.project-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.project-description {
+    -fx-text-fill: #bbbbbb;
+}
+
+.info-card {
+    -fx-background-color: none;
+    -fx-background-radius: 8;
+    -fx-padding: 10;
+}
+
+.info-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #888;
+}
+
+.info-value {
+    -fx-font-size: 12px;
+}
+
+.info-icon {
+    -fx-font-size: 14px;
+}
+
+.info-separator {
+    -fx-min-height: 1;
+    -fx-background-color: #333;
+}
+
+.icon-button {
+    -fx-font-size: 14px;
+    -fx-background-color: transparent;
+    -fx-text-fill: #aaa;
+}
+
+.icon-button:hover {
+    -fx-text-fill: white;
+}
+
+/* Tab - task */
 
 .task-card {
     -fx-background-color: #006464;
@@ -57,6 +131,7 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.35), 10, 0, 0, 6);
 }
 
+/* TODO: fix completed */
 .task-card.completed {
     -fx-background-color: #005454FF;
 }
@@ -92,13 +167,13 @@
     -fx-border-color: rgba(255, 255, 255, 0.06);
 }
 
-.priority.low.selected { -fx-opacity: 1.0; -fx-background-color: #31c48d; }
-.priority.medium.selected { -fx-opacity: 1.0; -fx-background-color: #f6c132; }
-.priority.high.selected { -fx-opacity: 1.0; -fx-background-color: #f0506e; }
+.priority.low.selected { -fx-opacity: 1.0; -fx-background-color: -fx-green-priority; }
+.priority.medium.selected { -fx-opacity: 1.0; -fx-background-color: -fx-yellow-priority; }
+.priority.high.selected { -fx-opacity: 1.0; -fx-background-color: -fx-red-priority; }
 
 .priority.low { -fx-background-color: -fx-green-priority; }
-.priority.medium { -fx-background-color: #f6c132; }
-.priority.high { -fx-background-color: #f0506e; }
+.priority.medium { -fx-background-color: -fx-yellow-priority; }
+.priority.high { -fx-background-color: -fx-red-priority; }
 
 .icon-button {
     -fx-background-color: transparent;

@@ -41,7 +41,7 @@ public class App extends Application {
         Scene scene = new Scene(root, 800,600);
         stage.setMinHeight(250);
         stage.setMinWidth(600);
-        stage.setTitle("GitPM – Git Project Manager");
+        stage.setTitle("GitPM");
         stage.getIcons().add(new Image(String.valueOf(App.class.getResource("images/icon.png"))));
         stage.setScene(scene);
         stage.show();

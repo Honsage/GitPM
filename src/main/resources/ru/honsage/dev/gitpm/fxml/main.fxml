@@ -18,16 +18,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="100.0" minWidth="200.0"
-            prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/main.css"
-            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ru.honsage.dev.gitpm.presentation.controllers.MainController">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="100.0" minWidth="200.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.honsage.dev.gitpm.presentation.controllers.MainController">
 
     <top>
         <VBox fx:id="header" prefHeight="58.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <HBox id="header-pane" fx:id="headerPane" prefHeight="33.0" prefWidth="600.0">
-                <Label id="header__title" fx:id="titleLabel" prefHeight="33.0" prefWidth="608.0"
-                       text="GitPM – Git Project Manager" textFill="#cccccc" HBox.hgrow="ALWAYS">
+                <Label id="header__title" fx:id="titleLabel" prefHeight="33.0" prefWidth="608.0" text="GitPM – Git Project Manager" textFill="#cccccc" HBox.hgrow="ALWAYS">
                     <font><Font name="Calibri" size="18.0" /></font>
                     <padding><Insets left="12.0" /></padding>
                 </Label>
@@ -47,42 +43,94 @@
     </top>
 
     <center>
-        <SplitPane fx:id="main" dividerPositions="0.42981283422459887" prefHeight="263.0" prefWidth="600.0"
-                   styleClass="container" BorderPane.alignment="CENTER">
+        <SplitPane fx:id="main" dividerPositions="0.42981283422459887" prefHeight="263.0" prefWidth="600.0" styleClass="container" BorderPane.alignment="CENTER">
 
             <VBox id="projects" fx:id="projectContainer" prefHeight="340.0" prefWidth="255.0" styleClass="container">
                 <HBox fx:id="projectPane" prefHeight="41.0" prefWidth="254.0" styleClass="container">
-                    <Button fx:id="addProjectButton" mnemonicParsing="false" onAction="#onAddProject"
-                            prefHeight="26.0" prefWidth="32.0" text="+" />
-                    <Button fx:id="scanDirectoryButton" contentDisplay="RIGHT" mnemonicParsing="false"
-                            onAction="#onScanDirectory" prefHeight="2.0" prefWidth="33.0" text="-o" />
+                    <Button fx:id="addProjectButton" mnemonicParsing="false" onAction="#onAddProject" prefHeight="26.0" prefWidth="32.0" text="+" />
+                    <Button fx:id="scanDirectoryButton" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onScanDirectory" prefHeight="2.0" prefWidth="33.0" text="-o" />
                     <TextField fx:id="searchEntry" prefHeight="26.0" prefWidth="130.0" />
-                    <ToggleButton fx:id="filterRemoteButton" mnemonicParsing="false"
-                                  onAction="#onFilterRemoteToggled" text="Remote" />
+                    <ToggleButton fx:id="filterRemoteButton" mnemonicParsing="false" onAction="#onFilterRemoteToggled" text="Remote" />
                 </HBox>
-                <ListView fx:id="projectFlow" prefHeight="318.0" prefWidth="254.0" />
+                <ListView fx:id="projectFlow" prefHeight="318.0" prefWidth="254.0" styleClass="list-view" />
                 <HBox alignment="TOP_RIGHT" prefHeight="51.0" prefWidth="254.0">
-                    <Button fx:id="editProjectButton" mnemonicParsing="false" onAction="#onEditProject"
-                            prefHeight="26.0" prefWidth="34.0" text="&lt;=" />
-                    <Button fx:id="deleteProjectButton" mnemonicParsing="false" onAction="#onDeleteProject"
-                            prefHeight="26.0" prefWidth="23.0" text="X" />
+                    <Button fx:id="editProjectButton" mnemonicParsing="false" onAction="#onEditProject" prefHeight="26.0" prefWidth="34.0" text="&lt;=" />
+                    <Button fx:id="deleteProjectButton" mnemonicParsing="false" onAction="#onDeleteProject" prefHeight="26.0" prefWidth="23.0" text="X" />
                 </HBox>
             </VBox>
 
             <VBox fx:id="toolContainer" prefHeight="200.0" prefWidth="100.0">
                 <TabPane id="tab-container" fx:id="tabContainer" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
-                    <Tab fx:id="infoTab" closable="false" text="Информация">
-                        <VBox maxHeight="Infinity" maxWidth="Infinity" prefHeight="308.0" prefWidth="338.0" />
+                    <Tab fx:id="infoTab" closable="false" onSelectionChanged="#onInfoTabSelected" text="Информация">
+                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
+                            <content>
+                                <VBox fx:id="infoRoot" prefWidth="330" spacing="16" styleClass="info-root">
+
+                                    <VBox spacing="4">
+                                        <Label fx:id="projectTitleLabel" styleClass="project-title" wrapText="true" />
+
+                                        <Label fx:id="projectDescriptionLabel" styleClass="project-description" wrapText="true" />
+                                    </VBox>
+
+                                    <HBox styleClass="info-separator" />
+
+                                    <VBox spacing="10" styleClass="info-card">
+
+                                        <HBox alignment="CENTER_LEFT" spacing="8">
+                                            <Label styleClass="info-icon" text="📁" />
+                                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                                <Label styleClass="info-label" text="Локальный путь" />
+                                                <Label fx:id="localPathLabel" styleClass="info-value" wrapText="true" />
+                                            </VBox>
+                                            <Button fx:id="copyPathButton" styleClass="icon-button" text="⧉" />
+                                        </HBox>
+
+                                        <HBox alignment="CENTER_LEFT" spacing="8">
+                                            <Label styleClass="info-icon" text="🌐" />
+                                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                                <Label styleClass="info-label" text="Remote URL" />
+                                                <Label fx:id="remoteUrlLabel" styleClass="info-value" wrapText="true" />
+                                            </VBox>
+                                            <Button fx:id="openRemoteButton" styleClass="icon-button" text="↗" />
+                                        </HBox>
+
+                                        <HBox alignment="CENTER_LEFT" spacing="8">
+                                            <Label styleClass="info-icon" text="🕒" />
+                                            <VBox spacing="2">
+                                                <Label styleClass="info-label" text="Добавлен" />
+                                                <Label fx:id="addedAtLabel" styleClass="info-value" />
+                                            </VBox>
+                                        </HBox>
+
+                                    </VBox>
+                           <HBox spacing="10.0">
+                              <children>
+                                           <Button fx:id="openFolderButton" text="Открыть папку проекта" />
+                                           <Button fx:id="editProjectButtonInfo" text="Редактировать проект" />
+                              </children>
+                           </HBox>
+
+                                    <padding>
+                                        <Insets bottom="14" left="14" right="14" top="14" />
+                                    </padding>
+
+                                </VBox>
+                            </content>
+                        </ScrollPane>
                     </Tab>
 
                     <Tab fx:id="taskTab" closable="false" onSelectionChanged="#onTaskTabSelected" text="Задачи">
                         <VBox VBox.vgrow="ALWAYS">
                             <HBox fx:id="taskPane" prefHeight="35.0">
                                 <Button fx:id="addTaskButton" onAction="#onAddTask" text="+" />
+                        <TextField />
+                        <ToggleButton mnemonicParsing="false" />
+                        <ToggleButton mnemonicParsing="false" />
+                        <ToggleButton mnemonicParsing="false" />
                             </HBox>
                             <ScrollPane fx:id="taskScroll" hbarPolicy="NEVER" styleClass="scrollable" VBox.vgrow="ALWAYS">
                                 <content>
-                                    <VBox fx:id="taskFlow" alignment="TOP_CENTER" spacing="8.0" minHeight="0" />
+                                    <VBox fx:id="taskFlow" alignment="TOP_CENTER" minHeight="0" spacing="8.0" />
                                 </content>
                                 <padding><Insets bottom="6.0" left="10.0" right="10.0" top="6.0" /></padding>
                             </ScrollPane>
