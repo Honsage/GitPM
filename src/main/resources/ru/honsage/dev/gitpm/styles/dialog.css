@@ -1,0 +1,8 @@
+.approve-button {
+    -fx-background-color: #006464;
+    -fx-text-fill: white;
+}
+
+.approve-button:hover {
+    -fx-background-color: #006464AA;
+}

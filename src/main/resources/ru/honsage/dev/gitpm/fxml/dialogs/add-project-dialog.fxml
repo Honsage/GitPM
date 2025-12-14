@@ -13,7 +13,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="12" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.honsage.dev.gitpm.presentation.controllers.AddProjectDialogController">
+<VBox alignment="CENTER" spacing="12" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      stylesheets="@../../styles/dialog.css"
+      fx:controller="ru.honsage.dev.gitpm.presentation.controllers.AddProjectDialogController">
 
     <padding>
         <Insets bottom="16" left="16" right="16" top="16" />
@@ -55,7 +57,7 @@
 
     <HBox alignment="CENTER_RIGHT" spacing="8">
         <Button onAction="#onCancel" text="Отмена" />
-        <Button defaultButton="true" onAction="#onCreate" text="Создать" />
+        <Button defaultButton="true" onAction="#onCreate" styleClass="approve-button" text="Создать" />
     </HBox>
 
 </VBox>
