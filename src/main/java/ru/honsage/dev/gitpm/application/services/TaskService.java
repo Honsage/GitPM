@@ -1,5 +1,6 @@
 package ru.honsage.dev.gitpm.application.services;
 
+import ru.honsage.dev.gitpm.domain.exceptions.ExceptionFactory;
 import ru.honsage.dev.gitpm.domain.models.Task;
 import ru.honsage.dev.gitpm.domain.models.TaskPriority;
 import ru.honsage.dev.gitpm.domain.repositories.TaskRepository;
@@ -37,9 +38,7 @@ public class TaskService {
 
     public Task getTask(TaskId taskId) {
         return taskRepository.findById(taskId)
-                .orElseThrow(() -> new RuntimeException(
-                        String.format("Task with id '%s' is not found", taskId)
-                ));
+                .orElseThrow(() -> ExceptionFactory.entityNotFound("Task", taskId.toString()));
     }
 
     public List<Task> getAllTasks(ProjectId projectId) {

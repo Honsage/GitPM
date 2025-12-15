@@ -1,15 +1,12 @@
 package ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.repositories;
 
 import ru.honsage.dev.gitpm.domain.models.Command;
-import ru.honsage.dev.gitpm.domain.models.Script;
 import ru.honsage.dev.gitpm.domain.repositories.CommandRepository;
 import ru.honsage.dev.gitpm.domain.valueobjects.CommandId;
 import ru.honsage.dev.gitpm.domain.valueobjects.ScriptId;
 import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.DatabaseManager;
 import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.entities.CommandEntity;
-import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.entities.ScriptEntity;
 import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.mappers.CommandEntityMapper;
-import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.mappers.ScriptEntityMapper;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
