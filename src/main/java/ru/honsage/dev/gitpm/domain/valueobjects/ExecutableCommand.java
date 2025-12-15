@@ -27,6 +27,13 @@ public final class ExecutableCommand {
         return result;
     }
 
+    public static ExecutableCommand parse(String commandText) {
+        List<String> tokens = List.of(commandText.split(" "));
+        String executable = tokens.getFirst();
+        tokens.removeFirst();
+        return new ExecutableCommand(executable, tokens);
+    }
+
     @Override
     public String toString() {
         return executable + " " + String.join(" ", args);
