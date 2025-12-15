@@ -6,12 +6,12 @@ import ru.honsage.dev.gitpm.domain.valueobjects.WorkingDir;
 
 import java.util.Objects;
 
-public class ScriptCommand {
+public class Command {
     private final CommandId id;
     private WorkingDir workingDir;
     private ExecutableCommand executableCommand;
 
-    public ScriptCommand(
+    public Command(
             CommandId id,
             WorkingDir workingDir,
             ExecutableCommand executableCommand
