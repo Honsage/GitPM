@@ -25,11 +25,10 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public Optional<Task> findById(TaskId taskId, ProjectId projectId) {
-        String query = "SELECT * FROM task WHERE id_project = ? AND id_task = ?;";
+    public Optional<Task> findById(TaskId taskId) {
+        String query = "SELECT * FROM task WHERE id_task = ?;";
         try (PreparedStatement st = db.getConnection().prepareStatement(query)) {
-            st.setString(1, projectId.toString());
-            st.setString(2, taskId.toString());
+            st.setString(1, taskId.toString());
 
             ResultSet rs = st.executeQuery();
             if (!rs.next()) return Optional.empty();
@@ -166,15 +165,14 @@ public class TaskRepositoryImpl implements TaskRepository {
         String query = """
                 UPDATE task
                 SET title = ?, content = ?, is_completed = ?, deadline_at = ?, priority = ?
-                WHERE id_project = ? AND id_task = ?;""";
+                WHERE id_task = ?;""";
         try (PreparedStatement st = db.getConnection().prepareStatement(query)) {
             st.setString(1, entity.title());
             st.setString(2, entity.content());
             st.setInt(3, entity.isCompleted());
             st.setString(4, entity.deadlineAt());
             st.setString(5, entity.priority());
-            st.setString(6, id.toString());
-            st.setString(7, entity.id());
+            st.setString(6, entity.id());
             st.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("DB error during query execution", e);
@@ -183,11 +181,10 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public void delete(TaskId taskId, ProjectId projectId) {
-        String query = "DELETE FROM task WHERE id_project = ? AND id_task = ?;";
+    public void delete(TaskId taskId) {
+        String query = "DELETE FROM task WHERE id_task = ?;";
         try (PreparedStatement st = db.getConnection().prepareStatement(query)) {
-            st.setString(1, projectId.toString());
-            st.setString(2, taskId.toString());
+            st.setString(1, taskId.toString());
             st.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("DB error during query execution", e);

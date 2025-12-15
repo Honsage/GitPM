@@ -199,8 +199,7 @@ public class MainViewModel {
     }
 
     private void handleOnDeleteTask(TaskViewModel taskViewModel) {
-        ProjectId id = ProjectId.fromString(this.selectedProject.getId());
-        taskService.deleteTask(id, TaskId.fromString(taskViewModel.getId()));
+        taskService.deleteTask(TaskId.fromString(taskViewModel.getId()));
         tasks.remove(taskViewModel);
     }
 }

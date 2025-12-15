@@ -35,8 +35,8 @@ public class TaskService {
         return taskRepository.save(task, projectId);
     }
 
-    public Task getTask(ProjectId projectId, TaskId taskId) {
-        return taskRepository.findById(taskId, projectId)
+    public Task getTask(TaskId taskId) {
+        return taskRepository.findById(taskId)
                 .orElseThrow(() -> new RuntimeException(
                         String.format("Task with id '%s' is not found", taskId)
                 ));
@@ -71,7 +71,7 @@ public class TaskService {
             LocalDateTime newDeadlineAt,
             TaskPriority newPriority
     ) {
-        Task task = getTask(projectId, taskId);
+        Task task = getTask(taskId);
 
         task.update(
                 newTitle,
@@ -84,7 +84,7 @@ public class TaskService {
         return taskRepository.update(task, projectId);
     }
 
-    public void deleteTask(ProjectId projectId, TaskId taskId) {
-        taskRepository.delete(taskId, projectId);
+    public void deleteTask(TaskId taskId) {
+        taskRepository.delete(taskId);
     }
 }

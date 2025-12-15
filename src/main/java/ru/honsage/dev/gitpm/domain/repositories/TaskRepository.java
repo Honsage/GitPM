@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TaskRepository {
-    Optional<Task> findById(TaskId taskId, ProjectId projectId);
+    Optional<Task> findById(TaskId taskId);
     List<Task> findByTitlePrefix(String titlePrefix, ProjectId id);
     List<Task> findAllByProject(ProjectId id);
     List<Task> findByCompleted(boolean isCompleted, ProjectId id);
@@ -18,5 +18,5 @@ public interface TaskRepository {
 
     Task save(Task task, ProjectId id);
     Task update(Task task, ProjectId id);
-    void delete(TaskId taskId, ProjectId projectId);
+    void delete(TaskId taskId);
 }
