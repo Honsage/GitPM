@@ -26,4 +26,25 @@ public class Script {
             throw ExceptionFactory.validation("Title of Script cannot be empty", "Script.title");
         }
     }
+
+    public void update(
+            String newTitle,
+            String newDescription
+    ) {
+        validateTitle(newTitle);
+        this.title = newTitle;
+        this.description = newDescription;
+    }
+
+    public ScriptId getId() {
+        return this.id;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
 }

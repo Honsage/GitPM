@@ -42,4 +42,35 @@ public class Command {
             );
         }
     }
+
+    public void changeOrder(int newOrder) {
+        validateOrder(newOrder);
+        this.order = newOrder;
+    }
+
+    public void update(
+            WorkingDir newWorkingDir,
+            ExecutableCommand newExecutableCommand,
+            int newOrder
+    ) {
+        this.workingDir = Objects.requireNonNull(newWorkingDir);
+        this.executableCommand = Objects.requireNonNull(newExecutableCommand);
+        changeOrder(newOrder);
+    }
+
+    public CommandId getId() {
+        return this.id;
+    }
+
+    public WorkingDir getWorkingDir() {
+        return this.workingDir;
+    }
+
+    public ExecutableCommand getExecutableCommand() {
+        return this.executableCommand;
+    }
+
+    public int getOrder() {
+        return this.order;
+    }
 }
