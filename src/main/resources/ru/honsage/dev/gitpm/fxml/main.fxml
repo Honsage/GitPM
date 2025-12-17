@@ -11,6 +11,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.BorderPane?>
@@ -18,7 +19,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.control.TextArea?>
 <BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="100.0" minWidth="200.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.honsage.dev.gitpm.presentation.controllers.MainController">
 
     <top>
@@ -31,10 +31,10 @@
             </HBox>
             <MenuBar id="menu-bar" fx:id="menuBar">
                 <Menu fx:id="fileMenu" mnemonicParsing="false" styleClass="menu" text="Файл">
-                    <MenuItem mnemonicParsing="false" styleClass="menu__item" text="Закрыть" />
+                    <MenuItem mnemonicParsing="false" onAction="#onCloseApplication" styleClass="menu__item" text="Закрыть" />
                 </Menu>
                 <Menu fx:id="editMenu" mnemonicParsing="false" styleClass="menu" text="Правка">
-                    <MenuItem mnemonicParsing="false" styleClass="menu__item" text="Добавить проект" />
+                    <MenuItem mnemonicParsing="false" onAction="#onAddProject" styleClass="menu__item" text="Добавить проект" />
                 </Menu>
                 <Menu fx:id="helpMenu" mnemonicParsing="false" styleClass="menu" text="Помощь">
                     <MenuItem mnemonicParsing="false" styleClass="menu__item" text="О программе" />
@@ -47,10 +47,10 @@
         <SplitPane fx:id="main" dividerPositions="0.42981283422459887" prefHeight="263.0" prefWidth="600.0" styleClass="container" BorderPane.alignment="CENTER">
 
             <VBox id="projects" fx:id="projectContainer" prefHeight="340.0" prefWidth="255.0" styleClass="container">
-                <HBox fx:id="projectPane" maxWidth="Infinity" prefHeight="41.0" spacing="3.0" styleClass="container" alignment="CENTER" >
+                <HBox fx:id="projectPane" alignment="CENTER" maxWidth="Infinity" prefHeight="41.0" spacing="3.0" styleClass="container">
                     <Button fx:id="addProjectButton" mnemonicParsing="false" onAction="#onAddProject" prefHeight="26.0" prefWidth="32.0" text="+" />
                     <Button fx:id="scanDirectoryButton" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onScanDirectory" prefHeight="2.0" prefWidth="33.0" text="-o" />
-                    <TextField fx:id="searchEntry" prefHeight="26.0" prefWidth="130.0" />
+                    <TextField fx:id="projectSearchEntry" prefHeight="26.0" prefWidth="130.0" promptText="Поиск проекта" />
                     <ToggleButton fx:id="filterRemoteButton" mnemonicParsing="false" onAction="#onFilterRemoteToggled" text="Remote" />
                 </HBox>
                 <ListView fx:id="projectFlow" prefHeight="318.0" prefWidth="254.0" styleClass="list-view" />
@@ -106,7 +106,7 @@
                                     </VBox>
                            <HBox spacing="10.0">
                               <children>
-                                           <Button fx:id="openFolderButton" text="Открыть папку проекта" />
+                                           <Button fx:id="openFolderButton" onAction="#onOpenProjectFolder" text="Открыть папку проекта" />
                                            <Button fx:id="editProjectButtonInfo" onAction="#onEditProject" text="Редактировать проект" />
                               </children>
                            </HBox>
@@ -122,9 +122,9 @@
 
                     <Tab fx:id="taskTab" closable="false" onSelectionChanged="#onTaskTabSelected" text="Задачи">
                         <VBox VBox.vgrow="ALWAYS">
-                            <HBox fx:id="taskPane" spacing="3.0" maxWidth="Infinity" prefHeight="35.0" alignment="CENTER">
+                            <HBox fx:id="taskPane" alignment="CENTER" maxWidth="Infinity" prefHeight="35.0" spacing="3.0">
                                 <Button fx:id="addTaskButton" onAction="#onAddTask" text="+" />
-                                <TextField maxWidth="Infinity" />
+                                <TextField maxWidth="Infinity" promptText="Поиск задачи" />
                                 <ToggleButton mnemonicParsing="false" />
                                 <ToggleButton mnemonicParsing="false" />
                                 <ToggleButton mnemonicParsing="false" />
@@ -138,34 +138,34 @@
                         </VBox>
                     </Tab>
 
-                    <Tab fx:id="scriptTab" closable="false" text="Сценарии">
+                    <Tab fx:id="scriptTab" closable="false" onSelectionChanged="#onScriptTabSelected" text="Сценарии">
                         <SplitPane dividerPositions="0.35" styleClass="scripts-root">
                             <VBox spacing="6" styleClass="container, scripts-list">
                                 <HBox spacing="6" styleClass="scripts-header">
-                                    <Button text="+" onAction="#onAddScript"/>
-                                    <TextField promptText="Поиск сценария"/>
+                                    <Button onAction="#onAddScript" text="+" />
+                                    <TextField promptText="Поиск сценария" />
                                 </HBox>
-                                <ListView fx:id="scriptList" VBox.vgrow="ALWAYS"/>
-                                <HBox spacing="6" styleClass="scripts-footer" alignment="CENTER_RIGHT">
-                                    <Button text="✎" onAction="#onEditScript"/>
-                                    <Button text="🗑" onAction="#onDeleteScript"/>
+                                <ListView fx:id="scriptList" VBox.vgrow="ALWAYS" />
+                                <HBox alignment="CENTER_RIGHT" spacing="6" styleClass="scripts-footer">
+                                    <Button onAction="#onEditScript" text="✎" />
+                                    <Button onAction="#onDeleteScript" text="🗑" />
                                 </HBox>
                             </VBox>
 
                             <VBox spacing="10" styleClass="container, scripts-details">
-                                <Label fx:id="scriptTitle" styleClass="header"/>
-                                <Label fx:id="scriptDescription" wrapText="true"/>
+                                <Label fx:id="scriptTitle" styleClass="header" />
+                                <Label fx:id="scriptDescription" wrapText="true" />
                                 <HBox spacing="8">
-                                    <Button fx:id="runScriptButton" text="▶ Запустить" onAction="#onRunScript"/>
-                                    <Button fx:id="stopScriptButton" text="⏹ Прервать" onAction="#onStopScript"/>
+                                    <Button fx:id="runScriptButton" onAction="#onRunScript" text="▶ Запустить" />
+                                    <Button fx:id="stopScriptButton" onAction="#onStopScript" text="⏹ Прервать" />
                                 </HBox>
                                 <VBox spacing="4">
-                                    <Label text="Команда:"/>
-                                    <Label fx:id="scriptCommand" styleClass="script-command"/>
+                                    <Label text="Команда:" />
+                                    <Label fx:id="scriptCommand" styleClass="script-command" />
                                 </VBox>
                                 <VBox spacing="4" VBox.vgrow="ALWAYS">
-                                    <Label text="Вывод:"/>
-                                    <TextArea fx:id="scriptOutput" styleClass="script-output" editable="false"/>
+                                    <Label text="Вывод:" />
+                                    <TextArea fx:id="scriptOutput" editable="false" styleClass="script-output" />
                                 </VBox>
                             </VBox>
                         </SplitPane>

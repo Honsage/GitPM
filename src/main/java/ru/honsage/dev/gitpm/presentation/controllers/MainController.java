@@ -9,6 +9,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -18,12 +24,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.honsage.dev.gitpm.domain.models.TaskPriority;
 import ru.honsage.dev.gitpm.domain.ports.GitOperations;
-import ru.honsage.dev.gitpm.domain.valueobjects.LocalRepositoryPath;
 import ru.honsage.dev.gitpm.presentation.viewmodels.MainViewModel;
 import ru.honsage.dev.gitpm.presentation.viewmodels.ProjectViewModel;
 import ru.honsage.dev.gitpm.presentation.viewmodels.SimpleScriptViewModel;
 import ru.honsage.dev.gitpm.presentation.viewmodels.TaskViewModel;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -42,17 +48,13 @@ public class MainController {
     @FXML
     protected MenuBar menuBar;
     @FXML
-    protected Menu menuFile;
-    @FXML
-    protected Menu menuEdit;
-    @FXML
-    protected Menu menuHelp;
-    @FXML
     protected SplitPane main;
     @FXML
     protected VBox projectContainer;
     @FXML
     protected HBox projectPane;
+    @FXML
+    protected TextField projectSearchEntry;
     @FXML
     protected ListView<ProjectViewModel> projectFlow;
     @FXML
@@ -119,6 +121,10 @@ public class MainController {
                     setText(item.getTitle());
                 }
             }
+        });
+
+        projectSearchEntry.textProperty().addListener((obs, oldValue, newValue) -> {
+            viewModel.filterByTitlePrefix(newValue);
         });
 
         projectFlow.getSelectionModel().selectedItemProperty().addListener(
@@ -235,6 +241,25 @@ public class MainController {
     }
 
     @FXML
+    public void onOpenProjectFolder(ActionEvent event) {
+        var project = viewModel.getSelectedProject();
+        if (project == null) return;
+
+        String pathStr = project.getLocalPath();
+        if (pathStr == null || pathStr.isBlank()) return;
+
+        try {
+            Desktop desktop = Desktop.getDesktop();
+            desktop.open(new File(pathStr));
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Не удалось открыть папку: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
     public void onScanDirectory(ActionEvent event) {
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Scan for Git Repositories");
@@ -296,6 +321,11 @@ public class MainController {
         refreshInfoUI();
     }
 
+    @FXML
+    public void onScriptTabSelected(Event event) {
+        refreshScriptUI();
+    }
+
     private void refreshTaskUI() {
         if (viewModel.getSelectedProject() == null) {
             // TODO: show banner 'choose project'
@@ -337,15 +367,21 @@ public class MainController {
     }
 
     private void refreshScriptUI() {
+        runScriptButton.disableProperty().unbind();
+        stopScriptButton.disableProperty().unbind();
         var script = viewModel.getSelectedScript();
 
         if (script == null) {
+            runScriptButton.setDisable(true);
+            stopScriptButton.setDisable(true);
             scriptTitle.setText(null);
             scriptDescription.setText(null);
             scriptCommand.setText(null);
             return;
         }
 
+        runScriptButton.disableProperty().bind(script.runningProperty());
+        stopScriptButton.disableProperty().bind(script.runningProperty().not());
         scriptTitle.setText(script.getTitle());
         scriptDescription.setText(script.getDescription());
         scriptCommand.setText(script.getExecutableCommand());
@@ -391,13 +427,14 @@ public class MainController {
 
     public void onRunScript(ActionEvent event) {
         viewModel.runSelectedScript();
-        runScriptButton.setDisable(true);
-        stopScriptButton.setDisable(false);
     }
 
     public void onStopScript(ActionEvent event) {
         viewModel.stopSelectedScript();
-        stopScriptButton.setDisable(true);
-        runScriptButton.setDisable(false);
+    }
+
+    public void onCloseApplication(ActionEvent event) {
+        Stage stage = (Stage) root.getScene().getWindow();
+        stage.close();
     }
 }
