@@ -13,7 +13,7 @@ public class TaskDTOMapper {
                 task.getContent(),
                 task.getCreatedAt().toString(),
                 task.isCompleted(),
-                task.getDeadlineAt().toString(),
+                task.getDeadlineAt() == null ? null : task.getDeadlineAt().toString(),
                 task.getPriority().toString()
         );
     }

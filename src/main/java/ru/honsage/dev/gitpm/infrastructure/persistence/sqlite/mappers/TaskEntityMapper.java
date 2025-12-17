@@ -19,7 +19,7 @@ public class TaskEntityMapper {
                 task.getContent(),
                 task.getCreatedAt().toString(),
                 task.isCompleted() ? 1 : 0,
-                task.getDeadlineAt().toString(),
+                task.getDeadlineAt() == null ? null : task.getDeadlineAt().toString(),
                 task.getPriority().toString()
         );
     }
