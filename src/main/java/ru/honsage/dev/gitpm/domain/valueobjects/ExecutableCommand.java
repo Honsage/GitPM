@@ -28,7 +28,7 @@ public final class ExecutableCommand {
     }
 
     public static ExecutableCommand parse(String commandText) {
-        List<String> tokens = List.of(commandText.split(" "));
+        ArrayList<String> tokens = new ArrayList<>(List.of(commandText.split(" ")));
         String executable = tokens.getFirst();
         tokens.removeFirst();
         return new ExecutableCommand(executable, tokens);

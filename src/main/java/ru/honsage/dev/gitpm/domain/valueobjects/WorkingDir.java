@@ -15,7 +15,7 @@ public record WorkingDir(String value) {
             );
         }
 
-        Path path = Paths.get(value);
+        Path path = Path.of(value);
         if (!Files.exists(path)) {
             throw ExceptionFactory.validation(
                     String.format("Working directory at path: %s does not exist", value),
@@ -34,5 +34,10 @@ public record WorkingDir(String value) {
 
     public Path toPath() {
         return Paths.get(value);
+    }
+
+    @Override
+    public String toString() {
+        return this.value();
     }
 }
