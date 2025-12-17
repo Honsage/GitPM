@@ -17,6 +17,40 @@
     -fx-background-color: #006464AA;
 }
 
+.edit-button {
+    -fx-max-width: 24px;
+    -fx-background-color: transparent;
+    -fx-background-image: url("../images/buttons/edit.png");
+    -fx-background-repeat: no-repeat;
+}
+
+.edit-button:hover {
+    -fx-background-color: #bcd0d622;
+    -fx-background-image: url("../images/buttons/edit-hover.png");
+    -fx-cursor: HAND;
+}
+
+.edit-button:pressed {
+    -fx-background-color: yellow;
+}
+
+.delete-button {
+    -fx-max-width: 24px;
+    -fx-background-color: transparent;
+    -fx-background-image: url("../images/buttons/delete.png");
+    -fx-background-repeat: no-repeat;
+}
+
+.delete-button:hover {
+    -fx-background-color: #bcd0d622;
+    -fx-background-image: url("../images/buttons/delete-hover.png");
+    -fx-cursor: HAND;
+}
+
+.delete-button:pressed {
+    -fx-background-color: red;
+}
+
 #header-pane {
     color: -fx-main-color;
 }

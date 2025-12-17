@@ -125,7 +125,6 @@ public class MainViewModel {
         projectService.deleteProject(id);
 
         projects.remove(selectedProject);
-        selectedProject = null;
     }
 
     public void filterByTitlePrefix(String prefix) {

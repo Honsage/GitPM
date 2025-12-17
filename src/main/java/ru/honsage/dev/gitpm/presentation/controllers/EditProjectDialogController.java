@@ -82,7 +82,9 @@ public class EditProjectDialogController {
         result = new ProjectDTO(
                 null,
                 titleField.getText().trim(),
-                descriptionField.getText().trim(),
+                descriptionField.getText() == null
+                        ? null
+                        : descriptionField.getText().trim(),
                 localPathField.getText().trim(),
                 remoteUrlField.getText().isBlank()
                         ? null

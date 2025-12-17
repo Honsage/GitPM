@@ -55,8 +55,8 @@
                 </HBox>
                 <ListView fx:id="projectFlow" prefHeight="318.0" prefWidth="254.0" styleClass="list-view" />
                 <HBox alignment="TOP_RIGHT" prefHeight="51.0" prefWidth="254.0" spacing="6.0">
-                    <Button fx:id="editProjectButton" mnemonicParsing="false" onAction="#onEditProject" prefHeight="26.0" prefWidth="34.0" text="&lt;=" />
-                    <Button fx:id="deleteProjectButton" mnemonicParsing="false" onAction="#onDeleteProject" prefHeight="26.0" prefWidth="23.0" text="X" />
+                    <Button fx:id="editProjectButton" mnemonicParsing="false" onAction="#onEditProject" prefHeight="26.0" prefWidth="34.0" styleClass="edit-button" />
+                    <Button fx:id="deleteProjectButton" mnemonicParsing="false" onAction="#onDeleteProject" prefHeight="26.0" prefWidth="23.0" styleClass="delete-button" />
                <padding>
                   <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
                </padding>
@@ -152,11 +152,11 @@
                                     <TextField promptText="Поиск сценария" />
                                 </HBox>
 
-                                <ListView fx:id="scriptList" VBox.vgrow="ALWAYS" prefHeight="225" />
+                                <ListView fx:id="scriptList" prefHeight="225" VBox.vgrow="ALWAYS" />
 
                                 <HBox alignment="CENTER_RIGHT" spacing="6" styleClass="scripts-footer">
-                                    <Button onAction="#onEditScript" text="&lt;=" />
-                                    <Button onAction="#onDeleteScript" text="X" />
+                                    <Button maxWidth="25.0" onAction="#onEditScript" prefHeight="26.0" prefWidth="25.0" styleClass="edit-button" />
+                                    <Button onAction="#onDeleteScript" prefHeight="26.0" prefWidth="24.0" styleClass="delete-button" />
                                 </HBox>
                             </VBox>
 
