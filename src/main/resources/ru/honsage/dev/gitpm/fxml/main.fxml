@@ -16,10 +16,10 @@
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.layout.StackPane?>
 <BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="100.0" minWidth="200.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.honsage.dev.gitpm.presentation.controllers.MainController">
 
     <top>
@@ -49,10 +49,10 @@
 
             <VBox id="projects" fx:id="projectContainer" prefHeight="340.0" prefWidth="255.0" styleClass="container">
                 <HBox fx:id="projectPane" alignment="CENTER" maxWidth="Infinity" prefHeight="41.0" spacing="3.0" styleClass="container">
-                    <Button fx:id="addProjectButton" mnemonicParsing="false" onAction="#onAddProject" prefHeight="26.0" prefWidth="32.0" text="+" />
-                    <Button fx:id="scanDirectoryButton" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onScanDirectory" prefHeight="2.0" prefWidth="33.0" text="-o" />
+                    <Button fx:id="addProjectButton" mnemonicParsing="false" onAction="#onAddProject" prefHeight="26.0" prefWidth="32.0" text="➕" />
+                    <Button fx:id="scanDirectoryButton" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onScanDirectory" prefHeight="2.0" prefWidth="33.0" text="🔎" />
                     <TextField fx:id="projectSearchEntry" prefHeight="26.0" prefWidth="130.0" promptText="Поиск проекта" />
-                    <ToggleButton fx:id="filterRemoteButton" mnemonicParsing="false" onAction="#onFilterRemoteToggled" text="Remote" />
+                    <ToggleButton fx:id="filterRemoteButton" mnemonicParsing="false" onAction="#onFilterRemoteToggled" text="🌐" />
                 </HBox>
                 <ListView fx:id="projectFlow" prefHeight="318.0" prefWidth="254.0" styleClass="list-view" />
                 <HBox alignment="TOP_RIGHT" prefHeight="51.0" prefWidth="254.0" spacing="6.0">
@@ -69,14 +69,9 @@
                     <Tab fx:id="infoTab" closable="false" onSelectionChanged="#onInfoTabSelected" text="Информация">
                         <StackPane>
 
-                        <VBox fx:id="infoEmptyPane"
-                              alignment="CENTER"
-                              spacing="10"
-                              visible="true">
-                            <Label text="📁"
-                                   style="-fx-font-size: 48;" />
-                            <Label text="Выберите проект"
-                                   style="-fx-font-size: 16; -fx-text-fill: #888;" />
+                        <VBox fx:id="infoEmptyPane" alignment="CENTER" spacing="10" visible="true">
+                            <Label style="-fx-font-size: 48;" text="📁" />
+                            <Label style="-fx-font-size: 16; -fx-text-fill: #888;" text="Выберите проект" />
                         </VBox>
 
                         <ScrollPane fx:id="infoTabScroll" fitToWidth="true" hbarPolicy="NEVER" visible="false">
@@ -140,11 +135,11 @@
                     <Tab fx:id="taskTab" closable="false" onSelectionChanged="#onTaskTabSelected" text="Задачи">
                         <VBox VBox.vgrow="ALWAYS">
                             <HBox fx:id="taskPane" alignment="CENTER" maxWidth="Infinity" prefHeight="35.0" spacing="3.0">
-                                <Button fx:id="addTaskButton" onAction="#onAddTask" text="+" />
+                                <Button fx:id="addTaskButton" onAction="#onAddTask" text="➕" />
                                 <TextField maxWidth="Infinity" promptText="Поиск задачи" />
-                                <ToggleButton mnemonicParsing="false" />
-                                <ToggleButton mnemonicParsing="false" />
-                                <ToggleButton mnemonicParsing="false" />
+                                <ToggleButton mnemonicParsing="false" text="✔" />
+                                <ToggleButton mnemonicParsing="false" text="🕒" />
+                                <ToggleButton mnemonicParsing="false" text="🔥" />
                             </HBox>
                             <ScrollPane fx:id="taskScroll" hbarPolicy="NEVER" styleClass="scrollable" VBox.vgrow="ALWAYS">
                                 <content>
@@ -157,12 +152,12 @@
 
                     <Tab fx:id="scriptTab" closable="false" onSelectionChanged="#onScriptTabSelected" text="Сценарии">
 
-                        <SplitPane dividerPositions="0.35" styleClass="scripts-root" VBox.vgrow="ALWAYS">
+                        <SplitPane dividerPositions="0.3995271867612293" styleClass="scripts-root" VBox.vgrow="ALWAYS">
 
                             <VBox maxHeight="Infinity" spacing="6" styleClass="container, scripts-list">
 
                                 <HBox spacing="6" styleClass="scripts-header">
-                                    <Button onAction="#onAddScript" text="+" />
+                                    <Button minWidth="28.0" onAction="#onAddScript" prefHeight="26.0" prefWidth="66.0" text="➕" />
                                     <TextField promptText="Поиск сценария" />
                                 </HBox>
 
@@ -176,14 +171,9 @@
 
                             <StackPane>
 
-                            <VBox fx:id="scriptEmptyPane"
-                                  alignment="CENTER"
-                                  spacing="10"
-                                  visible="true">
-                                <Label text="📜"
-                                       style="-fx-font-size: 48;" />
-                                <Label text="Выберите скрипт"
-                                       style="-fx-font-size: 16; -fx-text-fill: #888;" />
+                            <VBox fx:id="scriptEmptyPane" alignment="CENTER" spacing="10" visible="true">
+                                <Label style="-fx-font-size: 48;" text="📜" />
+                                <Label style="-fx-font-size: 16; -fx-text-fill: #888;" text="Выберите скрипт" />
                             </VBox>
                             <VBox fx:id="scriptDetailsPane" maxHeight="Infinity" spacing="10" styleClass="container, scripts-details">
 
