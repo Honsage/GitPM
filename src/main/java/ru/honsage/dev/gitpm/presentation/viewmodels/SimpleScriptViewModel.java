@@ -4,6 +4,10 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import ru.honsage.dev.gitpm.domain.models.Command;
+import ru.honsage.dev.gitpm.domain.valueobjects.CommandId;
+import ru.honsage.dev.gitpm.domain.valueobjects.ExecutableCommand;
+import ru.honsage.dev.gitpm.domain.valueobjects.WorkingDir;
 import ru.honsage.dev.gitpm.presentation.dto.SimpleScriptDTO;
 
 public class SimpleScriptViewModel {
@@ -15,6 +19,7 @@ public class SimpleScriptViewModel {
     private final StringProperty executableCommand = new SimpleStringProperty();
 
     private final BooleanProperty selected = new SimpleBooleanProperty(false);
+    private final BooleanProperty running = new SimpleBooleanProperty(false);
 
     public SimpleScriptViewModel(SimpleScriptDTO dto) {
         this.scriptId.set(dto.scriptId());
@@ -25,6 +30,14 @@ public class SimpleScriptViewModel {
         this.executableCommand.set(dto.executableCommand());
     }
 
+    public Command extractCommand() {
+        return new Command(
+                CommandId.fromString(getCommandId()),
+                new WorkingDir(getWorkingDir()),
+                ExecutableCommand.parse(getExecutableCommand())
+        );
+    }
+
     public StringProperty scriptIdProperty() { return scriptId; }
     public StringProperty titleProperty() { return title; }
     public StringProperty descriptionProperty() { return description; }
@@ -32,6 +45,7 @@ public class SimpleScriptViewModel {
     public StringProperty workingDirProperty() { return workingDir; }
     public StringProperty executableCommandProperty() { return executableCommand; }
     public BooleanProperty selectedProperty() { return selected; }
+    public BooleanProperty runningProperty() { return running; }
 
     public String getScriptId() { return scriptId.get(); }
     public String getTitle() { return title.get(); }
@@ -39,7 +53,9 @@ public class SimpleScriptViewModel {
     public String getCommandId() { return commandId.get(); }
     public String getWorkingDir() { return workingDir.get(); }
     public String getExecutableCommand() { return executableCommand.get(); }
+    public boolean isRunning() { return running.get(); }
 
     public boolean isSelected() { return selected.get(); }
     public void setSelected(boolean isSelected) { this.selected.set(isSelected); }
+    public void setRunning(boolean value) { running.set(value); }
 }

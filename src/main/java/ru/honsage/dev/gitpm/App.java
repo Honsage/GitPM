@@ -6,10 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import ru.honsage.dev.gitpm.application.services.CommandService;
-import ru.honsage.dev.gitpm.application.services.ProjectService;
-import ru.honsage.dev.gitpm.application.services.ScriptService;
-import ru.honsage.dev.gitpm.application.services.TaskService;
+import ru.honsage.dev.gitpm.application.services.*;
 import ru.honsage.dev.gitpm.domain.ports.CommandExecutor;
 import ru.honsage.dev.gitpm.domain.ports.GitOperations;
 import ru.honsage.dev.gitpm.domain.repositories.CommandRepository;
@@ -46,13 +43,14 @@ public class App extends Application {
         TaskService taskService = new TaskService(taskRepo);
         ScriptService scriptService = new ScriptService(scriptRepo);
         CommandService commandService = new CommandService(commandRepo);
+        ScriptExecutionService executionService = new ScriptExecutionService(executor);
 
         MainViewModel viewModel = new MainViewModel(
                 projectService,
                 taskService,
                 scriptService,
                 commandService,
-                executor
+                executionService
         );
 
         MainController mainController = new MainController(viewModel);

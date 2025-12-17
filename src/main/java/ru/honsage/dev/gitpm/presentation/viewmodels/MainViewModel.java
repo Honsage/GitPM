@@ -3,15 +3,10 @@ package ru.honsage.dev.gitpm.presentation.viewmodels;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import ru.honsage.dev.gitpm.application.services.CommandService;
-import ru.honsage.dev.gitpm.application.services.ProjectService;
-import ru.honsage.dev.gitpm.application.services.ScriptService;
-import ru.honsage.dev.gitpm.application.services.TaskService;
+import ru.honsage.dev.gitpm.application.services.*;
 import ru.honsage.dev.gitpm.domain.models.TaskPriority;
-import ru.honsage.dev.gitpm.domain.ports.CommandExecutor;
 import ru.honsage.dev.gitpm.domain.valueobjects.*;
 import ru.honsage.dev.gitpm.presentation.dto.ProjectDTO;
-import ru.honsage.dev.gitpm.presentation.dto.SimpleScriptDTO;
 import ru.honsage.dev.gitpm.presentation.dto.TaskDTO;
 import ru.honsage.dev.gitpm.presentation.mappers.ProjectDTOMapper;
 import ru.honsage.dev.gitpm.presentation.mappers.SimpleScriptDTOMapper;
@@ -27,7 +22,7 @@ public class MainViewModel {
     private final TaskService taskService;
     private final ScriptService scriptService;
     private final CommandService commandService;
-    private final CommandExecutor commandExecutor;
+    private final ScriptExecutionService scriptExecutionService;
 
     private final ObservableList<ProjectViewModel> projects = FXCollections.observableArrayList();
     private final FilteredList<ProjectViewModel> filteredProjects = new FilteredList<>(projects);
@@ -44,13 +39,13 @@ public class MainViewModel {
             TaskService taskService,
             ScriptService scriptService,
             CommandService commandService,
-            CommandExecutor commandExecutor
+            ScriptExecutionService scriptExecutionService
     ) {
         this.projectService = projectService;
         this.taskService = taskService;
         this.scriptService = scriptService;
         this.commandService = commandService;
-        this.commandExecutor = commandExecutor;
+        this.scriptExecutionService = scriptExecutionService;
     }
 
     // Projects
@@ -296,20 +291,18 @@ public class MainViewModel {
     public void runSelectedScript() {
         if (selectedScript == null) return;
 
-        ScriptId scriptId = ScriptId.fromString(selectedScript.getScriptId());
-
-        var commands = commandService.getAllCommands(scriptId);
-        if (commands.isEmpty()) return;
-
-        var command = commands.getFirst();
-
-        commandExecutor.execute(
-                Path.of(command.getWorkingDir().value()),
-                command.getExecutableCommand().toString()
+        scriptExecutionService.runScript(
+                selectedScript.getScriptId(),
+                selectedScript.extractCommand()
         );
+
+        selectedScript.setRunning(true);
     }
 
     public void stopSelectedScript() {
+        if (selectedScript == null) return;
 
+        scriptExecutionService.stopScript(selectedScript.getScriptId());
+        selectedScript.setRunning(false);
     }
 }
