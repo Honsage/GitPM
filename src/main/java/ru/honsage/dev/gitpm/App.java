@@ -6,14 +6,22 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import ru.honsage.dev.gitpm.application.services.CommandService;
 import ru.honsage.dev.gitpm.application.services.ProjectService;
+import ru.honsage.dev.gitpm.application.services.ScriptService;
 import ru.honsage.dev.gitpm.application.services.TaskService;
+import ru.honsage.dev.gitpm.domain.ports.CommandExecutor;
 import ru.honsage.dev.gitpm.domain.ports.GitOperations;
+import ru.honsage.dev.gitpm.domain.repositories.CommandRepository;
 import ru.honsage.dev.gitpm.domain.repositories.ProjectRepository;
+import ru.honsage.dev.gitpm.domain.repositories.ScriptRepository;
 import ru.honsage.dev.gitpm.domain.repositories.TaskRepository;
+import ru.honsage.dev.gitpm.infrastructure.executor.ProcessBuilderCommandExecutor;
 import ru.honsage.dev.gitpm.infrastructure.git.JGitOperations;
 import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.DatabaseManager;
+import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.repositories.CommandRepositoryImpl;
 import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.repositories.ProjectRepositoryImpl;
+import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.repositories.ScriptRepositoryImpl;
 import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.repositories.TaskRepositoryImpl;
 import ru.honsage.dev.gitpm.presentation.controllers.MainController;
 import ru.honsage.dev.gitpm.presentation.viewmodels.MainViewModel;
@@ -28,13 +36,24 @@ public class App extends Application {
         DatabaseManager db = DatabaseManager.getInstance("gitpm.db");
         ProjectRepository projectRepo = new ProjectRepositoryImpl(db);
         TaskRepository taskRepo = new TaskRepositoryImpl(db);
+        ScriptRepository scriptRepo = new ScriptRepositoryImpl(db);
+        CommandRepository commandRepo = new CommandRepositoryImpl(db);
 
         GitOperations git = new JGitOperations();
+        CommandExecutor executor = new ProcessBuilderCommandExecutor();
 
         ProjectService projectService = new ProjectService(projectRepo, git);
         TaskService taskService = new TaskService(taskRepo);
+        ScriptService scriptService = new ScriptService(scriptRepo);
+        CommandService commandService = new CommandService(commandRepo);
 
-        MainViewModel viewModel = new MainViewModel(projectService, taskService);
+        MainViewModel viewModel = new MainViewModel(
+                projectService,
+                taskService,
+                scriptService,
+                commandService,
+                executor
+        );
 
         MainController mainController = new MainController(viewModel);
         mainController.setGitClient(git);

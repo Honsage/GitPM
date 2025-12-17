@@ -18,8 +18,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.honsage.dev.gitpm.domain.models.TaskPriority;
 import ru.honsage.dev.gitpm.domain.ports.GitOperations;
+import ru.honsage.dev.gitpm.domain.valueobjects.LocalRepositoryPath;
 import ru.honsage.dev.gitpm.presentation.viewmodels.MainViewModel;
 import ru.honsage.dev.gitpm.presentation.viewmodels.ProjectViewModel;
+import ru.honsage.dev.gitpm.presentation.viewmodels.SimpleScriptViewModel;
 import ru.honsage.dev.gitpm.presentation.viewmodels.TaskViewModel;
 
 import java.io.File;
@@ -81,6 +83,20 @@ public class MainController {
     protected Label projectTitleLabel;
     @FXML
     protected  Label projectDescriptionLabel;
+    @FXML
+    protected ListView<SimpleScriptViewModel> scriptList;
+    @FXML
+    protected Label scriptTitle;
+    @FXML
+    protected Label scriptDescription;
+    @FXML
+    protected Label scriptCommand;
+    @FXML
+    protected TextArea scriptOutput;
+    @FXML
+    protected Button runScriptButton;
+    @FXML
+    protected Button stopScriptButton;
 
     private final MainViewModel viewModel;
     private GitOperations git;
@@ -91,6 +107,7 @@ public class MainController {
 
     @FXML
     public void initialize() {
+        // Projects
         projectFlow.setItems(viewModel.getProjects());
         projectFlow.setCellFactory(_ -> new ListCell<>() {
             @Override
@@ -108,6 +125,7 @@ public class MainController {
                 (obs, oldValue, newValue) -> {
                     viewModel.setSelectedProject(newValue);
                     refreshInfoUI();
+                    viewModel.loadScriptsForSelectedProject();
                 }
         );
 
@@ -118,6 +136,24 @@ public class MainController {
         );
 
         viewModel.loadProjects();
+
+        // Scripts
+        scriptList.setItems(viewModel.getScripts());
+
+        scriptList.setCellFactory(_ -> new ListCell<>() {
+            @Override
+            protected void updateItem(SimpleScriptViewModel item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.getTitle());
+            }
+        });
+
+        scriptList.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldValue, selected) -> {
+                    viewModel.setSelectedScript(selected);
+                    refreshScriptUI();
+                }
+        );
     }
 
     public void setGitClient(GitOperations git) {
@@ -241,7 +277,7 @@ public class MainController {
                     viewModel.addTaskForSelectedProject(
                             task.title(),
                             task.content(),
-                            LocalDateTime.parse(task.deadlineAt()),
+                            task.deadlineAt() == null ? null : LocalDateTime.parse(task.deadlineAt()),
                             TaskPriority.valueOf(task.priority())
                     )
             );
@@ -298,5 +334,70 @@ public class MainController {
         localPathLabel.setText(projectViewModel.getLocalPath());
         remoteUrlLabel.setText(projectViewModel.getRemoteURL());
         addedAtLabel.setText(projectViewModel.getAddedAt());
+    }
+
+    private void refreshScriptUI() {
+        var script = viewModel.getSelectedScript();
+
+        if (script == null) {
+            scriptTitle.setText(null);
+            scriptDescription.setText(null);
+            scriptCommand.setText(null);
+            return;
+        }
+
+        scriptTitle.setText(script.getTitle());
+        scriptDescription.setText(script.getDescription());
+        scriptCommand.setText(script.getExecutableCommand());
+    }
+
+    public void onAddScript(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/ru/honsage/dev/gitpm/fxml/dialogs/add-script-dialog.fxml")
+            );
+
+            Stage stage = new Stage();
+            stage.setTitle("Добавление скрипта");
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/ru/honsage/dev/gitpm/images/icon.png"))));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(this.root.getScene().getWindow());
+            stage.setScene(new Scene(loader.load()));
+
+            AddScriptDialogController controller = loader.getController();
+            controller.setStage(stage);
+            controller.setDefaultDir(viewModel.getSelectedProject().getLocalPath());
+            stage.showAndWait();
+
+            controller.getResult().ifPresent(dto ->
+                    viewModel.addScriptForSelectedProject(
+                            dto.title(),
+                            dto.description(),
+                            dto.workingDir(),
+                            dto.executableCommand()
+                    )
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onEditScript(ActionEvent event) {
+    }
+
+    public void onDeleteScript(ActionEvent event) {
+        viewModel.deleteSelectedScript();
+    }
+
+    public void onRunScript(ActionEvent event) {
+        viewModel.runSelectedScript();
+        runScriptButton.setDisable(true);
+        stopScriptButton.setDisable(false);
+    }
+
+    public void onStopScript(ActionEvent event) {
+        viewModel.stopSelectedScript();
+        stopScriptButton.setDisable(true);
+        runScriptButton.setDisable(false);
     }
 }

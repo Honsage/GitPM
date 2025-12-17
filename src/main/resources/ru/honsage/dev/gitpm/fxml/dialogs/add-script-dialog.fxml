@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER"
+      spacing="12"
+      xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      stylesheets="@../../styles/dialog.css"
+      fx:controller="ru.honsage.dev.gitpm.presentation.controllers.AddScriptDialogController">
+
+    <padding>
+        <Insets top="16" right="16" bottom="16" left="16"/>
+    </padding>
+
+    <!-- Ошибка -->
+    <Label fx:id="errorLabel"
+           wrapText="true"
+           alignment="CENTER"
+           textFill="RED"
+           textAlignment="CENTER">
+        <font>
+            <Font size="12"/>
+        </font>
+    </Label>
+
+    <GridPane hgap="8" vgap="10">
+        <columnConstraints>
+            <ColumnConstraints minWidth="120"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+            <ColumnConstraints minWidth="40"/>
+        </columnConstraints>
+
+        <!-- Title -->
+        <Label text="Название" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="titleField"
+                   promptText="Обязательное поле"
+                   GridPane.rowIndex="0"
+                   GridPane.columnIndex="1"
+                   GridPane.columnSpan="2"/>
+
+        <!-- Description -->
+        <Label text="Описание" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextArea fx:id="descriptionField"
+                  prefRowCount="3"
+                  GridPane.rowIndex="1"
+                  GridPane.columnIndex="1"
+                  GridPane.columnSpan="2"/>
+
+        <!-- Working dir -->
+        <Label text="Рабочая директория" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="workingDirField"
+                   promptText="Каталог выполнения"
+                   GridPane.rowIndex="2"
+                   GridPane.columnIndex="1"/>
+        <Button text="..."
+                onAction="#onChooseDirectory"
+                prefWidth="40"
+                GridPane.rowIndex="2"
+                GridPane.columnIndex="2"/>
+
+        <!-- Command -->
+        <Label text="Команда" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextArea fx:id="commandField"
+                  promptText="Например: docker compose up"
+                  prefRowCount="2"
+                  GridPane.rowIndex="3"
+                  GridPane.columnIndex="1"
+                  GridPane.columnSpan="2"/>
+    </GridPane>
+
+    <Separator/>
+
+    <HBox alignment="CENTER_RIGHT" spacing="8">
+        <Button text="Отмена" onAction="#onCancel"/>
+        <Button text="Создать"
+                defaultButton="true"
+                styleClass="approve-button"
+                onAction="#onCreate"/>
+    </HBox>
+
+</VBox>
