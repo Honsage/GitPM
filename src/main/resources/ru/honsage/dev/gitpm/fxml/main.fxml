@@ -54,9 +54,12 @@
                     <ToggleButton fx:id="filterRemoteButton" mnemonicParsing="false" onAction="#onFilterRemoteToggled" text="Remote" />
                 </HBox>
                 <ListView fx:id="projectFlow" prefHeight="318.0" prefWidth="254.0" styleClass="list-view" />
-                <HBox alignment="TOP_RIGHT" prefHeight="51.0" prefWidth="254.0">
+                <HBox alignment="TOP_RIGHT" prefHeight="51.0" prefWidth="254.0" spacing="6.0">
                     <Button fx:id="editProjectButton" mnemonicParsing="false" onAction="#onEditProject" prefHeight="26.0" prefWidth="34.0" text="&lt;=" />
                     <Button fx:id="deleteProjectButton" mnemonicParsing="false" onAction="#onDeleteProject" prefHeight="26.0" prefWidth="23.0" text="X" />
+               <padding>
+                  <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+               </padding>
                 </HBox>
             </VBox>
 
@@ -106,8 +109,8 @@
                                     </VBox>
                            <HBox spacing="10.0">
                               <children>
-                                           <Button fx:id="openFolderButton" onAction="#onOpenProjectFolder" text="Открыть папку проекта" />
-                                           <Button fx:id="editProjectButtonInfo" onAction="#onEditProject" text="Редактировать проект" />
+                                           <Button fx:id="openFolderButton" onAction="#onOpenProjectFolder" styleClass="common-button" text="Открыть папку проекта" />
+                                           <Button fx:id="editProjectButtonInfo" onAction="#onEditProject" styleClass="common-button" text="Редактировать проект" />
                               </children>
                            </HBox>
 
@@ -139,35 +142,50 @@
                     </Tab>
 
                     <Tab fx:id="scriptTab" closable="false" onSelectionChanged="#onScriptTabSelected" text="Сценарии">
-                        <SplitPane dividerPositions="0.35" styleClass="scripts-root">
-                            <VBox spacing="6" styleClass="container, scripts-list">
+
+                        <SplitPane dividerPositions="0.35" styleClass="scripts-root" VBox.vgrow="ALWAYS">
+
+                            <VBox maxHeight="Infinity" spacing="6" styleClass="container, scripts-list">
+
                                 <HBox spacing="6" styleClass="scripts-header">
                                     <Button onAction="#onAddScript" text="+" />
                                     <TextField promptText="Поиск сценария" />
                                 </HBox>
-                                <ListView fx:id="scriptList" VBox.vgrow="ALWAYS" />
+
+                                <ListView fx:id="scriptList" VBox.vgrow="ALWAYS" prefHeight="225" />
+
                                 <HBox alignment="CENTER_RIGHT" spacing="6" styleClass="scripts-footer">
-                                    <Button onAction="#onEditScript" text="✎" />
-                                    <Button onAction="#onDeleteScript" text="🗑" />
+                                    <Button onAction="#onEditScript" text="&lt;=" />
+                                    <Button onAction="#onDeleteScript" text="X" />
                                 </HBox>
                             </VBox>
 
-                            <VBox spacing="10" styleClass="container, scripts-details">
-                                <Label fx:id="scriptTitle" styleClass="header" />
-                                <Label fx:id="scriptDescription" wrapText="true" />
+                            <VBox maxHeight="Infinity" spacing="10" styleClass="container, scripts-details">
+
+                                <Label fx:id="scriptTitle" styleClass="script-title" />
+                                <Label fx:id="scriptDescription" styleClass="script-description" wrapText="true" />
+
                                 <HBox spacing="8">
-                                    <Button fx:id="runScriptButton" onAction="#onRunScript" text="▶ Запустить" />
-                                    <Button fx:id="stopScriptButton" onAction="#onStopScript" text="⏹ Прервать" />
+                                    <Button fx:id="runScriptButton" onAction="#onRunScript" styleClass="common-button" text="▶ Запустить" />
+                                    <Button fx:id="stopScriptButton" onAction="#onStopScript" styleClass="common-button" text="⏹ Прервать" />
                                 </HBox>
+
                                 <VBox spacing="4">
                                     <Label text="Команда:" />
-                                    <Label fx:id="scriptCommand" styleClass="script-command" />
+                                    <Label fx:id="scriptCommand" styleClass="script-command">
+                                        <font>
+                                            <Font name="Monospaced Regular" size="12.0" />
+                                        </font>
+                                    </Label>
                                 </VBox>
+
                                 <VBox spacing="4" VBox.vgrow="ALWAYS">
                                     <Label text="Вывод:" />
-                                    <TextArea fx:id="scriptOutput" editable="false" styleClass="script-output" />
+                                    <TextArea fx:id="scriptOutput" editable="false" styleClass="script-output" VBox.vgrow="ALWAYS" />
                                 </VBox>
+
                             </VBox>
+
                         </SplitPane>
                     </Tab>
                 </TabPane>

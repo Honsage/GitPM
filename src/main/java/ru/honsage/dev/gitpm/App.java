@@ -57,7 +57,7 @@ public class App extends Application {
         mainController.setGitClient(git);
         fxmlLoader.setControllerFactory(_ -> mainController);
         Parent root = fxmlLoader.load();
-        Scene scene = new Scene(root, 800,600);
+        Scene scene = new Scene(root, 800,500);
         stage.setMinHeight(250);
         stage.setMinWidth(600);
         stage.setTitle("GitPM");
