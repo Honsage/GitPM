@@ -32,6 +32,19 @@ public class CommandService {
         return commandRepository.save(command, scriptId);
     }
 
+    public Command createSingleCommand(
+            ScriptId scriptId,
+            WorkingDir workingDir,
+            ExecutableCommand executableCommand
+    ) {
+        Command command = new Command(
+                CommandId.random(),
+                workingDir,
+                executableCommand
+        );
+        return commandRepository.save(command, scriptId);
+    }
+
     public Command getCommand(CommandId commandId) {
         return commandRepository.findById(commandId)
                 .orElseThrow(() -> ExceptionFactory.entityNotFound("Command", commandId.toString()));
