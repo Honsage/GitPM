@@ -18,6 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.TextArea?>
 <BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="100.0" minWidth="200.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.honsage.dev.gitpm.presentation.controllers.MainController">
 
     <top>
@@ -121,12 +122,12 @@
 
                     <Tab fx:id="taskTab" closable="false" onSelectionChanged="#onTaskTabSelected" text="Задачи">
                         <VBox VBox.vgrow="ALWAYS">
-                            <HBox fx:id="taskPane" prefHeight="35.0">
+                            <HBox fx:id="taskPane" spacing="3.0" maxWidth="Infinity" prefHeight="35.0" alignment="CENTER">
                                 <Button fx:id="addTaskButton" onAction="#onAddTask" text="+" />
-                        <TextField />
-                        <ToggleButton mnemonicParsing="false" />
-                        <ToggleButton mnemonicParsing="false" />
-                        <ToggleButton mnemonicParsing="false" />
+                                <TextField maxWidth="Infinity" />
+                                <ToggleButton mnemonicParsing="false" />
+                                <ToggleButton mnemonicParsing="false" />
+                                <ToggleButton mnemonicParsing="false" />
                             </HBox>
                             <ScrollPane fx:id="taskScroll" hbarPolicy="NEVER" styleClass="scrollable" VBox.vgrow="ALWAYS">
                                 <content>
@@ -137,7 +138,38 @@
                         </VBox>
                     </Tab>
 
-                    <Tab fx:id="scriptTab" closable="false" text="Сценарии" />
+                    <Tab fx:id="scriptTab" closable="false" text="Сценарии">
+                        <SplitPane dividerPositions="0.35" styleClass="scripts-root">
+                            <VBox spacing="6" styleClass="container, scripts-list">
+                                <HBox spacing="6" styleClass="scripts-header">
+                                    <Button text="+" onAction="#onAddScript"/>
+                                    <TextField promptText="Поиск сценария"/>
+                                </HBox>
+                                <ListView fx:id="scriptList" VBox.vgrow="ALWAYS"/>
+                                <HBox spacing="6" styleClass="scripts-footer" alignment="CENTER_RIGHT">
+                                    <Button text="✎" onAction="#onEditScript"/>
+                                    <Button text="🗑" onAction="#onDeleteScript"/>
+                                </HBox>
+                            </VBox>
+
+                            <VBox spacing="10" styleClass="container, scripts-details">
+                                <Label fx:id="scriptTitle" styleClass="header"/>
+                                <Label fx:id="scriptDescription" wrapText="true"/>
+                                <HBox spacing="8">
+                                    <Button fx:id="runScriptButton" text="▶ Запустить" onAction="#onRunScript"/>
+                                    <Button fx:id="stopScriptButton" text="⏹ Прервать" onAction="#onStopScript"/>
+                                </HBox>
+                                <VBox spacing="4">
+                                    <Label text="Команда:"/>
+                                    <Label fx:id="scriptCommand" styleClass="script-command"/>
+                                </VBox>
+                                <VBox spacing="4" VBox.vgrow="ALWAYS">
+                                    <Label text="Вывод:"/>
+                                    <TextArea fx:id="scriptOutput" styleClass="script-output" editable="false"/>
+                                </VBox>
+                            </VBox>
+                        </SplitPane>
+                    </Tab>
                 </TabPane>
             </VBox>
 
