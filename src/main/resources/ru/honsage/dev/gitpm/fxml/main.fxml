@@ -19,6 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.layout.StackPane?>
 <BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="100.0" minWidth="200.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.honsage.dev.gitpm.presentation.controllers.MainController">
 
     <top>
@@ -66,7 +67,19 @@
             <VBox fx:id="toolContainer" prefHeight="200.0" prefWidth="100.0">
                 <TabPane id="tab-container" fx:id="tabContainer" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                     <Tab fx:id="infoTab" closable="false" onSelectionChanged="#onInfoTabSelected" text="Информация">
-                        <ScrollPane fx:id="infoTabScroll" fitToWidth="true" hbarPolicy="NEVER">
+                        <StackPane>
+
+                        <VBox fx:id="infoEmptyPane"
+                              alignment="CENTER"
+                              spacing="10"
+                              visible="true">
+                            <Label text="📁"
+                                   style="-fx-font-size: 48;" />
+                            <Label text="Выберите проект"
+                                   style="-fx-font-size: 16; -fx-text-fill: #888;" />
+                        </VBox>
+
+                        <ScrollPane fx:id="infoTabScroll" fitToWidth="true" hbarPolicy="NEVER" visible="false">
                             <content>
                                 <VBox fx:id="infoRoot" prefWidth="330" spacing="16" styleClass="info-root">
 
@@ -121,6 +134,7 @@
                                 </VBox>
                             </content>
                         </ScrollPane>
+                        </StackPane>
                     </Tab>
 
                     <Tab fx:id="taskTab" closable="false" onSelectionChanged="#onTaskTabSelected" text="Задачи">
@@ -160,7 +174,18 @@
                                 </HBox>
                             </VBox>
 
-                            <VBox maxHeight="Infinity" spacing="10" styleClass="container, scripts-details">
+                            <StackPane>
+
+                            <VBox fx:id="scriptEmptyPane"
+                                  alignment="CENTER"
+                                  spacing="10"
+                                  visible="true">
+                                <Label text="📜"
+                                       style="-fx-font-size: 48;" />
+                                <Label text="Выберите скрипт"
+                                       style="-fx-font-size: 16; -fx-text-fill: #888;" />
+                            </VBox>
+                            <VBox fx:id="scriptDetailsPane" maxHeight="Infinity" spacing="10" styleClass="container, scripts-details">
 
                                 <Label fx:id="scriptTitle" styleClass="script-title" />
                                 <Label fx:id="scriptDescription" styleClass="script-description" wrapText="true" />
@@ -185,6 +210,7 @@
                                 </VBox>
 
                             </VBox>
+                            </StackPane>
 
                         </SplitPane>
                     </Tab>

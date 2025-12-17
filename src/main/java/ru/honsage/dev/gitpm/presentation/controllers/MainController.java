@@ -99,6 +99,12 @@ public class MainController {
     protected Button runScriptButton;
     @FXML
     protected Button stopScriptButton;
+    @FXML
+    protected VBox infoEmptyPane;
+    @FXML
+    protected VBox scriptEmptyPane;
+    @FXML
+    protected VBox scriptDetailsPane;
 
     private final MainViewModel viewModel;
     private GitOperations git;
@@ -350,38 +356,43 @@ public class MainController {
     }
 
     private void refreshInfoUI() {
-        var projectViewModel = viewModel.getSelectedProject();
-        if (projectViewModel == null) {
-            infoTabScroll.setVisible(false);
-            // TODO: show banner 'choose project'
+        var project = viewModel.getSelectedProject();
+
+        boolean hasProject = project != null;
+
+        infoEmptyPane.setVisible(!hasProject);
+        infoTabScroll.setVisible(hasProject);
+
+        if (!hasProject) {
             return;
         }
-        infoTabScroll.setVisible(true);
-        projectTitleLabel.setText(projectViewModel.getTitle());
-        projectDescriptionLabel.setText(
-                (projectViewModel.getDescription() != null)? projectViewModel.getDescription() : null
-        );
-        localPathLabel.setText(projectViewModel.getLocalPath());
-        remoteUrlLabel.setText(projectViewModel.getRemoteURL());
-        addedAtLabel.setText(projectViewModel.getAddedAt());
+
+        projectTitleLabel.setText(project.getTitle());
+        projectDescriptionLabel.setText(project.getDescription());
+        localPathLabel.setText(project.getLocalPath());
+        remoteUrlLabel.setText(project.getRemoteURL());
+        addedAtLabel.setText(LocalDateTime.parse(project.getAddedAt()).toLocalDate().toString());
     }
 
     private void refreshScriptUI() {
         runScriptButton.disableProperty().unbind();
         stopScriptButton.disableProperty().unbind();
-        var script = viewModel.getSelectedScript();
 
-        if (script == null) {
+        var script = viewModel.getSelectedScript();
+        boolean hasScript = script != null;
+
+        scriptEmptyPane.setVisible(!hasScript);
+        scriptDetailsPane.setVisible(hasScript);
+
+        if (!hasScript) {
             runScriptButton.setDisable(true);
             stopScriptButton.setDisable(true);
-            scriptTitle.setText(null);
-            scriptDescription.setText(null);
-            scriptCommand.setText(null);
             return;
         }
 
         runScriptButton.disableProperty().bind(script.runningProperty());
         stopScriptButton.disableProperty().bind(script.runningProperty().not());
+
         scriptTitle.setText(script.getTitle());
         scriptDescription.setText(script.getDescription());
         scriptCommand.setText(script.getExecutableCommand());

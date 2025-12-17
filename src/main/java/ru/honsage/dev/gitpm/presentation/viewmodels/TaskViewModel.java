@@ -40,6 +40,8 @@ public class TaskViewModel {
     public String getTitle() { return title.get(); }
     public boolean isCompleted() { return isCompleted.get(); }
     public TaskPriority getPriority() { return priority.get(); }
+    public String getDeadlineAt() { return this.deadlineAt.get(); }
+    public String getCreatedAt() { return this.createdAt.get(); }
 
     public void setPriority(TaskPriority priority) { this.priority.set(priority); }
 

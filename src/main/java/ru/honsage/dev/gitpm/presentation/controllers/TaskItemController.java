@@ -10,6 +10,8 @@ import javafx.scene.layout.VBox;
 import ru.honsage.dev.gitpm.domain.models.TaskPriority;
 import ru.honsage.dev.gitpm.presentation.viewmodels.TaskViewModel;
 
+import java.time.LocalDateTime;
+
 public class TaskItemController {
     @FXML
     protected VBox taskCard;
@@ -53,9 +55,9 @@ public class TaskItemController {
     private void bindElements() {
         titleLabel.textProperty().bind(taskViewModel.titleProperty());
         contentLabel.textProperty().bind(taskViewModel.contentProperty());
-        deadlineLabel.textProperty().bind(taskViewModel.deadlineAtProperty());
-        createdLabel.textProperty().bind(taskViewModel.createdAtProperty());
-
+        if (taskViewModel.getDeadlineAt() != null)
+            deadlineLabel.setText(LocalDateTime.parse(taskViewModel.getDeadlineAt()).toLocalDate().toString());
+        createdLabel.setText(LocalDateTime.parse(taskViewModel.getCreatedAt()).toLocalDate().toString());
         completedCheck.selectedProperty().bindBidirectional(taskViewModel.completedProperty());
         taskViewModel.priorityProperty()
                 .addListener((obs, oldValue, newValue) ->
