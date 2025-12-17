@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS command (
     id_script TEXT NOT NULL,
     working_dir TEXT NOT NULL,
     executable_command TEXT NOT NULL,
-    order INTEGER NOT NULL,
+    seq_order INTEGER NOT NULL,
 
     FOREIGN KEY (id_script) REFERENCES script(id_script) ON DELETE CASCADE
 );

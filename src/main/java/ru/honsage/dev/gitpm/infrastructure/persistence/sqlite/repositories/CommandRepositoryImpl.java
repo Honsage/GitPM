@@ -60,7 +60,7 @@ public class CommandRepositoryImpl implements CommandRepository {
     public Command save(Command command, ScriptId id) {
         CommandEntity entity = CommandEntityMapper.toEntity(command, id);
         String query = """
-                INSERT INTO command(id_command, id_script, working_dir, executable_command, order)
+                INSERT INTO command(id_command, id_script, working_dir, executable_command, seq_order)
                 VALUES (?, ?, ?, ?, ?);""";
         try (PreparedStatement st = db.getConnection().prepareStatement(query)) {
             st.setString(1, entity.id());
@@ -80,7 +80,7 @@ public class CommandRepositoryImpl implements CommandRepository {
         CommandEntity entity = CommandEntityMapper.toEntity(command, id);
         String query = """
                 UPDATE command
-                SET working_dir = ?, executable_command = ?, order = ?
+                SET working_dir = ?, executable_command = ?, seq_order = ?
                 WHERE id_command = ?;""";
         try (PreparedStatement st = db.getConnection().prepareStatement(query)) {
             st.setString(1, entity.workingDir());

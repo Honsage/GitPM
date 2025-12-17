@@ -35,7 +35,7 @@ public class CommandEntityMapper {
                 rs.getString("id_script"),
                 rs.getString("working_dir"),
                 rs.getString("executable_command"),
-                rs.getInt("order")
+                rs.getInt("seq_order")
         );
     }
 }
