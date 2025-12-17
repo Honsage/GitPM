@@ -3,14 +3,18 @@ package ru.honsage.dev.gitpm.presentation.viewmodels;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import ru.honsage.dev.gitpm.application.services.CommandService;
 import ru.honsage.dev.gitpm.application.services.ProjectService;
+import ru.honsage.dev.gitpm.application.services.ScriptService;
 import ru.honsage.dev.gitpm.application.services.TaskService;
 import ru.honsage.dev.gitpm.domain.models.TaskPriority;
-import ru.honsage.dev.gitpm.domain.valueobjects.ProjectId;
-import ru.honsage.dev.gitpm.domain.valueobjects.TaskId;
+import ru.honsage.dev.gitpm.domain.ports.CommandExecutor;
+import ru.honsage.dev.gitpm.domain.valueobjects.*;
 import ru.honsage.dev.gitpm.presentation.dto.ProjectDTO;
+import ru.honsage.dev.gitpm.presentation.dto.SimpleScriptDTO;
 import ru.honsage.dev.gitpm.presentation.dto.TaskDTO;
 import ru.honsage.dev.gitpm.presentation.mappers.ProjectDTOMapper;
+import ru.honsage.dev.gitpm.presentation.mappers.SimpleScriptDTOMapper;
 import ru.honsage.dev.gitpm.presentation.mappers.TaskDTOMapper;
 
 import java.nio.file.Path;
@@ -21,17 +25,32 @@ import java.util.stream.IntStream;
 public class MainViewModel {
     private final ProjectService projectService;
     private final TaskService taskService;
+    private final ScriptService scriptService;
+    private final CommandService commandService;
+    private final CommandExecutor commandExecutor;
 
     private final ObservableList<ProjectViewModel> projects = FXCollections.observableArrayList();
     private final FilteredList<ProjectViewModel> filteredProjects = new FilteredList<>(projects);
 
     private final ObservableList<TaskViewModel> tasks = FXCollections.observableArrayList();
 
-    private ProjectViewModel selectedProject;
+    private final ObservableList<SimpleScriptViewModel> scripts = FXCollections.observableArrayList();
 
-    public MainViewModel(ProjectService projectService, TaskService taskService) {
+    private ProjectViewModel selectedProject;
+    private SimpleScriptViewModel selectedScript;
+
+    public MainViewModel(
+            ProjectService projectService,
+            TaskService taskService,
+            ScriptService scriptService,
+            CommandService commandService,
+            CommandExecutor commandExecutor
+    ) {
         this.projectService = projectService;
         this.taskService = taskService;
+        this.scriptService = scriptService;
+        this.commandService = commandService;
+        this.commandExecutor = commandExecutor;
     }
 
     // Projects
@@ -111,6 +130,7 @@ public class MainViewModel {
         projectService.deleteProject(id);
 
         projects.remove(selectedProject);
+        selectedProject = null;
     }
 
     public void filterByTitlePrefix(String prefix) {
@@ -201,5 +221,95 @@ public class MainViewModel {
     private void handleOnDeleteTask(TaskViewModel taskViewModel) {
         taskService.deleteTask(TaskId.fromString(taskViewModel.getId()));
         tasks.remove(taskViewModel);
+    }
+
+    // Scripts
+
+    public ObservableList<SimpleScriptViewModel> getScripts() { return this.scripts; }
+
+    public SimpleScriptViewModel getSelectedScript() { return this.selectedScript; }
+
+    public void setSelectedScript(SimpleScriptViewModel script) {
+        this.selectedScript = script;
+        this.scripts.forEach(s -> s.setSelected(s == script));
+    }
+
+    public void loadScriptsForSelectedProject() {
+        scripts.clear();
+
+        if (selectedProject == null) return;
+
+        ProjectId projectId = ProjectId.fromString(selectedProject.getId());
+
+        scriptService.getAllScripts(projectId).forEach(script -> {
+            var commands = commandService.getAllCommands(script.getId());
+            if (commands.isEmpty()) return;
+
+            var command = commands.getFirst();
+
+            scripts.add(
+                    new SimpleScriptViewModel(
+                            SimpleScriptDTOMapper.toDTO(script, command)
+                    )
+            );
+        });
+    }
+
+    public void addScriptForSelectedProject(
+            String title,
+            String description,
+            String workingDir,
+            String executableCommand
+    ) {
+        if (selectedProject == null) return;
+
+        ProjectId projectId = ProjectId.fromString(selectedProject.getId());
+
+        var script = scriptService.createScript(projectId, title, description);
+
+        var command = commandService.createSingleCommand(
+                script.getId(),
+                new WorkingDir(workingDir),
+                ExecutableCommand.parse(executableCommand)
+        );
+
+        scripts.add(
+                new SimpleScriptViewModel(
+                        SimpleScriptDTOMapper.toDTO(script, command)
+                )
+        );
+    }
+
+    public void deleteSelectedScript() {
+        if (selectedScript == null) return;
+
+        ScriptId scriptId = ScriptId.fromString(selectedScript.getScriptId());
+        CommandId commandId = CommandId.fromString(selectedScript.getCommandId());
+
+        commandService.deleteCommand(commandId);
+        scriptService.deleteScript(scriptId);
+
+        scripts.remove(selectedScript);
+        selectedScript = null;
+    }
+
+    public void runSelectedScript() {
+        if (selectedScript == null) return;
+
+        ScriptId scriptId = ScriptId.fromString(selectedScript.getScriptId());
+
+        var commands = commandService.getAllCommands(scriptId);
+        if (commands.isEmpty()) return;
+
+        var command = commands.getFirst();
+
+        commandExecutor.execute(
+                Path.of(command.getWorkingDir().value()),
+                command.getExecutableCommand().toString()
+        );
+    }
+
+    public void stopSelectedScript() {
+
     }
 }
