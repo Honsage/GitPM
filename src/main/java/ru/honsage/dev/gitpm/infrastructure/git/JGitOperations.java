@@ -7,9 +7,10 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import ru.honsage.dev.gitpm.domain.ports.GitOperations;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,24 +28,39 @@ public class JGitOperations implements GitOperations {
     @Override
     public List<Path> findGitRepositories(Path rootDirectory) {
         List<Path> found = new ArrayList<>();
-        ExecutorService pool = Executors.newFixedThreadPool(
-                Runtime.getRuntime().availableProcessors()
-        );
-        try {
-            Files.walk(rootDirectory, 5).forEach(path -> {
-                pool.submit(() -> {
-                    if (Files.isDirectory(path) && Files.exists(path.resolve(".git"))) {
-                        synchronized (found) {
-                            found.add(path);
-                        }
-                    }
-                });
-            });
 
-            pool.shutdown();
-            pool.awaitTermination(10, TimeUnit.SECONDS);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+        try {
+            Files.walkFileTree(rootDirectory,
+                    EnumSet.noneOf(FileVisitOption.class),
+                    3,
+                    new SimpleFileVisitor<>() {
+                        @Override
+                        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
+                            try {
+                                if (!Files.isReadable(dir)) {
+                                    return FileVisitResult.SKIP_SUBTREE;
+                                }
+                            } catch (SecurityException e) {
+                                return FileVisitResult.SKIP_SUBTREE;
+                            }
+
+                            Path gitDir = dir.resolve(".git");
+                            try {
+                                if (Files.isDirectory(gitDir)) {
+                                    found.add(dir);
+                                    return FileVisitResult.SKIP_SUBTREE;
+                                }
+                            } catch (SecurityException _) {}
+                            return FileVisitResult.CONTINUE;
+                        }
+
+                        @Override
+                        public FileVisitResult visitFileFailed(Path file, IOException exc) {
+                            return FileVisitResult.SKIP_SUBTREE;
+                        }
+                    });
+        } catch (IOException e) {
+            System.err.println("Error walking directory tree: " + e.getMessage());
         }
 
         return found;

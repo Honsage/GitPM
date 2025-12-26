@@ -1,6 +1,7 @@
 package ru.honsage.dev.gitpm.application.services;
 
 import ru.honsage.dev.gitpm.domain.exceptions.ExceptionFactory;
+import ru.honsage.dev.gitpm.domain.exceptions.ValidationException;
 import ru.honsage.dev.gitpm.domain.models.Project;
 import ru.honsage.dev.gitpm.domain.ports.GitOperations;
 import ru.honsage.dev.gitpm.domain.repositories.ProjectRepository;
@@ -101,8 +102,11 @@ public class ProjectService {
     private Project createProjectFromDirectory(Path directory) {
         LocalRepositoryPath path = new LocalRepositoryPath(directory.toString());
         String remoteUrl = gitClient.getRemoteURL(directory);
-        GitRemoteURL url = remoteUrl == null || remoteUrl.isBlank() ? null : new GitRemoteURL(remoteUrl);
-        return this.createProject(null, null, path.value(), url == null? null : url.value());
+        GitRemoteURL url = null;
+        try {
+            url = new GitRemoteURL(remoteUrl);
+        } catch (ValidationException _) {}
+        return this.createProject(null, null, path.value(), url == null ? null : url.value());
     }
 
     private boolean isLocalPathAvailable(Path directory) {
