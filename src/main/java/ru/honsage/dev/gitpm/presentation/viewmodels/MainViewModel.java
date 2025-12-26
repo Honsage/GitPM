@@ -130,8 +130,8 @@ public class MainViewModel {
     public void filterByTitlePrefix(String prefix) {
         filteredProjects.setPredicate(p ->
                 prefix == null ||
-                prefix.isBlank() ||
-                p.getTitle().toLowerCase().startsWith(prefix.toLowerCase())
+                        prefix.isBlank() ||
+                        p.getTitle().toLowerCase().startsWith(prefix.toLowerCase())
         );
     }
 
@@ -141,7 +141,7 @@ public class MainViewModel {
         } else {
             filteredProjects.setPredicate(p ->
                     p.remoteURLProperty().get() != null &&
-                    !p.remoteURLProperty().get().isBlank());
+                            !p.remoteURLProperty().get().isBlank());
         }
     }
 
@@ -206,7 +206,8 @@ public class MainViewModel {
         // TODO: dialog
     }
 
-    private void handleOnTaskSelected(TaskViewModel taskViewModel) {}
+    private void handleOnTaskSelected(TaskViewModel taskViewModel) {
+    }
 
     private void handleOnEditTask(TaskViewModel taskViewModel) {
         // TODO: dialog
@@ -219,9 +220,13 @@ public class MainViewModel {
 
     // Scripts
 
-    public ObservableList<SimpleScriptViewModel> getScripts() { return this.scripts; }
+    public ObservableList<SimpleScriptViewModel> getScripts() {
+        return this.scripts;
+    }
 
-    public SimpleScriptViewModel getSelectedScript() { return this.selectedScript; }
+    public SimpleScriptViewModel getSelectedScript() {
+        return this.selectedScript;
+    }
 
     public void setSelectedScript(SimpleScriptViewModel script) {
         this.selectedScript = script;
