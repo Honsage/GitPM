@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 
 <VBox alignment="CENTER" spacing="12" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      stylesheets="@../../styles/dialog.css"
+      stylesheets="@../../styles/main.css"
       fx:controller="ru.honsage.dev.gitpm.presentation.controllers.EditProjectDialogController">
 
     <padding>

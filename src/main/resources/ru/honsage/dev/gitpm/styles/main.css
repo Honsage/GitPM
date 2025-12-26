@@ -1,20 +1,20 @@
-#root {
-    -fx-red-priority: #f0506e;
-    -fx-yellow-priority: #f6c132;
-    -fx-green-priority: #31c48d;
-    -fx-main-color: #006464;
-    -fx-transparent-main-color: #006464AA;
+* {
+    red-priority: #f0506e;
+    yellow-priority: #f6c132;
+    green-priority: #31c48d;
+    main-color: #006464;
+    transparent-main-color: #006464AA;
 }
 
 .approve-button,
 .common-button {
-    -fx-background-color: #006464;
+    -fx-background-color: main-color;
     -fx-text-fill: white;
 }
 
 .approve-button:hover,
 .common-button:hover {
-    -fx-background-color: #006464AA;
+    -fx-background-color: transparent-main-color;
 }
 
 .edit-button {
@@ -52,11 +52,11 @@
 }
 
 #header-pane {
-    color: -fx-main-color;
+    color: main-color;
 }
 
 #header__title {
-    -fx-background-color: -fx-main-color;
+    -fx-background-color: main-color;
     -fx-max-width: infinity;
 }
 
@@ -64,7 +64,7 @@
 
 .menu:hover,
 .menu:showing {
-    -fx-background-color: -fx-transparent-main-color;
+    -fx-background-color: transparent-main-color;
 }
 
 .menu:showing .label {
@@ -82,7 +82,7 @@
 .menu__item:hover,
 .menu__item:pressed,
 .menu__item:focused {
-    -fx-background-color: -fx-transparent-main-color;
+    -fx-background-color: transparent-main-color;
 }
 
 .menu__item:hover,
@@ -94,14 +94,14 @@
 /* Projects */
 
 .list-view .list-cell:selected {
-    -fx-background-color: -fx-transparent-main-color;
+    -fx-background-color: transparent-main-color;
     -fx-text-fill: white;
 }
 
 /* Tabs */
 
 .tab:selected {
-    -fx-background-color: -fx-transparent-main-color;
+    -fx-background-color: transparent-main-color;
 }
 
 .tab:selected .tab-label {
@@ -164,7 +164,7 @@
 /* Tab - task */
 
 .task-card {
-    -fx-background-color: #006464;
+    -fx-background-color: main-color;
     -fx-background-radius: 8;
     -fx-padding: 8 10;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.25), 6, 0, 0, 2);
@@ -178,7 +178,7 @@
 
 /* TODO: fix completed */
 .task-card.completed {
-    -fx-background-color: #005454FF;
+    -fx-background-color: transparent-main-color;
 }
 
 .task-title {
@@ -212,13 +212,14 @@
     -fx-border-color: rgba(255, 255, 255, 0.06);
 }
 
-.priority.low.selected { -fx-opacity: 1.0; -fx-background-color: #31c48d; }
-.priority.medium.selected { -fx-opacity: 1.0; -fx-background-color: #f6c132; }
-.priority.high.selected { -fx-opacity: 1.0; -fx-background-color: #f0506e; }
+.priority.low.selected { -fx-opacity: 1.0; -fx-background-color: green-priority; }
+.priority.medium.selected { -fx-opacity: 1.0; -fx-background-color: yellow-priority; }
+.priority.high.selected { -fx-opacity: 1.0; -fx-background-color: red-priority; }
 
-.priority.low { -fx-background-color: #31c48d; }
-.priority.medium { -fx-background-color: #f6c132; }
-.priority.high { -fx-background-color: #f0506e; }
+/* gray = 0.299*R + 0.587*G + 0.114*B */
+.priority.low { -fx-background-color: #929292; }
+.priority.medium { -fx-background-color: #c1c1c1; }
+.priority.high { -fx-background-color: #838383; }
 
 .icon-button {
     -fx-background-color: transparent;
@@ -229,7 +230,7 @@
 }
 
 .icon-button:hover {
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: white;
 }
 
 .check-box .box {

@@ -8,7 +8,9 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="taskCard" spacing="6.0" styleClass="task-card" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.honsage.dev.gitpm.presentation.controllers.TaskItemController">
+<VBox fx:id="taskCard" spacing="6.0" styleClass="task-card" stylesheets="@../styles/main.css"
+      xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ru.honsage.dev.gitpm.presentation.controllers.TaskItemController">
 
     <padding><Insets bottom="8.0" left="10.0" right="10.0" top="8.0" /></padding>
 

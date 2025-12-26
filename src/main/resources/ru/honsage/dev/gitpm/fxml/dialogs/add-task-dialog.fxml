@@ -13,7 +13,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="12" stylesheets="@../../styles/dialog.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.honsage.dev.gitpm.presentation.controllers.AddTaskDialogController">
+<VBox alignment="CENTER" spacing="12" stylesheets="@../../styles/main.css"
+      xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ru.honsage.dev.gitpm.presentation.controllers.AddTaskDialogController">
 
     <padding>
         <Insets bottom="16" left="16" right="16" top="16" />
