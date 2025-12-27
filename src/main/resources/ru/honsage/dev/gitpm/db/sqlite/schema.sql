@@ -25,16 +25,8 @@ CREATE TABLE IF NOT EXISTS script (
     id_project TEXT NOT NULL,
     title TEXT NOT NULL,
     description TEXT,
+    working_dir TEXT NOT NULL,
+    command TEXT NOT NULL
 
     FOREIGN KEY (id_project) REFERENCES project(id_project) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS command (
-    id_command TEXT PRIMARY KEY,
-    id_script TEXT NOT NULL,
-    working_dir TEXT NOT NULL,
-    executable_command TEXT NOT NULL,
-    seq_order INTEGER NOT NULL,
-
-    FOREIGN KEY (id_script) REFERENCES script(id_script) ON DELETE CASCADE
 );

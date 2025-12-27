@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import ru.honsage.dev.gitpm.application.services.*;
 import ru.honsage.dev.gitpm.domain.ports.CommandExecutor;
 import ru.honsage.dev.gitpm.domain.ports.GitOperations;
-import ru.honsage.dev.gitpm.domain.repositories.CommandRepository;
 import ru.honsage.dev.gitpm.domain.repositories.ProjectRepository;
 import ru.honsage.dev.gitpm.domain.repositories.ScriptRepository;
 import ru.honsage.dev.gitpm.domain.repositories.TaskRepository;
@@ -34,7 +33,6 @@ public class App extends Application {
         ProjectRepository projectRepo = new ProjectRepositoryImpl(db);
         TaskRepository taskRepo = new TaskRepositoryImpl(db);
         ScriptRepository scriptRepo = new ScriptRepositoryImpl(db);
-        CommandRepository commandRepo = new CommandRepositoryImpl(db);
 
         GitOperations git = new JGitOperations();
         CommandExecutor executor = new ProcessBuilderCommandExecutor();
@@ -42,14 +40,12 @@ public class App extends Application {
         ProjectService projectService = new ProjectService(projectRepo, git);
         TaskService taskService = new TaskService(taskRepo);
         ScriptService scriptService = new ScriptService(scriptRepo);
-        CommandService commandService = new CommandService(commandRepo);
         ScriptExecutionService executionService = new ScriptExecutionService(executor);
 
         MainViewModel viewModel = new MainViewModel(
                 projectService,
                 taskService,
                 scriptService,
-                commandService,
                 executionService
         );
 
