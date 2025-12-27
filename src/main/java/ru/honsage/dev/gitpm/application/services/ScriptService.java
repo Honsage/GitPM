@@ -3,8 +3,10 @@ package ru.honsage.dev.gitpm.application.services;
 import ru.honsage.dev.gitpm.domain.exceptions.ExceptionFactory;
 import ru.honsage.dev.gitpm.domain.models.Script;
 import ru.honsage.dev.gitpm.domain.repositories.ScriptRepository;
+import ru.honsage.dev.gitpm.domain.valueobjects.Command;
 import ru.honsage.dev.gitpm.domain.valueobjects.ProjectId;
 import ru.honsage.dev.gitpm.domain.valueobjects.ScriptId;
+import ru.honsage.dev.gitpm.domain.valueobjects.WorkingDir;
 
 import java.util.List;
 
@@ -18,12 +20,19 @@ public class ScriptService {
     public Script createScript(
             ProjectId projectId,
             String title,
-            String description
+            String description,
+            String workingDir,
+            String command
     ) {
+        WorkingDir dir = new WorkingDir(workingDir);
+        Command cmd = new Command(command);
+
         Script script = new Script(
                 ScriptId.random(),
                 title,
-                description
+                description,
+                dir,
+                cmd
         );
         return scriptRepository.save(script, projectId);
     }
@@ -45,13 +54,19 @@ public class ScriptService {
             ProjectId projectId,
             ScriptId scriptId,
             String newTitle,
-            String newDescription
+            String newDescription,
+            String newWorkingDir,
+            String newCommand
     ) {
         Script script = getScript(scriptId);
+        WorkingDir workingDir = new WorkingDir(newWorkingDir);
+        Command command = new Command(newCommand);
 
         script.update(
                 newTitle,
-                newDescription
+                newDescription,
+                workingDir,
+                command
         );
 
         return scriptRepository.update(script, projectId);

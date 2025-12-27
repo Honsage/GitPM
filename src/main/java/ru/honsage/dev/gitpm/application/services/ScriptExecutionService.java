@@ -1,6 +1,6 @@
 package ru.honsage.dev.gitpm.application.services;
 
-import ru.honsage.dev.gitpm.domain.models.Command;
+import ru.honsage.dev.gitpm.domain.models.Script;
 import ru.honsage.dev.gitpm.domain.ports.CommandExecutor;
 
 import java.util.Map;
@@ -15,14 +15,15 @@ public class ScriptExecutionService {
         this.executor = commandExecutor;
     }
 
-    public void runScript(String scriptId, Command command) {
+    public void runScript(Script script) {
+        String scriptId = script.getId().toString();
         if (runningProcesses.containsKey(scriptId)) {
             throw new IllegalStateException("Script is already running");
         }
 
         Process process = executor.execute(
-                command.getWorkingDir().toPath(),
-                command.getExecutableCommand().toString()
+                script.getWorkingDir().toPath(),
+                script.getCommand().toString()
         );
 
         runningProcesses.put(scriptId, process);
