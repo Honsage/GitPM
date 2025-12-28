@@ -6,7 +6,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import ru.honsage.dev.gitpm.presentation.dto.SimpleScriptDTO;
+import ru.honsage.dev.gitpm.presentation.dto.ScriptDTO;
 
 import java.io.File;
 import java.util.Optional;
@@ -24,7 +24,7 @@ public class AddScriptDialogController {
     protected Label errorLabel;
 
     private Stage stage;
-    private SimpleScriptDTO result;
+    private ScriptDTO result;
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -34,7 +34,7 @@ public class AddScriptDialogController {
         workingDirField.setText(localPath);
     }
 
-    public Optional<SimpleScriptDTO> getResult() {
+    public Optional<ScriptDTO> getResult() {
         return Optional.ofNullable(result);
     }
 
@@ -67,11 +67,10 @@ public class AddScriptDialogController {
             return;
         }
 
-        result = new SimpleScriptDTO(
+        result = new ScriptDTO(
                 null,
                 titleField.getText().trim(),
                 descriptionField.getText().trim(),
-                null,
                 workingDirField.getText().trim(),
                 commandField.getText().trim()
         );

@@ -15,7 +15,6 @@ import ru.honsage.dev.gitpm.domain.repositories.TaskRepository;
 import ru.honsage.dev.gitpm.infrastructure.executor.ProcessBuilderCommandExecutor;
 import ru.honsage.dev.gitpm.infrastructure.git.JGitOperations;
 import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.DatabaseManager;
-import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.repositories.CommandRepositoryImpl;
 import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.repositories.ProjectRepositoryImpl;
 import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.repositories.ScriptRepositoryImpl;
 import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.repositories.TaskRepositoryImpl;
