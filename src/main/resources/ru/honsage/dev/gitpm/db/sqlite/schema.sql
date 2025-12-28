@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS script (
     title TEXT NOT NULL,
     description TEXT,
     working_dir TEXT NOT NULL,
-    command TEXT NOT NULL
+    command TEXT NOT NULL,
 
     FOREIGN KEY (id_project) REFERENCES project(id_project) ON DELETE CASCADE
 );
