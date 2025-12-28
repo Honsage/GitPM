@@ -38,12 +38,14 @@ public class TaskViewModel {
 
     public String getId() { return id.get(); }
     public String getTitle() { return title.get(); }
+    public String getContent() { return content.get(); }
     public boolean isCompleted() { return isCompleted.get(); }
     public TaskPriority getPriority() { return priority.get(); }
     public String getDeadlineAt() { return this.deadlineAt.get(); }
     public String getCreatedAt() { return this.createdAt.get(); }
 
     public void setPriority(TaskPriority priority) { this.priority.set(priority); }
+    public void setIsCompleted(boolean isCompleted) { this.isCompleted.set(isCompleted); }
 
     public Runnable getOnOpenDetails() { return onOpenDetails; }
     public Runnable getOnSelected() { return onSelected; }

@@ -56,12 +56,16 @@ public class TaskItemController {
         titleLabel.textProperty().bind(taskViewModel.titleProperty());
         contentLabel.textProperty().bind(taskViewModel.contentProperty());
         if (taskViewModel.getDeadlineAt() != null)
-            deadlineLabel.setText(LocalDateTime.parse(taskViewModel.getDeadlineAt()).toLocalDate().toString());
+            deadlineLabel.setText("Дедлайн: " + LocalDateTime.parse(taskViewModel.getDeadlineAt()).toLocalDate().toString());
         createdLabel.setText(LocalDateTime.parse(taskViewModel.getCreatedAt()).toLocalDate().toString());
         completedCheck.selectedProperty().bindBidirectional(taskViewModel.completedProperty());
         taskViewModel.priorityProperty()
                 .addListener((obs, oldValue, newValue) ->
                         highlightPriority(newValue));
+        taskViewModel.completedProperty().addListener((obs, oldValue, newValue) -> {
+            updateCompletedStyle(newValue);
+        });
+        updateCompletedStyle(taskViewModel.isCompleted());
     }
 
     private void highlightPriority(TaskPriority priority) {
@@ -73,6 +77,16 @@ public class TaskItemController {
             case LOW -> priorityLow.getStyleClass().add("selected");
             case MEDIUM -> priorityMedium.getStyleClass().add("selected");
             case HIGH -> priorityHigh.getStyleClass().add("selected");
+        }
+    }
+
+    private void updateCompletedStyle(boolean isCompleted) {
+        if (isCompleted) {
+            if (!taskCard.getStyleClass().contains("completed")) {
+                taskCard.getStyleClass().add("completed");
+            }
+        } else {
+            taskCard.getStyleClass().remove("completed");
         }
     }
 
@@ -93,9 +107,10 @@ public class TaskItemController {
 
 
     @FXML
-    public void onCheckSelected(ActionEvent actionEvent) {
-        boolean isSelected = ((CheckBox)actionEvent.getSource()).isSelected();
-        if (isSelected) taskCard.getStyleClass().add("completed");
+    public void onCheckCompleted(ActionEvent actionEvent) {
+        boolean isCompleted = ((CheckBox)actionEvent.getSource()).isSelected();
+        taskViewModel.setIsCompleted(isCompleted);
+        if (isCompleted) taskCard.getStyleClass().add("completed");
         else taskCard.getStyleClass().remove("completed");
     }
 

@@ -15,6 +15,7 @@ import ru.honsage.dev.gitpm.presentation.mappers.TaskDTOMapper;
 
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.stream.IntStream;
 
 // Логика представления
@@ -168,6 +169,10 @@ public class MainViewModel {
         taskService.getAllTasks(projectId).stream()
                 .map(TaskDTOMapper::toDTO)
                 .map(TaskViewModel::new)
+                .sorted(Comparator
+                        .comparing(TaskViewModel::isCompleted)
+                        .thenComparing(TaskViewModel::getPriority)
+                )
                 .map(this::bindHandlersToTask)
                 .forEach(tasks::add);
     }
@@ -192,11 +197,52 @@ public class MainViewModel {
         this.tasks.add(taskViewModel);
     }
 
+    private void sortTasks() {
+        FXCollections.sort(tasks, Comparator
+                .comparing(TaskViewModel::isCompleted)
+                .thenComparing(t -> t.getPriority().getValue(), Comparator.reverseOrder())
+                .thenComparing(TaskViewModel::getDeadlineAt,
+                        Comparator.nullsLast(Comparator.naturalOrder()))
+        );
+    }
+
     private TaskViewModel bindHandlersToTask(TaskViewModel taskViewModel) {
         taskViewModel.setOnOpenDetails(() -> this.handleOnOpenTaskDetails(taskViewModel));
         taskViewModel.setOnSelected(() -> this.handleOnTaskSelected(taskViewModel));
         taskViewModel.setOnEdit(() -> this.handleOnEditTask(taskViewModel));
         taskViewModel.setOnDelete(() -> this.handleOnDeleteTask(taskViewModel));
+
+        taskViewModel.completedProperty().addListener((obs, oldValue, newValue) -> {
+            if (selectedProject != null) {
+                taskService.updateTask(
+                        ProjectId.fromString(selectedProject.getId()),
+                        TaskId.fromString(taskViewModel.getId()),
+                        taskViewModel.getTitle(),
+                        taskViewModel.getContent(),
+                        newValue,
+                        taskViewModel.getDeadlineAt() != null ?
+                                LocalDateTime.parse(taskViewModel.getDeadlineAt()) : null,
+                        taskViewModel.getPriority()
+                );
+                sortTasks();
+            }
+        });
+
+        taskViewModel.priorityProperty().addListener((obs, oldValue, newValue) -> {
+            if (selectedProject != null) {
+                taskService.updateTask(
+                        ProjectId.fromString(selectedProject.getId()),
+                        TaskId.fromString(taskViewModel.getId()),
+                        taskViewModel.getTitle(),
+                        taskViewModel.getContent(),
+                        taskViewModel.isCompleted(),
+                        taskViewModel.getDeadlineAt() != null ?
+                                LocalDateTime.parse(taskViewModel.getDeadlineAt()) : null,
+                        newValue
+                );
+                sortTasks();
+            }
+        });
         return taskViewModel;
     }
 
