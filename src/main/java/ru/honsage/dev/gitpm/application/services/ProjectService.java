@@ -30,7 +30,7 @@ public class ProjectService {
             String remoteURL
     ) {
         LocalRepositoryPath path = new LocalRepositoryPath(localPath);
-        GitRemoteURL url = remoteURL == null ? null : new GitRemoteURL(remoteURL);
+        GitRemoteURL url = remoteURL == null ? determineRemote(path.toPath()) : new GitRemoteURL(remoteURL);
 
         if (!gitClient.isGitRepository(path.toPath())) {
             throw ExceptionFactory.businessRule(String.format("Directory '%s' must be a Git repository", localPath));
@@ -101,12 +101,16 @@ public class ProjectService {
 
     private Project createProjectFromDirectory(Path directory) {
         LocalRepositoryPath path = new LocalRepositoryPath(directory.toString());
+        return this.createProject(null, null, path.value(), null);
+    }
+
+    private GitRemoteURL determineRemote(Path directory) {
         String remoteUrl = gitClient.getRemoteURL(directory);
         GitRemoteURL url = null;
         try {
             url = new GitRemoteURL(remoteUrl);
         } catch (ValidationException _) {}
-        return this.createProject(null, null, path.value(), url == null ? null : url.value());
+        return url;
     }
 
     private boolean isLocalPathAvailable(Path directory) {
