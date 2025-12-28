@@ -26,7 +26,7 @@ import ru.honsage.dev.gitpm.domain.models.TaskPriority;
 import ru.honsage.dev.gitpm.domain.ports.GitOperations;
 import ru.honsage.dev.gitpm.presentation.viewmodels.MainViewModel;
 import ru.honsage.dev.gitpm.presentation.viewmodels.ProjectViewModel;
-import ru.honsage.dev.gitpm.presentation.viewmodels.SimpleScriptViewModel;
+import ru.honsage.dev.gitpm.presentation.viewmodels.ScriptViewModel;
 import ru.honsage.dev.gitpm.presentation.viewmodels.TaskViewModel;
 
 import java.awt.*;
@@ -86,7 +86,7 @@ public class MainController {
     @FXML
     protected  Label projectDescriptionLabel;
     @FXML
-    protected ListView<SimpleScriptViewModel> scriptList;
+    protected ListView<ScriptViewModel> scriptList;
     @FXML
     protected Label scriptTitle;
     @FXML
@@ -154,7 +154,7 @@ public class MainController {
 
         scriptList.setCellFactory(_ -> new ListCell<>() {
             @Override
-            protected void updateItem(SimpleScriptViewModel item, boolean empty) {
+            protected void updateItem(ScriptViewModel item, boolean empty) {
                 super.updateItem(item, empty);
                 setText(empty || item == null ? null : item.getTitle());
             }
@@ -395,7 +395,7 @@ public class MainController {
 
         scriptTitle.setText(script.getTitle());
         scriptDescription.setText(script.getDescription());
-        scriptCommand.setText(script.getExecutableCommand());
+        scriptCommand.setText(script.getCommand());
     }
 
     public void onAddScript(ActionEvent event) {
@@ -421,7 +421,7 @@ public class MainController {
                             dto.title(),
                             dto.description(),
                             dto.workingDir(),
-                            dto.executableCommand()
+                            dto.command()
                     )
             );
         } catch (IOException e) {

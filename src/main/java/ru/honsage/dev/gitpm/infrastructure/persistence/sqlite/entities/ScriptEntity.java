@@ -4,6 +4,8 @@ public record ScriptEntity(
         String id,
         String projectId,
         String title,
-        String description
+        String description,
+        String workingDir,
+        String command
 ) {
 }

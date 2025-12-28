@@ -1,8 +1,10 @@
 package ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.mappers;
 
 import ru.honsage.dev.gitpm.domain.models.Script;
+import ru.honsage.dev.gitpm.domain.valueobjects.Command;
 import ru.honsage.dev.gitpm.domain.valueobjects.ProjectId;
 import ru.honsage.dev.gitpm.domain.valueobjects.ScriptId;
+import ru.honsage.dev.gitpm.domain.valueobjects.WorkingDir;
 import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.entities.ScriptEntity;
 
 import java.sql.ResultSet;
@@ -15,7 +17,9 @@ public class ScriptEntityMapper {
                 script.getId().toString(),
                 id.toString(),
                 script.getTitle(),
-                script.getDescription()
+                script.getDescription(),
+                script.getWorkingDir().toString(),
+                script.getCommand().toString()
         );
     }
 
@@ -23,7 +27,9 @@ public class ScriptEntityMapper {
         return new Script(
                 ScriptId.fromString(entity.id()),
                 entity.title(),
-                entity.description()
+                entity.description(),
+                new WorkingDir(entity.workingDir()),
+                new Command(entity.command())
         );
     }
 
@@ -32,7 +38,9 @@ public class ScriptEntityMapper {
                 rs.getString("id_script"),
                 rs.getString("id_project"),
                 rs.getString("title"),
-                rs.getString("description")
+                rs.getString("description"),
+                rs.getString("working_dir"),
+                rs.getString("command")
         );
     }
 }

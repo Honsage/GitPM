@@ -78,13 +78,15 @@ public class ScriptRepositoryImpl implements ScriptRepository {
     public Script save(Script script, ProjectId id) {
         ScriptEntity entity = ScriptEntityMapper.toEntity(script, id);
         String query = """
-                INSERT INTO script(id_script, id_project, title, description)
-                VALUES (?, ?, ?, ?);""";
+                INSERT INTO script(id_script, id_project, title, description, working_dir, command)
+                VALUES (?, ?, ?, ?, ?, ?);""";
         try (PreparedStatement st = db.getConnection().prepareStatement(query)) {
             st.setString(1, entity.id());
             st.setString(2, id.toString());
             st.setString(3, entity.title());
             st.setString(4, entity.description());
+            st.setString(5, entity.workingDir());
+            st.setString(6, entity.command());
             st.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("DB error during query execution", e);
@@ -97,12 +99,14 @@ public class ScriptRepositoryImpl implements ScriptRepository {
         ScriptEntity entity = ScriptEntityMapper.toEntity(script, id);
         String query = """
                 UPDATE script
-                SET title = ?, description = ?
+                SET title = ?, description = ?, working_dir = ?, command = ?
                 WHERE id_script = ?;""";
         try (PreparedStatement st = db.getConnection().prepareStatement(query)) {
             st.setString(1, entity.title());
             st.setString(2, entity.description());
-            st.setString(3, entity.id());
+            st.setString(3, entity.workingDir());
+            st.setString(4, entity.command());
+            st.setString(5, entity.id());
             st.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("DB error during query execution", e);
