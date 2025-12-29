@@ -20,18 +20,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="100.0" minWidth="200.0" prefHeight="400.0" prefWidth="600.0"
-            stylesheets="@../styles/main.css"
-            xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ru.honsage.dev.gitpm.presentation.controllers.MainController">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="100.0" minWidth="200.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.honsage.dev.gitpm.presentation.controllers.MainController">
 
     <top>
         <VBox fx:id="header" prefHeight="58.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <HBox id="header-pane" fx:id="headerPane" prefHeight="33.0" prefWidth="600.0">
-                <Label id="header__title" fx:id="titleLabel" prefHeight="33.0" prefWidth="608.0"
-                       text="GitPM – Git Project Manager" textFill="#cccccc" HBox.hgrow="ALWAYS">
+                <Label id="header__title" fx:id="titleLabel" prefHeight="33.0" prefWidth="608.0" text="GitPM – Git Project Manager" textFill="#cccccc" HBox.hgrow="ALWAYS">
                     <font><Font name="Calibri" size="18.0" /></font>
                     <padding><Insets left="12.0" /></padding>
                 </Label>
@@ -40,8 +34,11 @@
                 <Menu fx:id="fileMenu" mnemonicParsing="false" styleClass="menu" text="Файл">
                     <MenuItem mnemonicParsing="false" onAction="#onCloseApplication" styleClass="menu__item" text="Закрыть" />
                 </Menu>
-                <Menu fx:id="editMenu" mnemonicParsing="false" styleClass="menu" text="Правка">
+                <Menu fx:id="editMenu" mnemonicParsing="false" styleClass="menu" text="Проекты">
                     <MenuItem mnemonicParsing="false" onAction="#onAddProject" styleClass="menu__item" text="Добавить проект" />
+                </Menu>
+                <Menu fx:id="settingsMenu" mnemonicParsing="false" text="Настройки">
+                    <MenuItem mnemonicParsing="false" onAction="#onChangeShell"  styleClass="menu__item" text="Тип командной оболочки"/>
                 </Menu>
                 <Menu fx:id="helpMenu" mnemonicParsing="false" styleClass="menu" text="Помощь">
                     <MenuItem mnemonicParsing="false" styleClass="menu__item" text="О программе" />
