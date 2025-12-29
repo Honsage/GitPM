@@ -3,6 +3,9 @@ package ru.honsage.dev.gitpm.application.services;
 import ru.honsage.dev.gitpm.domain.models.Script;
 import ru.honsage.dev.gitpm.domain.ports.CommandExecutor;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,6 +28,7 @@ public class ScriptExecutionService {
                 script.getWorkingDir().toPath(),
                 script.getCommand().toString()
         );
+        printOutputToConsole(process);
 
         runningProcesses.put(scriptId, process);
 
@@ -35,12 +39,36 @@ public class ScriptExecutionService {
         Process process = runningProcesses.get(scriptId);
         if (process == null) return;
 
-        process.destroy();
+        try {
+            // TODO: handle if java < 9
+            // Java 9+
+            if (process.isAlive()) {
+                process.descendants().forEach(ProcessHandle::destroyForcibly);
+                process.destroyForcibly();
+            }
+        } catch (Exception _) {}
 
         runningProcesses.remove(scriptId);
     }
 
     public boolean isRunning(String scriptId) {
         return runningProcesses.containsKey(scriptId);
+    }
+
+    // TODO: remove console printing
+    private void printOutputToConsole(Process process) {
+        new Thread(() -> {
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()))) {
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println("[OUTPUT]: " + line);
+                }
+
+            } catch (IOException e) {
+                System.err.println("Error reading output: " + e.getMessage());
+            }
+        }).start();
     }
 }
