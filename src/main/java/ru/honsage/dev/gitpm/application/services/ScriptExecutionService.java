@@ -12,11 +12,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ScriptExecutionService {
     private final CommandExecutor executor;
+    private ShellType selectedShellType;
 
     private final Map<String, Process> runningProcesses = new ConcurrentHashMap<>();
 
     public ScriptExecutionService(CommandExecutor commandExecutor) {
         this.executor = commandExecutor;
+        this.selectedShellType = ShellType.CMD;
     }
 
     public void runScript(Script script) {
@@ -28,8 +30,7 @@ public class ScriptExecutionService {
         Process process = executor.execute(
                 script.getWorkingDir().toPath(),
                 script.getCommand().toString(),
-                // TODO: ask user for shell
-                ShellType.CMD
+                this.selectedShellType
         );
         printOutputToConsole(process);
 
@@ -73,5 +74,9 @@ public class ScriptExecutionService {
                 System.err.println("Error reading output: " + e.getMessage());
             }
         }).start();
+    }
+
+    public void setShellType(ShellType shellType) {
+        this.selectedShellType = shellType;
     }
 }
