@@ -6,6 +6,7 @@ import javafx.collections.transformation.FilteredList;
 import ru.honsage.dev.gitpm.application.services.*;
 import ru.honsage.dev.gitpm.domain.models.Script;
 import ru.honsage.dev.gitpm.domain.models.TaskPriority;
+import ru.honsage.dev.gitpm.domain.ports.ShellType;
 import ru.honsage.dev.gitpm.domain.valueobjects.*;
 import ru.honsage.dev.gitpm.presentation.dto.ProjectDTO;
 import ru.honsage.dev.gitpm.presentation.dto.ScriptDTO;
@@ -385,5 +386,14 @@ public class MainViewModel {
 
         scriptExecutionService.stopScript(selectedScript.getScriptId());
         selectedScript.setRunning(false);
+    }
+
+    public void setSelectedShellType(String shellTypeName) {
+        ShellType shellType = ShellType.fromString(shellTypeName);
+        scriptExecutionService.setShellType(shellType);
+    }
+
+    public ShellType getSelectedShellType() {
+        return scriptExecutionService.getShellType();
     }
 }

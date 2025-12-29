@@ -482,4 +482,29 @@ public class MainController {
         Stage stage = (Stage) root.getScene().getWindow();
         stage.close();
     }
+
+    @FXML
+    private void onChangeShell(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/ru/honsage/dev/gitpm/fxml/dialogs/change-shell-dialog.fxml")
+            );
+
+            Stage stage = new Stage();
+            stage.setTitle("Настройка командной оболочки");
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/ru/honsage/dev/gitpm/images/icon.png"))));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(this.root.getScene().getWindow());
+            stage.setScene(new Scene(loader.load()));
+
+            ChangeShellDialogController controller = loader.getController();
+            controller.setStage(stage);
+            controller.setSelectedShell(viewModel.getSelectedShellType());
+            stage.showAndWait();
+
+            controller.getSelectedShell().ifPresent(viewModel::setSelectedShellType);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
