@@ -34,6 +34,8 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+// TODO: determine which access modifier is applied to fxml components
+
 public class MainController {
     @FXML
     protected ScrollPane infoTabScroll;
@@ -398,7 +400,8 @@ public class MainController {
         scriptCommand.setText(script.getCommand());
     }
 
-    public void onAddScript(ActionEvent event) {
+    @FXML
+    private void onAddScript(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/ru/honsage/dev/gitpm/fxml/dialogs/add-script-dialog.fxml")
@@ -429,7 +432,8 @@ public class MainController {
         }
     }
 
-    public void onEditScript(ActionEvent event) {
+    @FXML
+    private void onEditScript(ActionEvent event) {
         var scriptViewModel = viewModel.getSelectedScript();
         if (scriptViewModel == null) return;
         try {
