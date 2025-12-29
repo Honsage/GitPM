@@ -8,6 +8,7 @@ import ru.honsage.dev.gitpm.domain.models.Script;
 import ru.honsage.dev.gitpm.domain.models.TaskPriority;
 import ru.honsage.dev.gitpm.domain.valueobjects.*;
 import ru.honsage.dev.gitpm.presentation.dto.ProjectDTO;
+import ru.honsage.dev.gitpm.presentation.dto.ScriptDTO;
 import ru.honsage.dev.gitpm.presentation.dto.TaskDTO;
 import ru.honsage.dev.gitpm.presentation.mappers.ProjectDTOMapper;
 import ru.honsage.dev.gitpm.presentation.mappers.ScriptDTOMapper;
@@ -313,6 +314,36 @@ public class MainViewModel {
                         ScriptDTOMapper.toDTO(script)
                 )
         );
+    }
+
+    public void updateSelectedScript(
+            String title,
+            String description,
+            String workingDir,
+            String command
+    ) {
+        if (selectedProject == null || selectedScript == null) return;
+
+        ProjectId projectId = ProjectId.fromString(selectedProject.getId());
+        ScriptId scriptId = ScriptId.fromString(selectedScript.getScriptId());
+
+        var updatedScript = scriptService.updateScript(
+                projectId,
+                scriptId,
+                title,
+                description,
+                workingDir,
+                command
+        );
+
+        this.updateScriptsInList(ScriptDTOMapper.toDTO(updatedScript));
+    }
+
+    private void updateScriptsInList(ScriptDTO dto) {
+        IntStream.range(0, scripts.size())
+                .filter(i -> scripts.get(i).getScriptId().equals(dto.scriptId()))
+                .findFirst()
+                .ifPresent(i -> scripts.set(i, new ScriptViewModel(dto)));
     }
 
     public void deleteSelectedScript() {
