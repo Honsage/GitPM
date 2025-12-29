@@ -79,4 +79,8 @@ public class ScriptExecutionService {
     public void setShellType(ShellType shellType) {
         this.selectedShellType = shellType;
     }
+
+    public ShellType getShellType() {
+        return selectedShellType;
+    }
 }
