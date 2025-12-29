@@ -430,6 +430,36 @@ public class MainController {
     }
 
     public void onEditScript(ActionEvent event) {
+        var scriptViewModel = viewModel.getSelectedScript();
+        if (scriptViewModel == null) return;
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/ru/honsage/dev/gitpm/fxml/dialogs/edit-script-dialog.fxml")
+            );
+
+            Stage stage = new Stage();
+            stage.setTitle("Редактирование скрипта");
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/ru/honsage/dev/gitpm/images/icon.png"))));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(this.root.getScene().getWindow());
+            stage.setScene(new Scene(loader.load()));
+
+            EditScriptDialogController controller = loader.getController();
+            controller.setStage(stage);
+            controller.setScriptInfo(scriptViewModel);
+            stage.showAndWait();
+
+            controller.getResult().ifPresent(dto ->
+                    viewModel.updateSelectedScript(
+                            dto.title(),
+                            dto.description(),
+                            dto.workingDir(),
+                            dto.command()
+                    )
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void onDeleteScript(ActionEvent event) {
