@@ -2,6 +2,7 @@ package ru.honsage.dev.gitpm.application.services;
 
 import ru.honsage.dev.gitpm.domain.models.Script;
 import ru.honsage.dev.gitpm.domain.ports.CommandExecutor;
+import ru.honsage.dev.gitpm.domain.ports.ShellType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,7 +27,9 @@ public class ScriptExecutionService {
 
         Process process = executor.execute(
                 script.getWorkingDir().toPath(),
-                script.getCommand().toString()
+                script.getCommand().toString(),
+                // TODO: ask user for shell
+                ShellType.CMD
         );
         printOutputToConsole(process);
 
