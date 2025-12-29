@@ -193,7 +193,7 @@
 
                                 <VBox spacing="4">
                                     <Label text="Команда:" />
-                                    <Label fx:id="scriptCommand" styleClass="script-command">
+                                    <Label fx:id="scriptCommand" styleClass="script-command" wrapText="true">
                                         <font>
                                             <Font name="Monospaced Regular" size="12.0" />
                                         </font>
