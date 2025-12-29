@@ -6,4 +6,9 @@ public enum ShellType {
     GIT_BASH,
     WSL_BASH,
     BASH;
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
