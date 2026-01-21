@@ -69,7 +69,7 @@ public class Task {
     }
 
     private void validateDeadline(LocalDateTime deadlineAt) {
-        if (deadlineAt != null && deadlineAt.isBefore(createdAt)) {
+        if (deadlineAt != null && deadlineAt.toLocalDate().isBefore(createdAt.toLocalDate())) {
             throw ExceptionFactory.validation("Deadline cannot be before creation", "Task.deadline");
         }
     }
