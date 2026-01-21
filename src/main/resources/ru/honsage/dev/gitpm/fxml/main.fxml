@@ -199,7 +199,7 @@
 
                                 <VBox spacing="4" VBox.vgrow="ALWAYS">
                                     <Label text="Вывод:" />
-                                    <TextArea fx:id="scriptOutput" editable="false" styleClass="script-output" VBox.vgrow="ALWAYS" />
+                                    <TextArea fx:id="scriptOutput" editable="false" styleClass="script-output" wrapText="true" VBox.vgrow="ALWAYS" />
                                 </VBox>
 
                             </VBox>

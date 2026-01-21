@@ -476,6 +476,7 @@ public class MainController {
 
     public void onStopScript(ActionEvent event) {
         viewModel.stopSelectedScript();
+        scriptOutput.clear();
     }
 
     public void onCloseApplication(ActionEvent event) {
