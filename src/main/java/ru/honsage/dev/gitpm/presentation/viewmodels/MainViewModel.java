@@ -199,6 +199,20 @@ public class MainViewModel {
         this.tasks.add(taskViewModel);
     }
 
+    public void updateTaskForSelectedProject(TaskViewModel taskViewModel) {
+        if (selectedProject == null) return;
+        taskService.updateTask(
+                ProjectId.fromString(selectedProject.getId()),
+                TaskId.fromString(taskViewModel.getId()),
+                taskViewModel.getTitle(),
+                taskViewModel.getContent(),
+                taskViewModel.isCompleted(),
+                taskViewModel.getDeadlineAt() != null ?
+                        LocalDateTime.parse(taskViewModel.getDeadlineAt()) : null,
+                taskViewModel.getPriority()
+        );
+    }
+
     private void sortTasks() {
         FXCollections.sort(tasks, Comparator
                 .comparing(TaskViewModel::isCompleted)
@@ -209,57 +223,35 @@ public class MainViewModel {
     }
 
     private TaskViewModel bindHandlersToTask(TaskViewModel taskViewModel) {
-        taskViewModel.setOnOpenDetails(() -> this.handleOnOpenTaskDetails(taskViewModel));
-        taskViewModel.setOnSelected(() -> this.handleOnTaskSelected(taskViewModel));
-        taskViewModel.setOnEdit(() -> this.handleOnEditTask(taskViewModel));
-        taskViewModel.setOnDelete(() -> this.handleOnDeleteTask(taskViewModel));
+        taskViewModel.titleProperty().addListener((obs, oldValue, newValue) -> {
+            if (!newValue.equals(oldValue)) updateTaskForSelectedProject(taskViewModel);
+        });
+
+        taskViewModel.contentProperty().addListener((obs, oldValue, newValue) -> {
+            if (!newValue.equals(oldValue)) updateTaskForSelectedProject(taskViewModel);
+        });
 
         taskViewModel.completedProperty().addListener((obs, oldValue, newValue) -> {
             if (selectedProject != null) {
-                taskService.updateTask(
-                        ProjectId.fromString(selectedProject.getId()),
-                        TaskId.fromString(taskViewModel.getId()),
-                        taskViewModel.getTitle(),
-                        taskViewModel.getContent(),
-                        newValue,
-                        taskViewModel.getDeadlineAt() != null ?
-                                LocalDateTime.parse(taskViewModel.getDeadlineAt()) : null,
-                        taskViewModel.getPriority()
-                );
+                updateTaskForSelectedProject(taskViewModel);
                 sortTasks();
             }
         });
 
+        taskViewModel.deadlineAtProperty().addListener((obs, oldValue, newValue) -> {
+            if (!newValue.equals(oldValue)) updateTaskForSelectedProject(taskViewModel);
+        });
+
         taskViewModel.priorityProperty().addListener((obs, oldValue, newValue) -> {
             if (selectedProject != null) {
-                taskService.updateTask(
-                        ProjectId.fromString(selectedProject.getId()),
-                        TaskId.fromString(taskViewModel.getId()),
-                        taskViewModel.getTitle(),
-                        taskViewModel.getContent(),
-                        taskViewModel.isCompleted(),
-                        taskViewModel.getDeadlineAt() != null ?
-                                LocalDateTime.parse(taskViewModel.getDeadlineAt()) : null,
-                        newValue
-                );
+                updateTaskForSelectedProject(taskViewModel);
                 sortTasks();
             }
         });
         return taskViewModel;
     }
 
-    private void handleOnOpenTaskDetails(TaskViewModel taskViewModel) {
-        // TODO: dialog
-    }
-
-    private void handleOnTaskSelected(TaskViewModel taskViewModel) {
-    }
-
-    private void handleOnEditTask(TaskViewModel taskViewModel) {
-        // TODO: dialog
-    }
-
-    private void handleOnDeleteTask(TaskViewModel taskViewModel) {
+    public void deleteTask(TaskViewModel taskViewModel) {
         taskService.deleteTask(TaskId.fromString(taskViewModel.getId()));
         tasks.remove(taskViewModel);
     }
