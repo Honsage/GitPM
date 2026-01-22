@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.CheckBox?>
 <VBox alignment="CENTER" spacing="12" stylesheets="@../../styles/main.css"
       xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="ru.honsage.dev.gitpm.presentation.controllers.EditTaskDialogController">
@@ -35,12 +36,15 @@
         <Label text="Описание" GridPane.columnIndex="0" GridPane.rowIndex="1" />
         <TextArea fx:id="contentField" prefRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-        <Label text="Дедлайн" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <DatePicker fx:id="deadlinePicker" promptText="Необязательно" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Label text="Выполнена" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <CheckBox fx:id="completedField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-        <Label text="Приоритет" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <Label text="Дедлайн" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <DatePicker fx:id="deadlinePicker" promptText="Необязательно" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-        <HBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="3">
+        <Label text="Приоритет" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+
+        <HBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="4">
 
             <Button fx:id="priorityLow" onAction="#onPriorityLow" styleClass="priority, low" />
 
@@ -60,7 +64,7 @@
 
     <HBox alignment="CENTER_RIGHT" spacing="8">
         <Button onAction="#onCancel" text="Отмена" />
-        <Button fx:id="createButton" styleClass="approve-button" defaultButton="true" onAction="#onSave" text="Создать" />
+        <Button fx:id="createButton" styleClass="approve-button" defaultButton="true" onAction="#onSave" text="Сохранить" />
     </HBox>
 
 </VBox>
