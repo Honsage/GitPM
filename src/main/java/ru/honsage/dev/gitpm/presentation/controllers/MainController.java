@@ -343,6 +343,7 @@ public class MainController {
                 taskViewModel.setIsCompleted(task.isCompleted());
                 taskViewModel.deadlineAtProperty().set(task.deadlineAt());
                 taskViewModel.setPriority(TaskPriority.valueOf(task.priority()));
+                viewModel.updateTaskForSelectedProject(taskViewModel);
             });
         } catch (IOException e) {
             e.printStackTrace();

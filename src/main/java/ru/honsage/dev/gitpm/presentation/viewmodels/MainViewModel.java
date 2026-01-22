@@ -223,27 +223,15 @@ public class MainViewModel {
     }
 
     private TaskViewModel bindHandlersToTask(TaskViewModel taskViewModel) {
-        taskViewModel.titleProperty().addListener((obs, oldValue, newValue) -> {
-            if (!newValue.equals(oldValue)) updateTaskForSelectedProject(taskViewModel);
-        });
-
-        taskViewModel.contentProperty().addListener((obs, oldValue, newValue) -> {
-            if (!newValue.equals(oldValue)) updateTaskForSelectedProject(taskViewModel);
-        });
-
         taskViewModel.completedProperty().addListener((obs, oldValue, newValue) -> {
-            if (selectedProject != null) {
+            if (newValue != oldValue) {
                 updateTaskForSelectedProject(taskViewModel);
                 sortTasks();
             }
         });
 
-        taskViewModel.deadlineAtProperty().addListener((obs, oldValue, newValue) -> {
-            if (!newValue.equals(oldValue)) updateTaskForSelectedProject(taskViewModel);
-        });
-
         taskViewModel.priorityProperty().addListener((obs, oldValue, newValue) -> {
-            if (selectedProject != null) {
+            if (newValue != oldValue) {
                 updateTaskForSelectedProject(taskViewModel);
                 sortTasks();
             }
