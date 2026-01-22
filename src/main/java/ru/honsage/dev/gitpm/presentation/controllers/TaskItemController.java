@@ -37,6 +37,7 @@ public class TaskItemController {
     protected Button deleteButton;
 
     private TaskViewModel taskViewModel;
+    private MainController mainController;
 
     @FXML
     public void initialize() {
@@ -50,6 +51,10 @@ public class TaskItemController {
         this.taskViewModel = taskViewModel;
         this.bindElements();
         highlightPriority(taskViewModel.getPriority());
+    }
+
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
     }
 
     private void bindElements() {
@@ -116,7 +121,9 @@ public class TaskItemController {
 
     @FXML
     public void onEdit(ActionEvent actionEvent) {
-        // TODO: dialog
+        if (mainController != null) {
+            mainController.openEditTaskDialog(taskViewModel);
+        }
     }
 
     @FXML
