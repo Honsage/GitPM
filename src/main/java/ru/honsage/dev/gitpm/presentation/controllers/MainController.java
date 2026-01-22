@@ -319,7 +319,7 @@ public class MainController {
         }
     }
 
-    public void openEditTaskDialog(TaskViewModel taskViewModel) {
+    public void onEditTask(TaskViewModel taskViewModel) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/ru/honsage/dev/gitpm/fxml/dialogs/edit-task-dialog.fxml")
@@ -344,14 +344,37 @@ public class MainController {
                 taskViewModel.deadlineAtProperty().set(task.deadlineAt());
                 taskViewModel.setPriority(TaskPriority.valueOf(task.priority()));
                 viewModel.updateTaskForSelectedProject(taskViewModel);
+                refreshTaskUI();
             });
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void deleteTask(TaskViewModel taskViewModel) {
+    public void onDeleteTask(TaskViewModel taskViewModel) {
         viewModel.deleteTask(taskViewModel);
+    }
+
+    public void openTaskDetails(TaskViewModel taskViewModel) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/ru/honsage/dev/gitpm/fxml/task-popup.fxml")
+            );
+
+            Stage stage = new Stage();
+            stage.setTitle("Поп-ап задачи");
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/ru/honsage/dev/gitpm/images/icon.png"))));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(this.root.getScene().getWindow());
+            stage.setScene(new Scene(loader.load()));
+
+            TaskPopupController controller = loader.getController();
+            controller.setStage(stage);
+            controller.setTaskInfo(taskViewModel);
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
