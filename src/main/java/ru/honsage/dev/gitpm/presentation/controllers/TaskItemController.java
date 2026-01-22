@@ -41,9 +41,9 @@ public class TaskItemController {
 
     @FXML
     public void initialize() {
-        // TODO: card animation
+        // TODO: refer to mainController
         taskCard.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-            if (taskViewModel.getOnOpenDetails() != null) taskViewModel.getOnOpenDetails().run();
+            System.out.println("Hello!");
         });
     }
 
@@ -128,6 +128,8 @@ public class TaskItemController {
 
     @FXML
     public void onDelete(ActionEvent actionEvent) {
-        if (taskViewModel.getOnDelete() != null) taskViewModel.getOnDelete().run();
+        if (mainController != null) {
+            mainController.deleteTask(taskViewModel);
+        }
     }
 }
