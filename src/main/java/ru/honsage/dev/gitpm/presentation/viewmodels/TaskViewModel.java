@@ -13,11 +13,6 @@ public class TaskViewModel {
     private final StringProperty deadlineAt = new SimpleStringProperty();
     private final ObjectProperty<TaskPriority> priority = new SimpleObjectProperty<>(TaskPriority.LOW);
 
-    private Runnable onOpenDetails;
-    private Runnable onSelected;
-    private Runnable onEdit;
-    private Runnable onDelete;
-
     public TaskViewModel(TaskDTO dto) {
         this.id.set(dto.id());
         this.title.set(dto.title());
@@ -46,14 +41,4 @@ public class TaskViewModel {
 
     public void setPriority(TaskPriority priority) { this.priority.set(priority); }
     public void setIsCompleted(boolean isCompleted) { this.isCompleted.set(isCompleted); }
-
-    public Runnable getOnOpenDetails() { return onOpenDetails; }
-    public Runnable getOnSelected() { return onSelected; }
-    public Runnable getOnEdit() { return onEdit; }
-    public Runnable getOnDelete() { return onDelete; }
-
-    public void setOnOpenDetails(Runnable r) { this.onOpenDetails = r; }
-    public void setOnSelected(Runnable r) { this.onSelected = r; }
-    public void setOnEdit(Runnable r) { this.onEdit = r; }
-    public void setOnDelete(Runnable r) { this.onDelete = r; }
 }
