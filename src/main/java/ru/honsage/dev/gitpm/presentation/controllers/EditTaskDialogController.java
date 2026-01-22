@@ -19,6 +19,8 @@ public class EditTaskDialogController {
     @FXML
     protected TextArea contentField;
     @FXML
+    protected CheckBox completedField;
+    @FXML
     protected DatePicker deadlinePicker;
     @FXML
     protected Button priorityLow;
@@ -48,6 +50,7 @@ public class EditTaskDialogController {
     public void setTaskInfo(TaskViewModel taskViewModel) {
         titleField.setText(taskViewModel.getTitle());
         contentField.setText(taskViewModel.getContent());
+        completedField.setSelected(taskViewModel.isCompleted());
         if (taskViewModel.getDeadlineAt() != null)
             deadlinePicker.setValue(LocalDateTime.parse(taskViewModel.getDeadlineAt()).toLocalDate());
         selectPriority(taskViewModel.getPriority());
@@ -103,7 +106,7 @@ public class EditTaskDialogController {
                         ? null
                         : contentField.getText().trim(),
                 null,
-                false,
+                completedField.isSelected(),
                 deadline == null ? null : deadline.toString(),
                 selectedPriority.toString()
         );
