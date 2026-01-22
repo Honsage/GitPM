@@ -319,6 +319,40 @@ public class MainController {
         }
     }
 
+    public void openEditTaskDialog(TaskViewModel taskViewModel) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/ru/honsage/dev/gitpm/fxml/dialogs/edit-task-dialog.fxml")
+            );
+
+            Stage stage = new Stage();
+            stage.setTitle("Редактирование задачи");
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/ru/honsage/dev/gitpm/images/icon.png"))));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(this.root.getScene().getWindow());
+            stage.setScene(new Scene(loader.load()));
+
+            EditTaskDialogController controller = loader.getController();
+            controller.setStage(stage);
+            controller.setTaskInfo(taskViewModel);
+            stage.showAndWait();
+
+            controller.getResult().ifPresent(task -> {
+                taskViewModel.titleProperty().set(task.title());
+                taskViewModel.contentProperty().set(task.content());
+                taskViewModel.setIsCompleted(task.isCompleted());
+                taskViewModel.deadlineAtProperty().set(task.deadlineAt());
+                taskViewModel.setPriority(TaskPriority.valueOf(task.priority()));
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteTask(TaskViewModel taskViewModel) {
+        viewModel.deleteTask(taskViewModel);
+    }
+
     @FXML
     public void onTaskTabSelected(Event event) {
         refreshTaskUI();
@@ -348,6 +382,7 @@ public class MainController {
                 Node node = loader.load();
                 TaskItemController controller = loader.getController();
                 controller.setViewModel(tvm);
+                controller.setMainController(MainController.this);
 
                 node.setUserData(tvm.getId());
                 taskFlow.getChildren().add(node);
