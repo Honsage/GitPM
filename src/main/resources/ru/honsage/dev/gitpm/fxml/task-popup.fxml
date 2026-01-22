@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.TextArea?>
+<VBox fx:id="dialogRoot" spacing="12" styleClass="task-dialog-card"
+      stylesheets="@../styles/main.css"
+      xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ru.honsage.dev.gitpm.presentation.controllers.TaskPopupController">
+
+    <padding>
+        <Insets bottom="24" left="24" right="24" top="24"/>
+    </padding>
+
+    <HBox spacing="12" alignment="CENTER_LEFT">
+        <VBox spacing="2" HBox.hgrow="ALWAYS">
+            <Label fx:id="titleLabel" styleClass="task-dialog-title" wrapText="true">
+                <font>
+                    <Font size="20.0"/>
+                </font>
+            </Label>
+            <Label fx:id="statusLabel" styleClass="task-status"/>
+        </VBox>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <HBox alignment="CENTER_RIGHT" styleClass="priority-container">
+            <VBox spacing="2" alignment="CENTER" styleClass="priority-content">
+                <Label fx:id="priorityIndicator" styleClass="priority-indicator">
+                    <minWidth>16</minWidth>
+                    <maxWidth>16</maxWidth>
+                    <prefHeight>16</prefHeight>
+                </Label>
+                <Label fx:id="priorityLabel" styleClass="priority-text"
+                       textAlignment="CENTER" wrapText="true"/>
+            </VBox>
+        </HBox>
+    </HBox>
+
+    <Separator styleClass="dialog-separator"/>
+
+    <VBox spacing="8">
+        <Label text="ОПИСАНИЕ" styleClass="section-header"/>
+        <TextArea fx:id="descriptionArea" editable="false" wrapText="true"
+                  styleClass="task-description" prefRowCount="6">
+            <VBox.vgrow>ALWAYS</VBox.vgrow>
+        </TextArea>
+    </VBox>
+
+    <Separator styleClass="dialog-separator"/>
+
+    <GridPane hgap="16" vgap="12">
+        <columnConstraints>
+            <ColumnConstraints halignment="RIGHT" hgrow="NEVER" minWidth="100"/>
+            <ColumnConstraints hgrow="ALWAYS" minWidth="150"/>
+        </columnConstraints>
+
+        <Label text="ВРЕМЯ СОЗДАНИЯ:" styleClass="meta-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <HBox spacing="8" alignment="CENTER_LEFT" GridPane.rowIndex="0" GridPane.columnIndex="1">
+            <Label fx:id="createdDateLabel" styleClass="meta-value"/>
+            <Label fx:id="createdTimeLabel" styleClass="meta-time"/>
+        </HBox>
+
+        <Label text="ДЕДЛАЙН:" styleClass="meta-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <HBox spacing="8" alignment="CENTER_LEFT" GridPane.rowIndex="1" GridPane.columnIndex="1">
+            <Label fx:id="deadlineDateLabel" styleClass="meta-value"/>
+            <Label fx:id="deadlineTimeLabel" styleClass="meta-time"/>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" GridPane.rowIndex="1" GridPane.columnIndex="2">
+            <Label fx:id="deadlineStatusLabel" styleClass="deadline-status"/>
+        </HBox>
+    </GridPane>
+</VBox>
