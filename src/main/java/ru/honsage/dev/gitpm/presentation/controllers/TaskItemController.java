@@ -39,14 +39,6 @@ public class TaskItemController {
     private TaskViewModel taskViewModel;
     private MainController mainController;
 
-    @FXML
-    public void initialize() {
-        // TODO: refer to mainController
-        taskCard.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-            System.out.println("Hello!");
-        });
-    }
-
     public void setViewModel(TaskViewModel taskViewModel) {
         this.taskViewModel = taskViewModel;
         this.bindElements();
@@ -55,6 +47,9 @@ public class TaskItemController {
 
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
+        taskCard.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            this.mainController.openTaskDetails(taskViewModel);
+        });
     }
 
     private void bindElements() {
@@ -62,6 +57,7 @@ public class TaskItemController {
         contentLabel.textProperty().bind(taskViewModel.contentProperty());
         if (taskViewModel.getDeadlineAt() != null)
             deadlineLabel.setText("Дедлайн: " + LocalDateTime.parse(taskViewModel.getDeadlineAt()).toLocalDate().toString());
+        else deadlineLabel.setText("");
         createdLabel.setText(LocalDateTime.parse(taskViewModel.getCreatedAt()).toLocalDate().toString());
         completedCheck.selectedProperty().bindBidirectional(taskViewModel.completedProperty());
         taskViewModel.priorityProperty()
@@ -122,14 +118,14 @@ public class TaskItemController {
     @FXML
     public void onEdit(ActionEvent actionEvent) {
         if (mainController != null) {
-            mainController.openEditTaskDialog(taskViewModel);
+            mainController.onEditTask(taskViewModel);
         }
     }
 
     @FXML
     public void onDelete(ActionEvent actionEvent) {
         if (mainController != null) {
-            mainController.deleteTask(taskViewModel);
+            mainController.onDeleteTask(taskViewModel);
         }
     }
 }
