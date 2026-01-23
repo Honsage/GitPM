@@ -85,7 +85,7 @@ public class TaskPopupController {
             LocalDateTime deadline = LocalDateTime.parse(taskViewModel.getDeadlineAt());
             deadlineDateLabel.setText(deadline.format(DATE_FORMATTER));
             deadlineTimeLabel.setText("до " + deadline.format(TIME_FORMATTER));
-            updateDeadlineStatus(deadline);
+            updateDeadlineStatus(deadline, taskViewModel.isCompleted());
         } else {
             deadlineDateLabel.setText("Не установлен");
             deadlineTimeLabel.setText("");
@@ -113,24 +113,31 @@ public class TaskPopupController {
         }
     }
 
-    private void updateDeadlineStatus(LocalDateTime deadline) {
+    private void updateDeadlineStatus(LocalDateTime deadline, boolean isCompleted) {
         deadlineStatusLabel.getStyleClass().removeAll("overdue", "today", "future", "none");
 
         LocalDateTime now = LocalDateTime.now();
         long daysBetween = ChronoUnit.DAYS.between(now.toLocalDate(), deadline.toLocalDate());
 
-        if (deadline.isBefore(now)) {
-            deadlineStatusLabel.setText("Просрочено");
-            deadlineStatusLabel.getStyleClass().add("overdue");
-        } else if (daysBetween == 0) {
-            deadlineStatusLabel.setText("Сегодня");
-            deadlineStatusLabel.getStyleClass().add("today");
-        } else if (daysBetween <= 90) {
-            deadlineStatusLabel.setText("Через " + daysBetween + " д.");
-            deadlineStatusLabel.getStyleClass().add("today");
+        if (isCompleted) {
+            if (!deadline.isBefore(now)) {
+                deadlineStatusLabel.setText("Выполнено досрочно");
+                deadlineStatusLabel.getStyleClass().add("future");
+            }
         } else {
-            deadlineStatusLabel.setText("Времени в запасе");
-            deadlineStatusLabel.getStyleClass().add("future");
+            if (deadline.isBefore(now)) {
+                deadlineStatusLabel.setText("Просрочено");
+                deadlineStatusLabel.getStyleClass().add("overdue");
+            } else if (daysBetween == 0) {
+                deadlineStatusLabel.setText("Сегодня");
+                deadlineStatusLabel.getStyleClass().add("today");
+            } else if (daysBetween <= 90) {
+                deadlineStatusLabel.setText("Через " + daysBetween + " д.");
+                deadlineStatusLabel.getStyleClass().add("today");
+            } else {
+                deadlineStatusLabel.setText("Времени в запасе");
+                deadlineStatusLabel.getStyleClass().add("future");
+            }
         }
     }
 }
