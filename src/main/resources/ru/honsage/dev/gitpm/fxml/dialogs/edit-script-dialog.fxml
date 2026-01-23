@@ -62,7 +62,7 @@
 
         <Label text="Команда" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
         <TextArea fx:id="commandField"
-                  promptText="Например: docker compose up"
+                  promptText="Например: cd D:\Projects\App &amp;&amp; python manage.py runserver"
                   prefRowCount="2"
                   GridPane.rowIndex="3"
                   GridPane.columnIndex="1"

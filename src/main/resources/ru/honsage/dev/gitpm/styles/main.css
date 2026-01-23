@@ -322,8 +322,9 @@
 
 .script-output {
     -fx-font-size: 11px;
-    -fx-background-color: #bbbbbb;
-    -fx-text-fill: black;
+    -fx-control-inner-background: black;
+    -fx-background-color: black;
+    -fx-text-fill: #00ff00;
 }
 
 
