@@ -100,16 +100,14 @@
                                                 <Label styleClass="info-label" text="Локальный путь" />
                                                 <Label fx:id="localPathLabel" styleClass="info-value" wrapText="true" />
                                             </VBox>
-                                            <Button fx:id="copyPathButton" styleClass="icon-button" text="⧉" />
                                         </HBox>
 
                                         <HBox alignment="CENTER_LEFT" spacing="8">
-                                            <Label styleClass="info-icon" text="🌐" />
+                                            <Label styleClass="info-icon" text="🌐" minWidth="14.0" />
                                             <VBox spacing="2" HBox.hgrow="ALWAYS">
                                                 <Label styleClass="info-label" text="Remote URL" />
                                                 <Label fx:id="remoteUrlLabel" styleClass="info-value" wrapText="true" />
                                             </VBox>
-                                            <Button fx:id="openRemoteButton" styleClass="icon-button" text="↗" />
                                         </HBox>
 
                                         <HBox alignment="CENTER_LEFT" spacing="8">
@@ -123,11 +121,10 @@
                                     </VBox>
                            <HBox spacing="10.0">
                               <children>
-                                           <Button fx:id="openFolderButton" onAction="#onOpenProjectFolder" styleClass="common-button" text="Открыть папку проекта" />
-                                           <Button fx:id="editProjectButtonInfo" onAction="#onEditProject" styleClass="common-button" text="Редактировать проект" />
+                                           <Button fx:id="openFolderButton" onAction="#onOpenProjectFolder" styleClass="common-button" text="Открыть папку проекта" wrapText="true" />
+                                           <Button fx:id="openRemoteButton" onAction="#onOpenRemote" styleClass="common-button" text="Удаленный репозиторий" wrapText="true" />
                               </children>
                            </HBox>
-
                                     <padding>
                                         <Insets bottom="14" left="14" right="14" top="14" />
                                     </padding>

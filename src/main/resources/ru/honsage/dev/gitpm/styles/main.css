@@ -10,6 +10,7 @@
 .common-button {
     -fx-background-color: main-color;
     -fx-text-fill: white;
+    -fx-text-alignment: center;
 }
 
 .approve-button:hover,
@@ -142,19 +143,29 @@
     -fx-font-size: 12px;
 }
 
+.info-value:hover {
+    -fx-cursor: HAND;
+    -fx-text-fill: #777777;
+}
+
+.info-value:pressed {
+    -fx-translate-y: 1px;
+    -fx-text-fill: #333333;
+}
+
 .info-icon {
     -fx-font-size: 14px;
 }
 
 .info-separator {
     -fx-min-height: 1;
-    -fx-background-color: #333;
+    -fx-background-color: main-color;
 }
 
 .icon-button {
-    -fx-font-size: 14px;
+    -fx-font-size: 36px;
     -fx-background-color: transparent;
-    -fx-text-fill: #aaa;
+    -fx-text-fill: black;
 }
 
 .icon-button:hover {

@@ -165,6 +165,14 @@ public class MainController {
                 }
         );
 
+        localPathLabel.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            OSUtils.copyToClipBoard(localPathLabel.getText());
+        });
+
+        remoteUrlLabel.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            OSUtils.copyToClipBoard(remoteUrlLabel.getText());
+        });
+
         viewModel.loadProjects();
 
         // Scripts
@@ -289,6 +297,11 @@ public class MainController {
         if (pathStr == null || pathStr.isBlank()) return;
 
         OSUtils.openFolder(pathStr);
+    }
+
+    @FXML
+    public void onOpenRemote(ActionEvent event) {
+        OSUtils.openInBrowser(remoteUrlLabel.getText());
     }
 
     @FXML
