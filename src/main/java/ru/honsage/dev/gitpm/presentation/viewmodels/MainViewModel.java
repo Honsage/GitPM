@@ -171,12 +171,9 @@ public class MainViewModel {
         taskService.getAllTasks(projectId).stream()
                 .map(TaskDTOMapper::toDTO)
                 .map(TaskViewModel::new)
-                .sorted(Comparator
-                        .comparing(TaskViewModel::isCompleted)
-                        .thenComparing(TaskViewModel::getPriority)
-                )
                 .map(this::bindHandlersToTask)
                 .forEach(tasks::add);
+        sortTasks();
     }
 
     public void addTaskForSelectedProject(
