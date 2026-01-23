@@ -28,6 +28,7 @@ public class ChangeShellDialogController {
             RadioButton radioButton = (RadioButton) toggle;
             if (radioButton.getUserData().equals(shellType.toString())) {
                 radioButton.setSelected(true);
+                selectedType = radioButton;
             }
         });
     }
