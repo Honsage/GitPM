@@ -33,7 +33,7 @@
         <TextField fx:id="titleField" promptText="Обязательное поле" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
         <Label text="Описание" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <TextArea fx:id="contentField" prefRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <TextArea fx:id="contentField" prefRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="1" wrapText="true" />
 
         <Label text="Дедлайн" GridPane.columnIndex="0" GridPane.rowIndex="2" />
         <DatePicker fx:id="deadlinePicker" promptText="Необязательно" GridPane.columnIndex="1" GridPane.rowIndex="2" />

@@ -34,7 +34,6 @@
             <ColumnConstraints minWidth="40"/>
         </columnConstraints>
 
-        <!-- Title -->
         <Label text="Название" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
         <TextField fx:id="titleField"
                    promptText="Обязательное поле"
@@ -42,15 +41,14 @@
                    GridPane.columnIndex="1"
                    GridPane.columnSpan="2"/>
 
-        <!-- Description -->
         <Label text="Описание" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
         <TextArea fx:id="descriptionField"
                   prefRowCount="3"
                   GridPane.rowIndex="1"
                   GridPane.columnIndex="1"
-                  GridPane.columnSpan="2"/>
+                  GridPane.columnSpan="2"
+                  wrapText="true" />
 
-        <!-- Working dir -->
         <Label text="Рабочая директория" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
         <TextField fx:id="workingDirField"
                    promptText="Каталог выполнения"
@@ -62,14 +60,14 @@
                 GridPane.rowIndex="2"
                 GridPane.columnIndex="2"/>
 
-        <!-- Command -->
         <Label text="Команда" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
         <TextArea fx:id="commandField"
                   promptText="Например: docker compose up"
                   prefRowCount="2"
                   GridPane.rowIndex="3"
                   GridPane.columnIndex="1"
-                  GridPane.columnSpan="2"/>
+                  GridPane.columnSpan="2"
+                  wrapText="true"/>
     </GridPane>
 
     <Separator/>
