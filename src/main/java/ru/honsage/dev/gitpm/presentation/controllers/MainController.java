@@ -144,7 +144,7 @@ public class MainController {
         });
 
         scriptSearchEntry.textProperty().addListener((obs, oldValue, newValue) -> {
-            // TODO: add scripts filtering
+            viewModel.filterScriptsByTitlePrefix(newValue);
         });
 
         projectFlow.getSelectionModel().selectedItemProperty().addListener(

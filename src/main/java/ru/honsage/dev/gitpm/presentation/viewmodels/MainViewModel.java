@@ -284,7 +284,7 @@ public class MainViewModel {
     // Scripts
 
     public ObservableList<ScriptViewModel> getScripts() {
-        return this.scripts;
+        return this.filteredScripts;
     }
 
     public ScriptViewModel getSelectedScript() {
@@ -382,6 +382,14 @@ public class MainViewModel {
         );
 
         selectedScript.setRunning(true);
+    }
+
+    public void filterScriptsByTitlePrefix(String prefix) {
+        filteredScripts.setPredicate(s ->
+                prefix == null ||
+                        prefix.isBlank() ||
+                        s.getTitle().toLowerCase().startsWith(prefix.toLowerCase())
+        );
     }
 
     // TODO: move this method to mapper
