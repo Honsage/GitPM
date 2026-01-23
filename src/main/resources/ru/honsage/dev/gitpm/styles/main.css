@@ -297,6 +297,18 @@
     -fx-background-radius: 4;
 }
 
+.script-command:hover {
+    -fx-cursor: HAND;
+    -fx-background-color: #dddddd;
+    -fx-translate-y: -2;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.35), 10, 0, 0, 6);
+}
+
+.script-command:pressed {
+    -fx-background-color: #777777;
+    -fx-translate-y: 1;
+}
+
 .script-output {
     -fx-font-size: 11px;
     -fx-background-color: #bbbbbb;
