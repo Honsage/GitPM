@@ -24,8 +24,6 @@ public class TaskItemController {
     @FXML
     protected Label deadlineLabel;
     @FXML
-    protected Label createdLabel;
-    @FXML
     protected Button priorityLow;
     @FXML
     protected Button priorityMedium;
@@ -58,7 +56,6 @@ public class TaskItemController {
         if (taskViewModel.getDeadlineAt() != null)
             deadlineLabel.setText("Дедлайн: " + LocalDateTime.parse(taskViewModel.getDeadlineAt()).toLocalDate().toString());
         else deadlineLabel.setText("");
-        createdLabel.setText(LocalDateTime.parse(taskViewModel.getCreatedAt()).toLocalDate().toString());
         completedCheck.selectedProperty().bindBidirectional(taskViewModel.completedProperty());
         taskViewModel.priorityProperty()
                 .addListener((obs, oldValue, newValue) ->

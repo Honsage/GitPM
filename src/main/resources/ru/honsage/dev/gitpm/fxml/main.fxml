@@ -146,7 +146,7 @@
                             </HBox>
                             <ScrollPane fx:id="taskScroll" hbarPolicy="NEVER" styleClass="scrollable" VBox.vgrow="ALWAYS">
                                 <content>
-                                    <VBox fx:id="taskFlow" alignment="TOP_CENTER" minHeight="0" spacing="8.0" />
+                                    <VBox fx:id="taskFlow" alignment="TOP_CENTER" minHeight="0" spacing="8.0" maxWidth="Infinity" />
                                 </content>
                                 <padding><Insets bottom="6.0" left="10.0" right="10.0" top="6.0" /></padding>
                             </ScrollPane>

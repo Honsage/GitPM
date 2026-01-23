@@ -10,7 +10,8 @@
 
 <VBox fx:id="taskCard" spacing="6.0" styleClass="task-card" stylesheets="@../styles/main.css"
       xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="ru.honsage.dev.gitpm.presentation.controllers.TaskItemController">
+      fx:controller="ru.honsage.dev.gitpm.presentation.controllers.TaskItemController"
+      maxWidth="Infinity">
 
     <padding><Insets bottom="8.0" left="10.0" right="10.0" top="8.0" /></padding>
 
@@ -32,11 +33,10 @@
         </HBox>
     </HBox>
 
-    <Label fx:id="contentLabel" styleClass="task-content" wrapText="true" />
+    <Label fx:id="contentLabel" styleClass="task-content" wrapText="true" maxWidth="Infinity" />
 
     <HBox alignment="CENTER_LEFT" spacing="8.0">
-        <Label fx:id="deadlineLabel" styleClass="task-deadline" />
         <Region HBox.hgrow="ALWAYS" />
-        <Label fx:id="createdLabel" styleClass="task-created" />
+        <Label fx:id="deadlineLabel" styleClass="task-deadline" />
     </HBox>
 </VBox>

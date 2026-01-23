@@ -17,7 +17,7 @@
 
     <HBox spacing="12" alignment="CENTER_LEFT">
         <VBox spacing="2" HBox.hgrow="ALWAYS">
-            <Label fx:id="titleLabel" styleClass="task-dialog-title" wrapText="true">
+            <Label fx:id="titleLabel" styleClass="task-dialog-title" wrapText="true" maxWidth="500">
                 <font>
                     <Font size="20.0"/>
                 </font>

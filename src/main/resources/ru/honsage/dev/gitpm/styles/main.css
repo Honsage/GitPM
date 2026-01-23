@@ -168,6 +168,8 @@
     -fx-background-radius: 8;
     -fx-padding: 8 10;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.25), 6, 0, 0, 2);
+    -fx-max-width: Infinity;
+    -fx-min-width: 0;
     -fx-cursor: HAND;
 }
 
@@ -185,16 +187,25 @@
     -fx-font-size: 14px;
     -fx-font-weight: 600;
     -fx-text-fill: #f5f7fa;
+    -fx-wrap-text: true;
+    -fx-max-width: 150px;
+    -fx-max-height: 24px;
+    -fx-min-width: 0;
 }
 
 .task-content {
     -fx-text-fill: #bcd0d6;
     -fx-font-size: 11px;
+    -fx-wrap-text: true;
+    -fx-max-width: 300px;
+    -fx-max-height: 48px;
+    -fx-min-width: 0;
 }
 
-.task-created {
+.task-deadline {
     -fx-text-fill: #98a6ad;
     -fx-font-size: 11px;
+;
 }
 
 .priority {
