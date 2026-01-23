@@ -58,6 +58,10 @@ public class MainController {
     @FXML
     protected TextField projectSearchEntry;
     @FXML
+    protected TextField taskSearchEntry;
+    @FXML
+    protected TextField scriptSearchEntry;
+    @FXML
     protected ListView<ProjectViewModel> projectFlow;
     @FXML
     protected VBox toolContainer;
@@ -133,6 +137,14 @@ public class MainController {
 
         projectSearchEntry.textProperty().addListener((obs, oldValue, newValue) -> {
             viewModel.filterByTitlePrefix(newValue);
+        });
+
+        taskSearchEntry.textProperty().addListener((obs, oldValue, newValue) -> {
+            viewModel.filterTasksByTitlePrefix(newValue);
+        });
+
+        scriptSearchEntry.textProperty().addListener((obs, oldValue, newValue) -> {
+            // TODO: add scripts filtering
         });
 
         projectFlow.getSelectionModel().selectedItemProperty().addListener(
@@ -378,6 +390,21 @@ public class MainController {
     }
 
     @FXML
+    public void onFilterCompletedToggled(ActionEvent event) {
+        viewModel.filterTasksByCompleted(((ToggleButton) event.getSource()).isSelected());
+    }
+
+    @FXML
+    public void onFilterOverdueToggled(ActionEvent event) {
+        viewModel.filterTasksOverdue(((ToggleButton) event.getSource()).isSelected());
+    }
+
+    @FXML
+    public void onFilterImportantToggled(ActionEvent event) {
+        viewModel.filterTasksImportant(((ToggleButton) event.getSource()).isSelected());
+    }
+
+    @FXML
     public void onTaskTabSelected(Event event) {
         refreshTaskUI();
     }
@@ -392,7 +419,7 @@ public class MainController {
         refreshScriptUI();
     }
 
-    private void refreshTaskUI() {
+    public void refreshTaskUI() {
         if (viewModel.getSelectedProject() == null) {
             // TODO: show banner 'choose project'
             return;
