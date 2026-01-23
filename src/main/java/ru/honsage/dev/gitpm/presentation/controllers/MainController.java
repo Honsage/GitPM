@@ -17,6 +17,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -26,12 +27,12 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import ru.honsage.dev.gitpm.domain.models.TaskPriority;
 import ru.honsage.dev.gitpm.domain.ports.GitOperations;
+import ru.honsage.dev.gitpm.infrastructure.utils.OSUtils;
 import ru.honsage.dev.gitpm.presentation.viewmodels.MainViewModel;
 import ru.honsage.dev.gitpm.presentation.viewmodels.ProjectViewModel;
 import ru.honsage.dev.gitpm.presentation.viewmodels.ScriptViewModel;
 import ru.honsage.dev.gitpm.presentation.viewmodels.TaskViewModel;
 
-import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -184,6 +185,10 @@ public class MainController {
                 }
         );
 
+        scriptCommand.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            OSUtils.copyToClipBoard(scriptCommand.getText());
+        });
+
         startOutputPolling();
 
         // onClose
@@ -283,15 +288,7 @@ public class MainController {
         String pathStr = project.getLocalPath();
         if (pathStr == null || pathStr.isBlank()) return;
 
-        try {
-            Desktop desktop = Desktop.getDesktop();
-            desktop.open(new File(pathStr));
-        } catch (IOException e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR,
-                    "Не удалось открыть папку: " + e.getMessage());
-            alert.showAndWait();
-        }
+        OSUtils.openFolder(pathStr);
     }
 
     @FXML
