@@ -1,5 +1,6 @@
 package ru.honsage.dev.gitpm.presentation.controllers;
 
+import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -22,6 +23,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import ru.honsage.dev.gitpm.domain.models.TaskPriority;
 import ru.honsage.dev.gitpm.domain.ports.GitOperations;
 import ru.honsage.dev.gitpm.presentation.viewmodels.MainViewModel;
@@ -29,7 +31,7 @@ import ru.honsage.dev.gitpm.presentation.viewmodels.ProjectViewModel;
 import ru.honsage.dev.gitpm.presentation.viewmodels.ScriptViewModel;
 import ru.honsage.dev.gitpm.presentation.viewmodels.TaskViewModel;
 
-import java.awt.*;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -114,6 +116,7 @@ public class MainController {
 
     private final MainViewModel viewModel;
     private GitOperations git;
+    private Thread outputPollingThread;
 
     public MainController(MainViewModel viewModel) {
         this.viewModel = viewModel;
@@ -180,6 +183,18 @@ public class MainController {
                     refreshScriptUI();
                 }
         );
+
+        startOutputPolling();
+
+        // onClose
+        Platform.runLater(() -> {
+            Stage mainStage = (Stage) root.getScene().getWindow();
+            mainStage.setOnCloseRequest(event -> {
+                stopOutputPolling();
+                stopAllRunningScripts();
+                closeAllDialogs();
+            });
+        });
     }
 
     public void setGitClient(GitOperations git) {
@@ -556,13 +571,52 @@ public class MainController {
         viewModel.deleteSelectedScript();
     }
 
+    private void startOutputPolling() {
+        outputPollingThread = new Thread(() -> {
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    Thread.sleep(500);
+
+                    Platform.runLater(() -> {
+                        if (viewModel.getSelectedScript() != null) {
+                            String currentOutput = viewModel.getScriptsOutput();
+
+                            if (!scriptOutput.getText().equals(currentOutput)) {
+                                scriptOutput.setText(currentOutput);
+
+                                scriptOutput.setScrollTop(Double.MAX_VALUE);
+                            }
+                        }
+                    });
+
+                } catch (InterruptedException e) {
+                    break;
+                }
+            }
+        });
+
+        outputPollingThread.setDaemon(true);
+        outputPollingThread.start();
+    }
+
     public void onRunScript(ActionEvent event) {
-        viewModel.runSelectedScript();
+        if (viewModel.getSelectedScript() != null) {
+            scriptOutput.setText("");
+            viewModel.runSelectedScript();
+        }
     }
 
     public void onStopScript(ActionEvent event) {
-        viewModel.stopSelectedScript();
-        scriptOutput.clear();
+        if (viewModel.getSelectedScript() != null) {
+            viewModel.stopSelectedScript();
+            viewModel.clearScriptOutput();
+        }
+    }
+
+    public void stopOutputPolling() {
+        if (outputPollingThread != null) {
+            outputPollingThread.interrupt();
+        }
     }
 
     public void onCloseApplication(ActionEvent event) {
@@ -592,6 +646,22 @@ public class MainController {
             controller.getSelectedShell().ifPresent(viewModel::setSelectedShellType);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void stopAllRunningScripts() {
+        for (var script : viewModel.getScripts()) {
+            if (script.isRunning()) {
+                viewModel.stopScript(script);
+            }
+        }
+    }
+
+    private void closeAllDialogs() {
+        for (Window window : Window.getWindows()) {
+            if (window != root.getScene().getWindow() && window instanceof Stage) {
+                ((Stage) window).close();
+            }
         }
     }
 }

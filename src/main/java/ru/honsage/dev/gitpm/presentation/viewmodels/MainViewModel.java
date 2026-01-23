@@ -383,6 +383,15 @@ public class MainViewModel {
         selectedScript.setRunning(true);
     }
 
+    public String getScriptsOutput() {
+        return scriptExecutionService.getOutputFromScript(selectedScript.getScriptId());
+    }
+
+    public void clearScriptOutput() {
+        if (selectedScript == null) return;
+        scriptExecutionService.clearOutput(selectedScript.getScriptId());
+    }
+
     public void filterScriptsByTitlePrefix(String prefix) {
         filteredScripts.setPredicate(s ->
                 prefix == null ||
@@ -406,10 +415,14 @@ public class MainViewModel {
     }
 
     public void stopSelectedScript() {
-        if (selectedScript == null) return;
+        stopScript(selectedScript);
+    }
 
-        scriptExecutionService.stopScript(selectedScript.getScriptId());
-        selectedScript.setRunning(false);
+    public void stopScript(ScriptViewModel script) {
+        if (script == null) return;
+
+        scriptExecutionService.stopScript(script.getScriptId());
+        script.setRunning(false);
     }
 
     public void setSelectedShellType(String shellTypeName) {

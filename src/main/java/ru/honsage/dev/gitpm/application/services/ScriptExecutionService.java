@@ -15,6 +15,7 @@ public class ScriptExecutionService {
     private ShellType selectedShellType;
 
     private final Map<String, Process> runningProcesses = new ConcurrentHashMap<>();
+    private final Map<String, StringBuilder> scriptOutputs = new ConcurrentHashMap<>();
 
     public ScriptExecutionService(CommandExecutor commandExecutor) {
         this.executor = commandExecutor;
@@ -27,15 +28,16 @@ public class ScriptExecutionService {
             throw new IllegalStateException("Script is already running");
         }
 
+        scriptOutputs.put(scriptId, new StringBuilder());
+
         Process process = executor.execute(
                 script.getWorkingDir().toPath(),
                 script.getCommand().toString(),
                 this.selectedShellType
         );
-        printOutputToConsole(process);
 
         runningProcesses.put(scriptId, process);
-
+        new Thread(() -> readOutput(scriptId, process)).start();
         process.onExit().thenRun(() -> runningProcesses.remove(scriptId));
     }
 
@@ -59,21 +61,30 @@ public class ScriptExecutionService {
         return runningProcesses.containsKey(scriptId);
     }
 
-    // TODO: remove console printing
-    private void printOutputToConsole(Process process) {
-        new Thread(() -> {
-            try (BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream()))) {
+    private void readOutput(String scriptId, Process process) {
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(process.getInputStream()))) {
 
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    System.out.println("[OUTPUT]: " + line);
+            String line;
+            while ((line = reader.readLine()) != null) {
+                StringBuilder output = scriptOutputs.get(scriptId);
+                if (output != null) {
+                    output.append(line).append("\n");
                 }
-
-            } catch (IOException e) {
-                System.err.println("Error reading output: " + e.getMessage());
             }
-        }).start();
+
+        } catch (IOException e) {
+            System.err.println("Error reading output: " + e.getMessage());
+        }
+    }
+
+    public String getOutputFromScript(String scriptId) {
+        StringBuilder output = scriptOutputs.get(scriptId);
+        return output != null ? output.toString() : "";
+    }
+
+    public void clearOutput(String scriptId) {
+        scriptOutputs.remove(scriptId);
     }
 
     public void setShellType(ShellType shellType) {
