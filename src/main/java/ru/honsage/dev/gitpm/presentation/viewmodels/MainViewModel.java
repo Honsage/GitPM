@@ -194,6 +194,7 @@ public class MainViewModel {
         TaskDTO dto = TaskDTOMapper.toDTO(task);
         TaskViewModel taskViewModel = this.bindHandlersToTask(new TaskViewModel(dto));
         this.tasks.add(taskViewModel);
+        sortTasks();
     }
 
     public void updateTaskForSelectedProject(TaskViewModel taskViewModel) {
