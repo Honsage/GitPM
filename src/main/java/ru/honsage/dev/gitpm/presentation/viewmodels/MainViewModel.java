@@ -16,7 +16,6 @@ import ru.honsage.dev.gitpm.presentation.mappers.ScriptDTOMapper;
 import ru.honsage.dev.gitpm.presentation.mappers.TaskDTOMapper;
 
 import java.nio.file.Path;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.stream.IntStream;
@@ -267,7 +266,7 @@ public class MainViewModel {
         } else {
             filteredTasks.setPredicate(t -> {
                 if (t.getDeadlineAt() != null)
-                    return LocalDateTime.parse(t.getDeadlineAt()).toLocalDate().isBefore(LocalDate.now());
+                    return LocalDateTime.parse(t.getDeadlineAt()).isBefore(LocalDateTime.now()) && !t.isCompleted();
                 return false;
             });
         }
