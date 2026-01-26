@@ -7,6 +7,7 @@ module ru.honsage.dev.gitpm {
     requires org.slf4j;
     requires org.slf4j.simple;
     requires java.desktop;
+    requires java.prefs;
 
     opens ru.honsage.dev.gitpm.presentation.controllers to javafx.fxml;
     exports ru.honsage.dev.gitpm;
