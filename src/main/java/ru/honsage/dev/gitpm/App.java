@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import ru.honsage.dev.gitpm.application.services.*;
 import ru.honsage.dev.gitpm.domain.ports.AppSettings;
 import ru.honsage.dev.gitpm.domain.ports.BrowserOperations;
@@ -26,6 +27,7 @@ import ru.honsage.dev.gitpm.presentation.controllers.MainController;
 import ru.honsage.dev.gitpm.presentation.viewmodels.MainViewModel;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class App extends Application {
     @Override
@@ -64,12 +66,21 @@ public class App extends Application {
         mainController.setGitClient(git);
         fxmlLoader.setControllerFactory(_ -> mainController);
         Parent root = fxmlLoader.load();
-        Scene scene = new Scene(root, 800,500);
+        Scene scene = new Scene(root);
         stage.setMinHeight(250);
         stage.setMinWidth(600);
+        stage.setWidth(settings.getWindowWidth());
+        stage.setHeight(settings.getWindowHeight());
         stage.setTitle("GitPM");
         stage.getIcons().add(new Image(String.valueOf(App.class.getResource("images/icon.png"))));
         stage.setScene(scene);
+        stage.addEventHandler(WindowEvent.WINDOW_HIDING, _ -> {
+            try {
+                db.getConnection().close();
+            } catch (SQLException _) {}
+            settings.setWindowWidth(stage.getWidth());
+            settings.setWindowHeight(stage.getHeight());
+        });
         stage.show();
     }
 

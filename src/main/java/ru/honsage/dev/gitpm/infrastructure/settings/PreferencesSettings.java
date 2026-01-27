@@ -24,13 +24,13 @@ public class PreferencesSettings implements AppSettings {
     }
 
     @Override
-    public double getSceneWidth() {
-        return prefs.getDouble("scene-width", 800);
+    public double getWindowWidth() {
+        return prefs.getDouble("window-width", 800);
     }
 
     @Override
-    public double getSceneHeight() {
-        return prefs.getDouble("scene-height", 500);
+    public double getWindowHeight() {
+        return prefs.getDouble("window-height", 500);
     }
 
     @Override
@@ -44,12 +44,12 @@ public class PreferencesSettings implements AppSettings {
     }
 
     @Override
-    public void setSceneWidth(double value) {
-        prefs.putDouble("scene-width", value);
+    public void setWindowWidth(double value) {
+        prefs.putDouble("window-width", value);
     }
 
     @Override
-    public void setSceneHeight(double value) {
-        prefs.putDouble("scene-height", value);
+    public void setWindowHeight(double value) {
+        prefs.putDouble("window-height", value);
     }
 }
