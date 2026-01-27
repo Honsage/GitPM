@@ -64,6 +64,7 @@ public class App extends Application {
 
         MainController mainController = new MainController(viewModel);
         mainController.setGitClient(git);
+        mainController.setAppSettings(settings);
         fxmlLoader.setControllerFactory(_ -> mainController);
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);

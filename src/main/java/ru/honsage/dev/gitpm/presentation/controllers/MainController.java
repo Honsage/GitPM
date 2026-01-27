@@ -26,6 +26,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import ru.honsage.dev.gitpm.domain.models.TaskPriority;
+import ru.honsage.dev.gitpm.domain.ports.AppSettings;
 import ru.honsage.dev.gitpm.domain.ports.GitOperations;
 import ru.honsage.dev.gitpm.infrastructure.utils.OSUtils;
 import ru.honsage.dev.gitpm.presentation.viewmodels.MainViewModel;
@@ -125,6 +126,7 @@ public class MainController {
 
     private final MainViewModel viewModel;
     private GitOperations git;
+    private AppSettings settings;
     private Thread outputPollingThread;
 
     public MainController(MainViewModel viewModel) {
@@ -222,6 +224,10 @@ public class MainController {
 
     public void setGitClient(GitOperations git) {
         this.git = git;
+    }
+
+    public void setAppSettings(AppSettings settings) {
+        this.settings = settings;
     }
 
     @FXML
@@ -708,6 +714,15 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void onNormalizeWindow(ActionEvent event) {
+        Stage stage = (Stage) root.getScene().getWindow();
+        stage.setWidth(800);
+        stage.setHeight(500);
+        settings.setWindowWidth(stage.getWidth());
+        settings.setWindowHeight(stage.getHeight());
     }
 
     private void stopAllRunningScripts() {

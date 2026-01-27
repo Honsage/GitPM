@@ -39,8 +39,9 @@
                     <MenuItem mnemonicParsing="false" onAction="#onAddProject" styleClass="menu__item" text="Добавить проект" />
                 </Menu>
                 <Menu fx:id="settingsMenu" mnemonicParsing="false" text="Настройки">
-                    <MenuItem mnemonicParsing="false" onAction="#onChangeShell"  styleClass="menu__item" text="Тип командной оболочки"/>
-                    <MenuItem mnemonicParsing="false" onAction="#onChangeBrowser"  styleClass="menu__item" text="Тип браузера"/>
+                    <MenuItem mnemonicParsing="false" onAction="#onChangeShell"  styleClass="menu__item" text="Выбрать тип командной оболочки"/>
+                    <MenuItem mnemonicParsing="false" onAction="#onChangeBrowser"  styleClass="menu__item" text="Выбрать тип веб-браузера"/>
+                    <MenuItem mnemonicParsing="false" onAction="#onNormalizeWindow"  styleClass="menu__item" text="Установить стандартный размер окна"/>
                 </Menu>
                 <Menu fx:id="helpMenu" mnemonicParsing="false" styleClass="menu" text="Помощь">
                     <MenuItem mnemonicParsing="false" styleClass="menu__item" text="О программе" />
