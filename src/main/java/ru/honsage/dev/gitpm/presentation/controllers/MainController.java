@@ -317,7 +317,8 @@ public class MainController {
 
     @FXML
     public void onOpenRemote(ActionEvent event) {
-        viewModel.openInBrowser(remoteUrlLabel.getText());
+        String url = remoteUrlLabel.getText();
+        if (url != null) viewModel.openInBrowser(url);
     }
 
     @FXML
