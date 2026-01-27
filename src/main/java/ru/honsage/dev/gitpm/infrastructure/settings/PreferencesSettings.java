@@ -1,6 +1,7 @@
 package ru.honsage.dev.gitpm.infrastructure.settings;
 
 import ru.honsage.dev.gitpm.domain.ports.AppSettings;
+import ru.honsage.dev.gitpm.domain.ports.BrowserType;
 import ru.honsage.dev.gitpm.domain.ports.ShellType;
 
 import java.util.prefs.Preferences;
@@ -18,7 +19,17 @@ public class PreferencesSettings implements AppSettings {
     }
 
     @Override
+    public BrowserType getBrowserType() {
+        return BrowserType.fromString(prefs.get("browser", BrowserType.DEFAULT.toString()));
+    }
+
+    @Override
     public void setShellType(ShellType shellType) {
         prefs.put("shell", shellType.toString());
+    }
+
+    @Override
+    public void setBrowserType(BrowserType browserType) {
+        prefs.put("browser", browserType.toString());
     }
 }
