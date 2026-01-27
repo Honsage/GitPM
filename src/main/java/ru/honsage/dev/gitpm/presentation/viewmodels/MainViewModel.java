@@ -130,7 +130,7 @@ public class MainViewModel {
         projects.remove(selectedProject);
     }
 
-    public void filterByTitlePrefix(String prefix) {
+    public void filterProjectsByTitlePrefix(String prefix) {
         filteredProjects.setPredicate(p ->
                 prefix == null ||
                         prefix.isBlank() ||

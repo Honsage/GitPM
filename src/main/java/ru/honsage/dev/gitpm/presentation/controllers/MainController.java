@@ -109,7 +109,15 @@ public class MainController {
     @FXML
     protected Button stopScriptButton;
     @FXML
-    protected VBox infoEmptyPane;
+    protected VBox infoTabBannerEmpty;
+    @FXML
+    protected VBox taskTabBannerEmpty;
+    @FXML
+    protected VBox scriptTabBannerEmpty;
+    @FXML
+    protected VBox taskContainer;
+    @FXML
+    protected SplitPane scriptContainer;
     @FXML
     protected VBox scriptEmptyPane;
     @FXML
@@ -140,7 +148,8 @@ public class MainController {
         });
 
         projectSearchEntry.textProperty().addListener((obs, oldValue, newValue) -> {
-            viewModel.filterByTitlePrefix(newValue);
+            viewModel.filterProjectsByTitlePrefix(newValue);
+            refreshTaskUI();
         });
 
         taskSearchEntry.textProperty().addListener((obs, oldValue, newValue) -> {
@@ -156,6 +165,7 @@ public class MainController {
                     viewModel.setSelectedProject(newValue);
                     refreshInfoUI();
                     viewModel.loadScriptsForSelectedProject();
+                    refreshScriptUI();
                 }
         );
 
@@ -445,10 +455,15 @@ public class MainController {
     }
 
     public void refreshTaskUI() {
-        if (viewModel.getSelectedProject() == null) {
-            // TODO: show banner 'choose project'
+        boolean hasProject = viewModel.getSelectedProject() != null;
+
+        taskTabBannerEmpty.setVisible(!hasProject);
+        taskContainer.setVisible(hasProject);
+
+        if (!hasProject) {
             return;
         }
+
         taskFlow.getChildren().clear();
         for (var tvm : viewModel.getTasks()) {
             try {
@@ -470,10 +485,9 @@ public class MainController {
 
     private void refreshInfoUI() {
         var project = viewModel.getSelectedProject();
-
         boolean hasProject = project != null;
 
-        infoEmptyPane.setVisible(!hasProject);
+        infoTabBannerEmpty.setVisible(!hasProject);
         infoTabScroll.setVisible(hasProject);
 
         if (!hasProject) {
@@ -488,6 +502,15 @@ public class MainController {
     }
 
     private void refreshScriptUI() {
+        boolean hasProject = viewModel.getSelectedProject() != null;
+
+        scriptTabBannerEmpty.setVisible(!hasProject);
+        scriptContainer.setVisible(hasProject);
+
+        if (!hasProject) {
+            return;
+        }
+
         runScriptButton.disableProperty().unbind();
         stopScriptButton.disableProperty().unbind();
 
@@ -513,6 +536,12 @@ public class MainController {
 
     @FXML
     private void onAddScript(ActionEvent event) {
+        if (viewModel.getSelectedProject() == null) {
+            // TODO: красивый алерт
+            Alert a = new Alert(Alert.AlertType.WARNING, "Необходимо выбрать проект!");
+            a.show();
+            return;
+        }
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/ru/honsage/dev/gitpm/fxml/dialogs/add-script-dialog.fxml")

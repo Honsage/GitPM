@@ -75,7 +75,7 @@
                     <Tab fx:id="infoTab" closable="false" onSelectionChanged="#onInfoTabSelected" text="Информация">
                         <StackPane>
 
-                        <VBox fx:id="infoEmptyPane" alignment="CENTER" spacing="10" visible="true">
+                        <VBox fx:id="infoTabBannerEmpty" alignment="CENTER" spacing="10" visible="true">
                             <Label style="-fx-font-size: 48;" text="📁" />
                             <Label style="-fx-font-size: 16; -fx-text-fill: #888;" text="Выберите проект" />
                         </VBox>
@@ -136,29 +136,39 @@
                     </Tab>
 
                     <Tab fx:id="taskTab" closable="false" onSelectionChanged="#onTaskTabSelected" text="Задачи">
-                        <VBox VBox.vgrow="ALWAYS">
-                            <HBox fx:id="taskPane" alignment="CENTER" maxWidth="Infinity" prefHeight="35.0" spacing="3.0">
-                                <padding>
-                                    <Insets left="10.0" right="10.0" top="5.0" bottom="5.0" />
-                                </padding>
-                                <Button fx:id="addTaskButton" onAction="#onAddTask" text="➕" minWidth="32.0" maxWidth="32.0" />
-                                <TextField fx:id="taskSearchEntry" maxWidth="200.0" promptText="Поиск задачи" minWidth="90.0" HBox.hgrow="SOMETIMES" />
-                                <ToggleButton onAction="#onFilterCompletedToggled" mnemonicParsing="false" text="✔" minWidth="32.0" maxWidth="32.0" />
-                                <ToggleButton onAction="#onFilterOverdueToggled" mnemonicParsing="false" text="🕒" minWidth="32.0" maxWidth="32.0" />
-                                <ToggleButton onAction="#onFilterImportantToggled" mnemonicParsing="false" text="🔥" minWidth="32.0" maxWidth="32.0" />
-                            </HBox>
-                            <ScrollPane fx:id="taskScroll" hbarPolicy="NEVER" styleClass="scrollable" VBox.vgrow="ALWAYS">
-                                <content>
-                                    <VBox fx:id="taskFlow" alignment="TOP_CENTER" minHeight="0" spacing="8.0" maxWidth="Infinity" />
-                                </content>
-                                <padding><Insets bottom="6.0" left="10.0" right="10.0" top="6.0" /></padding>
-                            </ScrollPane>
-                        </VBox>
+                        <StackPane>
+                            <VBox fx:id="taskTabBannerEmpty" alignment="CENTER" spacing="10" VBox.vgrow="ALWAYS">
+                                <Label style="-fx-font-size: 48;" text="📁" />
+                                <Label style="-fx-font-size: 16; -fx-text-fill: #888;" text="Выберите проект" />
+                            </VBox>
+                            <VBox fx:id="taskContainer" maxHeight="Infinity" VBox.vgrow="ALWAYS" visible="false">
+                                <HBox fx:id="taskPane" alignment="CENTER" maxWidth="Infinity" prefHeight="35.0" spacing="3.0">
+                                    <padding>
+                                        <Insets left="10.0" right="10.0" top="5.0" bottom="5.0" />
+                                    </padding>
+                                    <Button fx:id="addTaskButton" onAction="#onAddTask" text="➕" minWidth="32.0" maxWidth="32.0" />
+                                    <TextField fx:id="taskSearchEntry" maxWidth="200.0" promptText="Поиск задачи" minWidth="90.0" HBox.hgrow="SOMETIMES" />
+                                    <ToggleButton onAction="#onFilterCompletedToggled" mnemonicParsing="false" text="✔" minWidth="32.0" maxWidth="32.0" />
+                                    <ToggleButton onAction="#onFilterOverdueToggled" mnemonicParsing="false" text="🕒" minWidth="32.0" maxWidth="32.0" />
+                                    <ToggleButton onAction="#onFilterImportantToggled" mnemonicParsing="false" text="🔥" minWidth="32.0" maxWidth="32.0" />
+                                </HBox>
+                                <ScrollPane fx:id="taskScroll" hbarPolicy="NEVER" styleClass="scrollable" VBox.vgrow="ALWAYS" >
+                                    <content>
+                                        <VBox fx:id="taskFlow" alignment="TOP_CENTER" minHeight="0" spacing="8.0" maxWidth="Infinity" />
+                                    </content>
+                                    <padding><Insets bottom="6.0" left="10.0" right="10.0" top="6.0" /></padding>
+                                </ScrollPane>
+                            </VBox>
+                        </StackPane>
                     </Tab>
 
                     <Tab fx:id="scriptTab" closable="false" onSelectionChanged="#onScriptTabSelected" text="Сценарии">
-
-                        <SplitPane dividerPositions="0.4" styleClass="scripts-root" VBox.vgrow="ALWAYS">
+                        <StackPane>
+                        <VBox fx:id="scriptTabBannerEmpty" alignment="CENTER" spacing="10" VBox.vgrow="ALWAYS">
+                            <Label style="-fx-font-size: 48;" text="📁" />
+                            <Label style="-fx-font-size: 16; -fx-text-fill: #888;" text="Выберите проект" />
+                        </VBox>
+                        <SplitPane fx:id="scriptContainer" dividerPositions="0.4" styleClass="scripts-root" VBox.vgrow="ALWAYS" visible="false">
 
                             <VBox maxHeight="Infinity" spacing="6" styleClass="container, scripts-list">
 
@@ -209,6 +219,7 @@
                             </StackPane>
 
                         </SplitPane>
+                        </StackPane>
                     </Tab>
                 </TabPane>
             </VBox>
