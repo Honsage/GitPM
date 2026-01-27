@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="12" stylesheets="@../../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.honsage.dev.gitpm.presentation.controllers.ChangeBrowserDialogController">
+    <padding>
+        <Insets bottom="16" left="16" right="16" top="16" />
+    </padding>
+
+    <Label styleClass="dialog-title" text="Выберите браузер. Для корректной работы браузер должен быть настроен на Вашем устройстве." wrapText="true" maxWidth="270.0" textAlignment="CENTER" />
+
+    <VBox spacing="8" style="-fx-padding: 0 0 16 0;">
+        <RadioButton text="По умолчанию" userData="DEFAULT">
+            <toggleGroup>
+                <ToggleGroup fx:id="browserToggleGroup" />
+            </toggleGroup></RadioButton>
+        <RadioButton text="Yandex" toggleGroup="$browserToggleGroup" userData="YANDEX" />
+        <RadioButton text="Google Chrome" toggleGroup="$browserToggleGroup" userData="CHROME" />
+        <RadioButton text="Mozilla FireFox" toggleGroup="$browserToggleGroup" userData="FIREFOX" />
+        <RadioButton text="Opera" toggleGroup="$browserToggleGroup" userData="OPERA" />
+        <RadioButton text="Microsoft Edge" toggleGroup="$browserToggleGroup" userData="EDGE" />
+    </VBox>
+
+    <HBox alignment="CENTER_RIGHT" spacing="8">
+        <Button onAction="#onCancel" text="Отмена" />
+        <Button defaultButton="true" onAction="#onSave" styleClass="approve-button" text="Сохранить" />
+    </HBox>
+
+</VBox>
