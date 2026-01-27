@@ -276,7 +276,7 @@ public class MainViewModel {
         if (!enabled) {
             filteredTasks.setPredicate(t -> true);
         } else {
-            filteredTasks.setPredicate(t -> t.getPriority() == TaskPriority.HIGH);
+            filteredTasks.setPredicate(t -> t.getPriority() == TaskPriority.HIGH && !t.isCompleted());
         }
     }
 
