@@ -24,6 +24,16 @@ public class PreferencesSettings implements AppSettings {
     }
 
     @Override
+    public double getSceneWidth() {
+        return prefs.getDouble("scene-width", 800);
+    }
+
+    @Override
+    public double getSceneHeight() {
+        return prefs.getDouble("scene-height", 500);
+    }
+
+    @Override
     public void setShellType(ShellType shellType) {
         prefs.put("shell", shellType.toString());
     }
@@ -31,5 +41,15 @@ public class PreferencesSettings implements AppSettings {
     @Override
     public void setBrowserType(BrowserType browserType) {
         prefs.put("browser", browserType.toString());
+    }
+
+    @Override
+    public void setSceneWidth(double value) {
+        prefs.putDouble("scene-width", value);
+    }
+
+    @Override
+    public void setSceneHeight(double value) {
+        prefs.putDouble("scene-height", value);
     }
 }
