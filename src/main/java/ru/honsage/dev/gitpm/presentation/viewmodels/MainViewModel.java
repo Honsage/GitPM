@@ -26,6 +26,7 @@ public class MainViewModel {
     private final TaskService taskService;
     private final ScriptService scriptService;
     private final ScriptExecutionService scriptExecutionService;
+    private final WebBrowserService webBrowserService;
 
     private final ObservableList<ProjectViewModel> projects = FXCollections.observableArrayList();
     private final FilteredList<ProjectViewModel> filteredProjects = new FilteredList<>(projects);
@@ -43,12 +44,14 @@ public class MainViewModel {
             ProjectService projectService,
             TaskService taskService,
             ScriptService scriptService,
-            ScriptExecutionService scriptExecutionService
+            ScriptExecutionService scriptExecutionService,
+            WebBrowserService webBrowserService
     ) {
         this.projectService = projectService;
         this.taskService = taskService;
         this.scriptService = scriptService;
         this.scriptExecutionService = scriptExecutionService;
+        this.webBrowserService = webBrowserService;
     }
 
     // Projects
@@ -425,6 +428,8 @@ public class MainViewModel {
         script.setRunning(false);
     }
 
+    // Utils
+
     public void setSelectedShellType(String shellTypeName) {
         ShellType shellType = ShellType.fromString(shellTypeName);
         scriptExecutionService.setShellType(shellType);
@@ -432,5 +437,9 @@ public class MainViewModel {
 
     public ShellType getSelectedShellType() {
         return scriptExecutionService.getShellType();
+    }
+
+    public void openInBrowser(String url) {
+        webBrowserService.openInBrowser(url);
     }
 }

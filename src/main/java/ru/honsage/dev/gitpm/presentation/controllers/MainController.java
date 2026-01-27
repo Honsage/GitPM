@@ -311,7 +311,7 @@ public class MainController {
 
     @FXML
     public void onOpenRemote(ActionEvent event) {
-        OSUtils.openInBrowser(remoteUrlLabel.getText());
+        viewModel.openInBrowser(remoteUrlLabel.getText());
     }
 
     @FXML
@@ -332,9 +332,7 @@ public class MainController {
     @FXML
     public void onAddTask(ActionEvent actionEvent) {
         if (viewModel.getSelectedProject() == null) {
-            // TODO: красивый алерт
-            Alert a = new Alert(Alert.AlertType.WARNING, "Необходимо выбрать проект!");
-            a.show();
+            OSUtils.alert("Необходимо выбрать проект!", "warning");
             return;
         }
 
@@ -537,9 +535,7 @@ public class MainController {
     @FXML
     private void onAddScript(ActionEvent event) {
         if (viewModel.getSelectedProject() == null) {
-            // TODO: красивый алерт
-            Alert a = new Alert(Alert.AlertType.WARNING, "Необходимо выбрать проект!");
-            a.show();
+            OSUtils.alert("Необходимо выбрать проект!", "warning");
             return;
         }
         try {

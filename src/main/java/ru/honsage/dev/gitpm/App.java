@@ -8,11 +8,13 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import ru.honsage.dev.gitpm.application.services.*;
 import ru.honsage.dev.gitpm.domain.ports.AppSettings;
+import ru.honsage.dev.gitpm.domain.ports.BrowserOperations;
 import ru.honsage.dev.gitpm.domain.ports.CommandExecutor;
 import ru.honsage.dev.gitpm.domain.ports.GitOperations;
 import ru.honsage.dev.gitpm.domain.repositories.ProjectRepository;
 import ru.honsage.dev.gitpm.domain.repositories.ScriptRepository;
 import ru.honsage.dev.gitpm.domain.repositories.TaskRepository;
+import ru.honsage.dev.gitpm.infrastructure.browser.CmdBrowserOperations;
 import ru.honsage.dev.gitpm.infrastructure.executor.ProcessBuilderCommandExecutor;
 import ru.honsage.dev.gitpm.infrastructure.git.JGitOperations;
 import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.DatabaseManager;
@@ -40,6 +42,7 @@ public class App extends Application {
         AppSettings settings = new PreferencesSettings("GitPM");
         GitOperations git = new JGitOperations();
         CommandExecutor executor = new ProcessBuilderCommandExecutor();
+        BrowserOperations browserOps = new CmdBrowserOperations();
 
         // Services
         ProjectService projectService = new ProjectService(projectRepo, git);
@@ -47,12 +50,14 @@ public class App extends Application {
         ScriptService scriptService = new ScriptService(scriptRepo);
 
         ScriptExecutionService executionService = new ScriptExecutionService(executor, settings);
+        WebBrowserService webBrowserService = new WebBrowserService(browserOps, settings);
 
         MainViewModel viewModel = new MainViewModel(
                 projectService,
                 taskService,
                 scriptService,
-                executionService
+                executionService,
+                webBrowserService
         );
 
         MainController mainController = new MainController(viewModel);
