@@ -1,6 +1,7 @@
 package ru.honsage.dev.gitpm.application.services;
 
 import ru.honsage.dev.gitpm.domain.models.Script;
+import ru.honsage.dev.gitpm.domain.ports.AppSettings;
 import ru.honsage.dev.gitpm.domain.ports.CommandExecutor;
 import ru.honsage.dev.gitpm.domain.ports.ShellType;
 
@@ -13,13 +14,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ScriptExecutionService {
     private final CommandExecutor executor;
     private ShellType selectedShellType;
+    private AppSettings settings;
 
     private final Map<String, Process> runningProcesses = new ConcurrentHashMap<>();
     private final Map<String, StringBuilder> scriptOutputs = new ConcurrentHashMap<>();
 
-    public ScriptExecutionService(CommandExecutor commandExecutor) {
+    public ScriptExecutionService(CommandExecutor commandExecutor, AppSettings settings) {
         this.executor = commandExecutor;
-        this.selectedShellType = ShellType.CMD;
+        this.settings = settings;
+        this.selectedShellType = settings.getShellType();
     }
 
     public void runScript(Script script) {
@@ -89,6 +92,7 @@ public class ScriptExecutionService {
 
     public void setShellType(ShellType shellType) {
         this.selectedShellType = shellType;
+        this.settings.setShellType(shellType);
     }
 
     public ShellType getShellType() {
