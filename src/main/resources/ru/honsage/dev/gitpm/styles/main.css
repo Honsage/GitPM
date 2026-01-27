@@ -120,6 +120,10 @@
 
 /* Tabs */
 
+.tab {
+    -fx-cursor: HAND;
+}
+
 .tab:selected {
     -fx-background-color: transparent-main-color;
 }
@@ -127,6 +131,7 @@
 .tab:selected .tab-label {
     -fx-text-fill: white;
     -fx-font-weight: 400;
+    -fx-cursor: DEFAULT;
 }
 
 .container,

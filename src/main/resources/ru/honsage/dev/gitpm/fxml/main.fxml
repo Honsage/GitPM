@@ -20,6 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.Tooltip?>
 <BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="100.0" minWidth="200.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.honsage.dev.gitpm.presentation.controllers.MainController">
 
     <top>
@@ -56,15 +57,45 @@
                     <padding>
                         <Insets left="10.0" right="10.0" top="5.0" bottom="5.0" />
                     </padding>
-                    <Button fx:id="addProjectButton" styleClass="common-button" mnemonicParsing="false" onAction="#onAddProject" prefHeight="26.0" maxWidth="32.0" text="➕" minWidth="32.0" />
-                    <Button fx:id="scanDirectoryButton" styleClass="common-button" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onScanDirectory" prefHeight="26.0" maxWidth="32.0" text="🔎" minWidth="32.0" />
+                    <Button fx:id="addProjectButton" styleClass="common-button" mnemonicParsing="false" onAction="#onAddProject" prefHeight="26.0" maxWidth="32.0" text="➕" minWidth="32.0" >
+                        <tooltip>
+                            <Tooltip>
+                                <text>Добавить проект</text>
+                            </Tooltip>
+                        </tooltip>
+                    </Button>
+                    <Button fx:id="scanDirectoryButton" styleClass="common-button" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onScanDirectory" prefHeight="26.0" maxWidth="32.0" text="🔎" minWidth="32.0">
+                        <tooltip>
+                            <Tooltip>
+                                <text>Найти git-проекты</text>
+                            </Tooltip>
+                        </tooltip>
+                    </Button>
                     <TextField fx:id="projectSearchEntry" prefHeight="26.0" minWidth="90.0" maxWidth="300.0" promptText="Поиск проекта" HBox.hgrow="ALWAYS"/>
-                    <ToggleButton fx:id="filterRemoteButton" styleClass="common-toggle-button" mnemonicParsing="false" onAction="#onFilterRemoteToggled" maxWidth="32.0" text="🌐" minWidth="32.0" />
+                    <ToggleButton fx:id="filterRemoteButton" styleClass="common-toggle-button" mnemonicParsing="false" onAction="#onFilterRemoteToggled" maxWidth="32.0" text="🌐" minWidth="32.0">
+                        <tooltip>
+                            <Tooltip>
+                                <text>Проекты с удаленными репозиториями</text>
+                            </Tooltip>
+                        </tooltip>
+                    </ToggleButton>
                 </HBox>
                 <ListView fx:id="projectFlow" prefHeight="318.0" prefWidth="254.0" styleClass="list-view" />
                 <HBox alignment="TOP_RIGHT" prefHeight="51.0" prefWidth="254.0" spacing="6.0">
-                    <Button fx:id="editProjectButton" mnemonicParsing="false" onAction="#onEditProject" prefHeight="26.0" prefWidth="34.0" styleClass="edit-button" />
-                    <Button fx:id="deleteProjectButton" mnemonicParsing="false" onAction="#onDeleteProject" prefHeight="26.0" prefWidth="23.0" styleClass="delete-button" />
+                    <Button fx:id="editProjectButton" mnemonicParsing="false" onAction="#onEditProject" prefHeight="26.0" prefWidth="34.0" styleClass="edit-button">
+                        <tooltip>
+                            <Tooltip>
+                                <text>Изменить проект</text>
+                            </Tooltip>
+                        </tooltip>
+                    </Button>
+                    <Button fx:id="deleteProjectButton" mnemonicParsing="false" onAction="#onDeleteProject" prefHeight="26.0" prefWidth="23.0" styleClass="delete-button">
+                        <tooltip>
+                            <Tooltip>
+                                <text>Удалить проект</text>
+                            </Tooltip>
+                        </tooltip>
+                    </Button>
                <padding>
                   <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
                </padding>
@@ -147,11 +178,35 @@
                                     <padding>
                                         <Insets left="10.0" right="10.0" top="5.0" bottom="5.0" />
                                     </padding>
-                                    <Button fx:id="addTaskButton" styleClass="common-button" onAction="#onAddTask" text="➕" minWidth="32.0" maxWidth="32.0" />
+                                    <Button fx:id="addTaskButton" styleClass="common-button" onAction="#onAddTask" text="➕" minWidth="32.0" maxWidth="32.0">
+                                        <tooltip>
+                                            <Tooltip>
+                                                <text>Добавить задачу</text>
+                                            </Tooltip>
+                                        </tooltip>
+                                    </Button>
                                     <TextField fx:id="taskSearchEntry" maxWidth="200.0" promptText="Поиск задачи" minWidth="90.0" HBox.hgrow="SOMETIMES" />
-                                    <ToggleButton styleClass="common-toggle-button" onAction="#onFilterCompletedToggled" mnemonicParsing="false" text="✔" minWidth="32.0" maxWidth="32.0" />
-                                    <ToggleButton styleClass="common-toggle-button" onAction="#onFilterOverdueToggled" mnemonicParsing="false" text="🕒" minWidth="32.0" maxWidth="32.0" />
-                                    <ToggleButton styleClass="common-toggle-button" onAction="#onFilterImportantToggled" mnemonicParsing="false" text="🔥" minWidth="32.0" maxWidth="32.0" />
+                                    <ToggleButton styleClass="common-toggle-button" onAction="#onFilterCompletedToggled" mnemonicParsing="false" text="✔" minWidth="32.0" maxWidth="32.0">
+                                        <tooltip>
+                                            <Tooltip>
+                                                <text>Выполненные задачи</text>
+                                            </Tooltip>
+                                        </tooltip>
+                                    </ToggleButton>
+                                    <ToggleButton styleClass="common-toggle-button" onAction="#onFilterOverdueToggled" mnemonicParsing="false" text="🕒" minWidth="32.0" maxWidth="32.0">
+                                        <tooltip>
+                                            <Tooltip>
+                                                <text>Просроченные задачи</text>
+                                            </Tooltip>
+                                        </tooltip>
+                                    </ToggleButton>
+                                    <ToggleButton styleClass="common-toggle-button" onAction="#onFilterImportantToggled" mnemonicParsing="false" text="🔥" minWidth="32.0" maxWidth="32.0">
+                                        <tooltip>
+                                            <Tooltip>
+                                                <text>Важные задачи</text>
+                                            </Tooltip>
+                                        </tooltip>
+                                    </ToggleButton>
                                 </HBox>
                                 <ScrollPane fx:id="taskScroll" hbarPolicy="NEVER" styleClass="scrollable" VBox.vgrow="ALWAYS" >
                                     <content>
@@ -174,15 +229,33 @@
                             <VBox maxHeight="Infinity" spacing="6" styleClass="container, scripts-list">
 
                                 <HBox spacing="6" styleClass="scripts-header" alignment="CENTER">
-                                    <Button styleClass="common-button" minWidth="32.0" onAction="#onAddScript" prefHeight="26.0" maxWidth="32.0" text="➕" />
-                                    <TextField fx:id="scriptSearchEntry" promptText="Поиск сценария" maxWidth="200.0" minWidth="90.0" HBox.hgrow="SOMETIMES" />
+                                    <Button styleClass="common-button" minWidth="32.0" onAction="#onAddScript" prefHeight="26.0" maxWidth="32.0" text="➕">
+                                        <tooltip>
+                                            <Tooltip>
+                                                <text>Добавить скрипт</text>
+                                            </Tooltip>
+                                        </tooltip>
+                                    </Button>
+                                    <TextField fx:id="scriptSearchEntry" promptText="Поиск скрипта" maxWidth="200.0" minWidth="90.0" HBox.hgrow="SOMETIMES" />
                                 </HBox>
 
                                 <ListView fx:id="scriptList" prefHeight="225" VBox.vgrow="ALWAYS" />
 
                                 <HBox alignment="CENTER_RIGHT" spacing="6" styleClass="scripts-footer">
-                                    <Button maxWidth="25.0" onAction="#onEditScript" prefHeight="26.0" prefWidth="25.0" styleClass="edit-button" />
-                                    <Button onAction="#onDeleteScript" prefHeight="26.0" prefWidth="24.0" styleClass="delete-button" />
+                                    <Button maxWidth="25.0" onAction="#onEditScript" prefHeight="26.0" prefWidth="25.0" styleClass="edit-button">
+                                        <tooltip>
+                                            <Tooltip>
+                                                <text>Редактировать скрипт</text>
+                                            </Tooltip>
+                                        </tooltip>
+                                    </Button>
+                                    <Button onAction="#onDeleteScript" prefHeight="26.0" prefWidth="24.0" styleClass="delete-button">
+                                        <tooltip>
+                                            <Tooltip>
+                                                <text>Удалить скрипт</text>
+                                            </Tooltip>
+                                        </tooltip>
+                                    </Button>
                                 </HBox>
                             </VBox>
 
