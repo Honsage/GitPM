@@ -13,8 +13,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ScriptExecutionService {
     private final CommandExecutor executor;
-    private ShellType selectedShellType;
     private AppSettings settings;
+
+    private ShellType selectedShellType;
 
     private final Map<String, Process> runningProcesses = new ConcurrentHashMap<>();
     private final Map<String, StringBuilder> scriptOutputs = new ConcurrentHashMap<>();

@@ -13,6 +13,7 @@ public class WebBrowserService {
     public WebBrowserService(BrowserOperations browserOps, AppSettings settings) {
         this.browser = browserOps;
         this.settings = settings;
+        this.selectedBrowserType = settings.getBrowserType();
     }
 
     public void openInBrowser(String url) {
