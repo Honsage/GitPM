@@ -39,6 +39,7 @@
                 </Menu>
                 <Menu fx:id="settingsMenu" mnemonicParsing="false" text="Настройки">
                     <MenuItem mnemonicParsing="false" onAction="#onChangeShell"  styleClass="menu__item" text="Тип командной оболочки"/>
+                    <MenuItem mnemonicParsing="false" onAction="#onChangeBrowser"  styleClass="menu__item" text="Тип браузера"/>
                 </Menu>
                 <Menu fx:id="helpMenu" mnemonicParsing="false" styleClass="menu" text="Помощь">
                     <MenuItem mnemonicParsing="false" styleClass="menu__item" text="О программе" />

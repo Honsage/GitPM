@@ -654,6 +654,7 @@ public class MainController {
         }
     }
 
+    // Do not work in exit on X
     public void onCloseApplication(ActionEvent event) {
         Stage stage = (Stage) root.getScene().getWindow();
         stage.close();
@@ -679,6 +680,31 @@ public class MainController {
             stage.showAndWait();
 
             controller.getSelectedShell().ifPresent(viewModel::setSelectedShellType);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onChangeBrowser(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/ru/honsage/dev/gitpm/fxml/dialogs/change-browser-dialog.fxml")
+            );
+
+            Stage stage = new Stage();
+            stage.setTitle("Настройка браузера");
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/ru/honsage/dev/gitpm/images/icon.png"))));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(this.root.getScene().getWindow());
+            stage.setScene(new Scene(loader.load()));
+
+            ChangeBrowserDialogController controller = loader.getController();
+            controller.setStage(stage);
+            controller.setSelectedBrowser(viewModel.getSelectedBrowserType());
+            stage.showAndWait();
+
+            controller.getSelectedBrowser().ifPresent(viewModel::setSelectedBrowserType);
         } catch (IOException e) {
             e.printStackTrace();
         }

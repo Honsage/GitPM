@@ -6,6 +6,7 @@ import javafx.collections.transformation.FilteredList;
 import ru.honsage.dev.gitpm.application.services.*;
 import ru.honsage.dev.gitpm.domain.models.Script;
 import ru.honsage.dev.gitpm.domain.models.TaskPriority;
+import ru.honsage.dev.gitpm.domain.ports.BrowserType;
 import ru.honsage.dev.gitpm.domain.ports.ShellType;
 import ru.honsage.dev.gitpm.domain.valueobjects.*;
 import ru.honsage.dev.gitpm.presentation.dto.ProjectDTO;
@@ -435,8 +436,17 @@ public class MainViewModel {
         scriptExecutionService.setShellType(shellType);
     }
 
+    public void setSelectedBrowserType(String browserTypeName) {
+        BrowserType browserType = BrowserType.fromString(browserTypeName);
+        webBrowserService.setBrowserType(browserType);
+    }
+
     public ShellType getSelectedShellType() {
         return scriptExecutionService.getShellType();
+    }
+
+    public BrowserType getSelectedBrowserType() {
+        return webBrowserService.getBrowserType();
     }
 
     public void openInBrowser(String url) {
