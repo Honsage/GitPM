@@ -3,19 +3,33 @@
     yellow-priority: #f6c132;
     green-priority: #31c48d;
     main-color: #006464;
-    transparent-main-color: #006464AA;
+    transparent-main-color: #00646499;
 }
 
 .approve-button,
-.common-button {
-    -fx-background-color: main-color;
+.common-button,
+.common-toggle-button {
+    -fx-background-color: transparent-main-color;
     -fx-text-fill: white;
     -fx-text-alignment: center;
 }
 
 .approve-button:hover,
-.common-button:hover {
-    -fx-background-color: transparent-main-color;
+.common-button:hover,
+.common-toggle-button:hover {
+    -fx-background-color: main-color;
+    -fx-cursor: HAND;
+}
+
+.approve-button:pressed,
+.common-button:pressed,
+.common-toggle-button:pressed {
+    -fx-translate-y: 1px;
+
+}
+
+.common-toggle-button:selected {
+    -fx-background-color: main-color;
 }
 
 .edit-button {
@@ -94,8 +108,13 @@
 
 /* Projects */
 
-.list-view .list-cell:selected {
+.list-view .list-cell:hover {
     -fx-background-color: transparent-main-color;
+    -fx-text-fill: white;
+}
+
+.list-view .list-cell:selected {
+    -fx-background-color: main-color;
     -fx-text-fill: white;
 }
 
@@ -185,11 +204,14 @@
 }
 
 .task-card:hover {
-    -fx-translate-y: -2;
+    -fx-translate-y: -2px;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.35), 10, 0, 0, 6);
 }
 
-/* TODO: fix completed */
+.task-card:pressed {
+    -fx-translate-y: 1px;
+}
+
 .task-card.completed {
     -fx-background-color: transparent-main-color;
 }
@@ -214,8 +236,8 @@
 }
 
 .task-deadline {
-    -fx-text-fill: #98a6ad;
-    -fx-font-size: 11px;
+    -fx-text-fill: #bcbcbc;
+    -fx-font-size: 10px;
 ;
 }
 
