@@ -7,8 +7,6 @@ import javafx.scene.input.ClipboardContent;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.util.List;
 
 public class OSUtils {
     public static boolean isWindows() {
@@ -33,56 +31,10 @@ public class OSUtils {
         }
     }
 
-    public static void openInBrowser(String url) {
-        // TODO: support browserType transfer to method
-        String browserType = "default";
-        if (isWindows()) {
-            openInBrowserWin(browserType, url);
-        } else {
-            openInBrowserUnix(browserType, url);
-        }
-    }
-
-    private static void openInBrowserUnix(String browserType, String url) {
-        launchDefaultBrowser(url);
-    }
-
-    private static void openInBrowserWin(String browserType, String url) {
-        switch (browserType) {
-            case "yandex" -> launchBrowserWin("browser", url);
-            case "chrome" -> launchBrowserWin("chrome", url);
-            case "firefox" -> launchBrowserWin("firefox", url);
-            case "opera" -> launchBrowserWin("opera", url);
-            default -> launchDefaultBrowser(url);
-        }
-    }
-
-    private static void launchDefaultBrowser(String url) {
-        try {
-            Desktop.getDesktop().browse(new URI(url));
-        } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR,
-                    "Не удалось открыть браузер: " + e.getMessage());
-            alert.showAndWait();
-        }
-    }
-
-    private static void launchBrowserWin(String browserExe, String url) {
-        try {
-            Runtime.getRuntime().exec(new String[]{"cmd", "/c", "start", browserExe, url});
-        } catch (IOException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR,
-                    "Не удалось открыть браузер: " + e.getMessage());
-            alert.showAndWait();
-        }
-    }
-
-    private static List<String> getBrowserExeList() {
-        return List.of(
-                "browser",
-                "chrome",
-                "firefox",
-                "opera"
-        );
+    public static void alert(String message, String type) {
+        Alert.AlertType alertType = Alert.AlertType.ERROR;
+        if (type.toLowerCase().startsWith("warning")) alertType = Alert.AlertType.WARNING;
+        Alert alert = new Alert(alertType, message);
+        alert.showAndWait();
     }
 }
