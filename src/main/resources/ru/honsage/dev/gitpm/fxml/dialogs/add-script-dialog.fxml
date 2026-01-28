@@ -27,12 +27,19 @@
         </font>
     </Label>
 
-    <GridPane hgap="8" vgap="10">
+    <GridPane hgap="8" vgap="10" VBox.vgrow="ALWAYS">
         <columnConstraints>
             <ColumnConstraints minWidth="120"/>
             <ColumnConstraints hgrow="ALWAYS"/>
             <ColumnConstraints minWidth="40"/>
         </columnConstraints>
+
+        <rowConstraints>
+            <RowConstraints valignment="TOP" />
+            <RowConstraints vgrow="ALWAYS" valignment="TOP" />
+            <RowConstraints valignment="TOP" />
+            <RowConstraints valignment="TOP" />
+        </rowConstraints>
 
         <Label text="Название" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
         <TextField fx:id="titleField"
@@ -47,7 +54,10 @@
                   GridPane.rowIndex="1"
                   GridPane.columnIndex="1"
                   GridPane.columnSpan="2"
-                  wrapText="true" />
+                  wrapText="true"
+                  prefHeight="60"
+                  GridPane.vgrow="SOMETIMES"
+                  VBox.vgrow="SOMETIMES" />
 
         <Label text="Рабочая директория" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
         <TextField fx:id="workingDirField"

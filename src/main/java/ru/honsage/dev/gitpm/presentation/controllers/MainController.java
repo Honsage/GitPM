@@ -244,6 +244,7 @@ public class MainController {
             stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/ru/honsage/dev/gitpm/images/icon.png"))));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(this.root.getScene().getWindow());
+            stage.setMinHeight(290);
             stage.setScene(new Scene(root));
 
             controller.setStage(stage);
@@ -279,6 +280,7 @@ public class MainController {
             stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/ru/honsage/dev/gitpm/images/icon.png"))));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(this.root.getScene().getWindow());
+            stage.setMinHeight(290);
             stage.setScene(new Scene(root));
 
             controller.setStage(stage);
@@ -353,6 +355,7 @@ public class MainController {
             stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/ru/honsage/dev/gitpm/images/icon.png"))));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(this.root.getScene().getWindow());
+            stage.setMinHeight(290);
             stage.setScene(new Scene(loader.load()));
             stage.showAndWait();
 
@@ -382,6 +385,7 @@ public class MainController {
             stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/ru/honsage/dev/gitpm/images/icon.png"))));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(this.root.getScene().getWindow());
+            stage.setMinHeight(290);
             stage.setScene(new Scene(loader.load()));
 
             EditTaskDialogController controller = loader.getController();
@@ -555,6 +559,7 @@ public class MainController {
             stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/ru/honsage/dev/gitpm/images/icon.png"))));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(this.root.getScene().getWindow());
+            stage.setMinHeight(290);
             stage.setScene(new Scene(loader.load()));
 
             AddScriptDialogController controller = loader.getController();
@@ -589,6 +594,7 @@ public class MainController {
             stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/ru/honsage/dev/gitpm/images/icon.png"))));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(this.root.getScene().getWindow());
+            stage.setMinHeight(290);
             stage.setScene(new Scene(loader.load()));
 
             EditScriptDialogController controller = loader.getController();

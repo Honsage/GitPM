@@ -23,17 +23,27 @@
 
     <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" style="-fx-font-size: 16px;" textFill="RED" />
 
-    <GridPane hgap="8" vgap="10">
+    <GridPane hgap="8" vgap="10" VBox.vgrow="ALWAYS">
         <columnConstraints>
             <ColumnConstraints minWidth="90" />
             <ColumnConstraints hgrow="ALWAYS" />
         </columnConstraints>
 
+        <rowConstraints>
+            <RowConstraints valignment="TOP" />
+            <RowConstraints vgrow="ALWAYS" valignment="TOP" />
+            <RowConstraints valignment="TOP" />
+            <RowConstraints valignment="TOP" />
+        </rowConstraints>
+
         <Label text="Название" GridPane.columnIndex="0" GridPane.rowIndex="0" />
         <TextField fx:id="titleField" promptText="Обязательное поле" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
         <Label text="Описание" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <TextArea fx:id="contentField" prefRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="1" wrapText="true" />
+        <TextArea fx:id="contentField" prefRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="1" wrapText="true"
+                  prefHeight="60"
+                  GridPane.vgrow="SOMETIMES"
+                  VBox.vgrow="SOMETIMES" />
 
         <Label text="Дедлайн" GridPane.columnIndex="0" GridPane.rowIndex="2" />
         <DatePicker fx:id="deadlinePicker" promptText="Необязательно" GridPane.columnIndex="1" GridPane.rowIndex="2" />
@@ -48,12 +58,6 @@
 
             <Button fx:id="priorityHigh" onAction="#onPriorityHigh" styleClass="priority, high" />
         </HBox>
-      <rowConstraints>
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-      </rowConstraints>
     </GridPane>
 
     <Separator />
