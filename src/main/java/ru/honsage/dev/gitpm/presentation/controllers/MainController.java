@@ -326,7 +326,7 @@ public class MainController {
     @FXML
     public void onScanDirectory(ActionEvent event) {
         DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle("Scan for Git Repositories");
+        chooser.setTitle("Сканирование Git-репозиториев");
         File selected = chooser.showDialog(null);
         if (selected != null) {
             viewModel.scanForProjects(selected.toPath());

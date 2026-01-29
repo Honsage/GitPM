@@ -37,6 +37,7 @@
                 </Menu>
                 <Menu fx:id="editMenu" mnemonicParsing="false" styleClass="menu" text="Проекты">
                     <MenuItem mnemonicParsing="false" onAction="#onAddProject" styleClass="menu__item" text="Добавить проект" />
+                    <MenuItem mnemonicParsing="false" onAction="#onScanDirectory" styleClass="menu__item" text="Найти проекты" />
                 </Menu>
                 <Menu fx:id="settingsMenu" mnemonicParsing="false" text="Настройки">
                     <MenuItem mnemonicParsing="false" onAction="#onChangeShell"  styleClass="menu__item" text="Выбрать тип командной оболочки"/>
