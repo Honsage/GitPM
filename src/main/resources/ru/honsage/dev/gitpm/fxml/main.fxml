@@ -210,12 +210,18 @@
                                         </tooltip>
                                     </ToggleButton>
                                 </HBox>
-                                <ScrollPane fx:id="taskScroll" hbarPolicy="NEVER" styleClass="scrollable" VBox.vgrow="ALWAYS" >
-                                    <content>
-                                        <VBox fx:id="taskFlow" alignment="TOP_CENTER" minHeight="0" spacing="8.0" maxWidth="Infinity" />
-                                    </content>
-                                    <padding><Insets bottom="6.0" left="10.0" right="10.0" top="6.0" /></padding>
-                                </ScrollPane>
+                                <StackPane VBox.vgrow="ALWAYS">
+                                    <VBox fx:id="taskEmptyPane" alignment="CENTER" spacing="10" visible="true">
+                                        <Label style="-fx-font-size: 48;" text="📋" />
+                                        <Label style="-fx-font-size: 16; -fx-text-fill: #888;" text="Добавьте задачи" />
+                                    </VBox>
+                                    <ScrollPane fx:id="taskScroll" hbarPolicy="NEVER" styleClass="scrollable" VBox.vgrow="ALWAYS" visible="false" >
+                                        <content>
+                                            <VBox fx:id="taskFlow" alignment="TOP_CENTER" minHeight="0" spacing="8.0" maxWidth="Infinity" />
+                                        </content>
+                                        <padding><Insets bottom="6.0" left="10.0" right="10.0" top="6.0" /></padding>
+                                    </ScrollPane>
+                                </StackPane>
                             </VBox>
                         </StackPane>
                     </Tab>

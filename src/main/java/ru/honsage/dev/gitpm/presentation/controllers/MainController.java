@@ -120,6 +120,8 @@ public class MainController {
     @FXML
     protected SplitPane scriptContainer;
     @FXML
+    protected VBox taskEmptyPane;
+    @FXML
     protected VBox scriptEmptyPane;
     @FXML
     protected VBox scriptDetailsPane;
@@ -166,6 +168,7 @@ public class MainController {
                 (obs, oldValue, newValue) -> {
                     viewModel.setSelectedProject(newValue);
                     refreshInfoUI();
+                    refreshTaskUI();
                     viewModel.loadScriptsForSelectedProject();
                     refreshScriptUI();
                 }
@@ -468,13 +471,25 @@ public class MainController {
 
         taskTabBannerEmpty.setVisible(!hasProject);
         taskContainer.setVisible(hasProject);
+        taskPane.setVisible(hasProject);
 
         if (!hasProject) {
             return;
         }
 
         taskFlow.getChildren().clear();
-        for (var tvm : viewModel.getTasks()) {
+
+        var taskList = viewModel.getTasks();
+        boolean isTaskListEmpty = taskList.isEmpty();
+
+        taskEmptyPane.setVisible(isTaskListEmpty);
+        taskScroll.setVisible(!isTaskListEmpty);
+
+        if (isTaskListEmpty) {
+            return;
+        }
+
+        for (var tvm : taskList) {
             try {
                 FXMLLoader loader = new FXMLLoader(
                         getClass().getResource("/ru/honsage/dev/gitpm/fxml/task-item.fxml")
