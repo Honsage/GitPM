@@ -12,6 +12,6 @@ public class DocumentationService {
     public String getUserManualUri() {
         String htmlPath = "/ru/honsage/dev/gitpm/docs/manual/index.html";
         String assetsFolderPath = "/ru/honsage/dev/gitpm/docs/manual";
-        return htmlConverter.convertToDataUri(htmlPath, assetsFolderPath);
+        return htmlConverter.writeToTempFile(htmlPath, assetsFolderPath);
     }
 }

@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Base64;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,6 +21,18 @@ public class HtmlConverterImpl implements HtmlConverter {
             return createDataUri(htmlContent);
         } catch (IOException e) {
             throw new RuntimeException("Failed to convert HTML to Data URI", e);
+        }
+    }
+
+    @Override
+    public String writeToTempFile(String htmlPath, String assetsFolderPath) {
+        try {
+            String htmlContent = loadAsString(htmlPath);
+            htmlContent = embedImages(htmlContent, assetsFolderPath);
+            return createTempFile(htmlContent);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to create temp HTML file", e);
         }
     }
 
@@ -89,5 +103,26 @@ public class HtmlConverterImpl implements HtmlConverter {
         String encoded = URLEncoder.encode(htmlContent, StandardCharsets.UTF_8)
                 .replace("+", "%20");
         return "data:text/html;charset=utf-8," + encoded;
+    }
+
+    private String createTempFile(String htmlContent) throws IOException {
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        String filename = "gitpm_manual_" + timestamp + ".html";
+
+        Path tempDir = Files.createTempDirectory("gitpm_manual");
+        Path htmlFile = tempDir.resolve(filename);
+
+        Files.writeString(htmlFile, htmlContent, StandardCharsets.UTF_8);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                Files.deleteIfExists(htmlFile);
+                Files.deleteIfExists(tempDir);
+            } catch (IOException _) {}
+        }));
+
+        return "file:///" + htmlFile.toAbsolutePath().toString()
+                .replace("\\", "/")
+                .replace(" ", "%20");
     }
 }
