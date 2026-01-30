@@ -10,8 +10,8 @@ public class DocumentationService {
     }
 
     public String getUserManualUri() {
-        String htmlPath = "/ru/honsage/dev/gitpm/html/user-manual.html";
-        String assetsFolderPath = "/ru/honsage/dev/gitpm/images/user-manual";
+        String htmlPath = "/ru/honsage/dev/gitpm/docs/manual/index.html";
+        String assetsFolderPath = "/ru/honsage/dev/gitpm/docs/manual";
         return htmlConverter.convertToDataUri(htmlPath, assetsFolderPath);
     }
 }

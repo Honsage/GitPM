@@ -44,7 +44,7 @@
                     <MenuItem mnemonicParsing="false" onAction="#onChangeBrowser"  styleClass="menu__item" text="Выбрать тип веб-браузера"/>
                     <MenuItem mnemonicParsing="false" onAction="#onNormalizeWindow"  styleClass="menu__item" text="Установить стандартный размер окна"/>
                 </Menu>
-                <Menu fx:id="helpMenu" mnemonicParsing="false" styleClass="menu" text="Помощь">
+                <Menu fx:id="helpMenu" mnemonicParsing="false" styleClass="menu" text="Документация">
                     <MenuItem mnemonicParsing="false" onAction="#onShowUserManual" styleClass="menu__item" text="Руководство пользователя" />
                 </Menu>
             </MenuBar>
