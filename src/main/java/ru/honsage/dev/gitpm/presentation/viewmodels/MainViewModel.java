@@ -28,6 +28,7 @@ public class MainViewModel {
     private final ScriptService scriptService;
     private final ScriptExecutionService scriptExecutionService;
     private final WebBrowserService webBrowserService;
+    private final DocumentationService documentationService;
 
     private final ObservableList<ProjectViewModel> projects = FXCollections.observableArrayList();
     private final FilteredList<ProjectViewModel> filteredProjects = new FilteredList<>(projects);
@@ -46,13 +47,15 @@ public class MainViewModel {
             TaskService taskService,
             ScriptService scriptService,
             ScriptExecutionService scriptExecutionService,
-            WebBrowserService webBrowserService
+            WebBrowserService webBrowserService,
+            DocumentationService documentationService
     ) {
         this.projectService = projectService;
         this.taskService = taskService;
         this.scriptService = scriptService;
         this.scriptExecutionService = scriptExecutionService;
         this.webBrowserService = webBrowserService;
+        this.documentationService = documentationService;
     }
 
     // Projects
@@ -451,5 +454,10 @@ public class MainViewModel {
 
     public void openInBrowser(String url) {
         webBrowserService.openInBrowser(url);
+    }
+
+    public void showUserManual() {
+        String htmlUri = documentationService.getUserManualUri();
+        webBrowserService.openInBrowser(htmlUri);
     }
 }

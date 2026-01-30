@@ -36,7 +36,10 @@ import ru.honsage.dev.gitpm.presentation.viewmodels.TaskViewModel;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.Base64;
 
 // TODO: determine which access modifier is applied to fxml components
 
@@ -745,6 +748,11 @@ public class MainController {
         stage.setHeight(500);
         settings.setWindowWidth(stage.getWidth());
         settings.setWindowHeight(stage.getHeight());
+    }
+
+    @FXML
+    private void onShowUserManual(ActionEvent event) {
+        viewModel.showUserManual();
     }
 
     private void stopAllRunningScripts() {

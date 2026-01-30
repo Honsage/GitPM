@@ -45,7 +45,7 @@
                     <MenuItem mnemonicParsing="false" onAction="#onNormalizeWindow"  styleClass="menu__item" text="Установить стандартный размер окна"/>
                 </Menu>
                 <Menu fx:id="helpMenu" mnemonicParsing="false" styleClass="menu" text="Помощь">
-                    <MenuItem mnemonicParsing="false" styleClass="menu__item" text="О программе" />
+                    <MenuItem mnemonicParsing="false" onAction="#onShowUserManual" styleClass="menu__item" text="Руководство пользователя" />
                 </Menu>
             </MenuBar>
         </VBox>

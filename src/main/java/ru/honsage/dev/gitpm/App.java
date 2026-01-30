@@ -8,16 +8,14 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import ru.honsage.dev.gitpm.application.services.*;
-import ru.honsage.dev.gitpm.domain.ports.AppSettings;
-import ru.honsage.dev.gitpm.domain.ports.BrowserOperations;
-import ru.honsage.dev.gitpm.domain.ports.CommandExecutor;
-import ru.honsage.dev.gitpm.domain.ports.GitOperations;
+import ru.honsage.dev.gitpm.domain.ports.*;
 import ru.honsage.dev.gitpm.domain.repositories.ProjectRepository;
 import ru.honsage.dev.gitpm.domain.repositories.ScriptRepository;
 import ru.honsage.dev.gitpm.domain.repositories.TaskRepository;
 import ru.honsage.dev.gitpm.infrastructure.browser.CmdBrowserOperations;
 import ru.honsage.dev.gitpm.infrastructure.executor.ProcessBuilderCommandExecutor;
 import ru.honsage.dev.gitpm.infrastructure.git.JGitOperations;
+import ru.honsage.dev.gitpm.infrastructure.html.HtmlConverterImpl;
 import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.DatabaseManager;
 import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.repositories.ProjectRepositoryImpl;
 import ru.honsage.dev.gitpm.infrastructure.persistence.sqlite.repositories.ScriptRepositoryImpl;
@@ -45,6 +43,7 @@ public class App extends Application {
         GitOperations git = new JGitOperations();
         CommandExecutor executor = new ProcessBuilderCommandExecutor();
         BrowserOperations browserOps = new CmdBrowserOperations();
+        HtmlConverter htmlConverter = new HtmlConverterImpl();
 
         // Services
         ProjectService projectService = new ProjectService(projectRepo, git);
@@ -53,13 +52,15 @@ public class App extends Application {
 
         ScriptExecutionService executionService = new ScriptExecutionService(executor, settings);
         WebBrowserService webBrowserService = new WebBrowserService(browserOps, settings);
+        DocumentationService documentationService = new DocumentationService(htmlConverter);
 
         MainViewModel viewModel = new MainViewModel(
                 projectService,
                 taskService,
                 scriptService,
                 executionService,
-                webBrowserService
+                webBrowserService,
+                documentationService
         );
 
         MainController mainController = new MainController(viewModel);
