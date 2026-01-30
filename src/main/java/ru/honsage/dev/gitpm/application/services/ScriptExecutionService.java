@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ScriptExecutionService {
     private final CommandExecutor executor;
-    private AppSettings settings;
+    private final AppSettings settings;
 
     private ShellType selectedShellType;
 
