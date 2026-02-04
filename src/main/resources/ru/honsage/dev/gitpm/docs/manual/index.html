@@ -209,16 +209,6 @@
             margin-top: 40px;
         }
 
-        .screenshot-placeholder {
-            background: #f5f5f5;
-            border: 2px dashed #ddd;
-            padding: 40px;
-            text-align: center;
-            color: #666;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
-
         .screenshot {
             max-height: 400px;
             max-width: 600px;
@@ -233,9 +223,43 @@
             max-height: 24px;
             translate: 0 6px;
         }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 50px;
+            right: 50px;
+            width: 50px;
+            height: 50px;
+            background: #006464;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(0, 100, 100, 0.3);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .back-to-top:hover {
+            background: #005050;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 100, 100, 0.4);
+        }
+
+        .back-to-top:active {
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
+
+<a href="#" class="back-to-top" title="Вернуться к содержанию">↑</a>
+
 <div class="header">
     <h1>GitPM – Git Project Manager</h1>
     <div class="subtitle">Руководство пользователя</div>
@@ -505,40 +529,108 @@ docker run redis</pre>
         <tr>
             <th>Действие</th>
             <th>Сочетание клавиш</th>
+            <th>Контекст</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td>Добавить проект</td>
+            <td>Добавить сущность</td>
             <td><kbd class="hotkey">Ctrl</kbd> + <kbd class="hotkey">N</kbd></td>
+            <td>Зависит от активной вкладки:<br>
+                • Задачи → добавить задачу<br>
+                • Сценарии → добавить скрипт<br>
+                • В ином случае → добавить проект</td>
         </tr>
         <tr>
-            <td>Поиск проекта</td>
-            <td><kbd class="hotkey">Ctrl</kbd> + <kbd class="hotkey">F</kbd></td>
-        </tr>
-        <tr>
-            <td>Добавить задачу</td>
-            <td><kbd class="hotkey">Ctrl</kbd> + <kbd class="hotkey">T</kbd></td>
-        </tr>
-        <tr>
-            <td>Добавить скрипт</td>
+            <td>Сканировать Git-проекты</td>
             <td><kbd class="hotkey">Ctrl</kbd> + <kbd class="hotkey">S</kbd></td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td>Фокус на поиск</td>
+            <td><kbd class="hotkey">Ctrl</kbd> + <kbd class="hotkey">F</kbd></td>
+            <td>Зависит от активной вкладки:<br>
+                • Задачи → поиск задач<br>
+                • Сценарии → поиск скриптов<br>
+                • В ином случае → поиск проектов</td>
+        </tr>
+        <tr>
+            <td>Редактировать сущность</td>
+            <td><kbd class="hotkey">Ctrl</kbd> + <kbd class="hotkey">E</kbd></td>
+            <td>• Сценарии → редактировать скрипт<br>
+                • В ином случае → редактировать проект</td>
+        </tr>
+        <tr>
+            <td>Удалить сущность</td>
+            <td><kbd class="hotkey">Ctrl</kbd> + <kbd class="hotkey">D</kbd></td>
+            <td>• Сценарии → удалить скрипт<br>
+                • В ином случае → удалить проект</td>
         </tr>
         <tr>
             <td>Открыть справку</td>
             <td><kbd class="hotkey">F1</kbd></td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td>Стандартный размер окна</td>
+            <td><kbd class="hotkey">F11</kbd></td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td>Запустить выбранный скрипт</td>
+            <td><kbd class="hotkey">F12</kbd></td>
+            <td>Вкладка "Сценарии" (требуется выбор скрипта)</td>
+        </tr>
+        <tr>
+            <td>Остановить выбранный скрипт</td>
+            <td><kbd class="hotkey">Shift</kbd> + <kbd class="hotkey">F12</kbd></td>
+            <td>Вкладка "Сценарии" (только для запущенных скриптов)</td>
+        </tr>
+        <tr>
+            <td>Выбрать командную оболочку</td>
+            <td><kbd class="hotkey">Ctrl</kbd> + <kbd class="hotkey">Shift</kbd> + <kbd class="hotkey">C</kbd></td>
+            <td>–</td>
+        </tr>
+        <tr>
+            <td>Выбрать веб-браузер</td>
+            <td><kbd class="hotkey">Ctrl</kbd> + <kbd class="hotkey">Shift</kbd> + <kbd class="hotkey">B</kbd></td>
+            <td>–</td>
         </tr>
         <tr>
             <td>Закрыть приложение</td>
             <td><kbd class="hotkey">Alt</kbd> + <kbd class="hotkey">F4</kbd></td>
+            <td>–</td>
         </tr>
         </tbody>
     </table>
+
+    <div class="note">
+        <strong>Примечание:</strong> Сочетания с <kbd class="hotkey">Ctrl</kbd> + <kbd class="hotkey">N</kbd>, <kbd class="hotkey">F</kbd>, <kbd class="hotkey">E</kbd>, <kbd class="hotkey">D</kbd> зависят от активной вкладки. Например, на вкладке "Задачи" <kbd class="hotkey">Ctrl</kbd> + <kbd class="hotkey">N</kbd> добавит задачу, а не проект.
+    </div>
 </div>
 
 <div class="footer">
     <p>© 2025-2026 GitPM – Git Project Manager</p>
     <p>Руководство пользователя. Версия 1.0</p>
 </div>
+
+<script>
+    window.addEventListener('scroll', function() {
+        const backToTopButton = document.querySelector('.back-to-top');
+        if (window.scrollY > 300) {
+            backToTopButton.style.display = 'flex';
+        } else {
+            backToTopButton.style.display = 'none';
+        }
+    });
+
+    document.querySelector('.back-to-top').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+</script>
 </body>
 </html>
