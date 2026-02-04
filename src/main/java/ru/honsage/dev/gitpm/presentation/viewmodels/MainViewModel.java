@@ -383,9 +383,10 @@ public class MainViewModel {
     public void runSelectedScript() {
         if (selectedScript == null) return;
 
-        scriptExecutionService.runScript(
-                scriptToDomain(selectedScript)
-        );
+        var script = scriptToDomain(selectedScript);
+        if (!scriptExecutionService.isRunning(script.getId().toString())) {
+            scriptExecutionService.runScript(script);
+        }
 
         selectedScript.setRunning(true);
     }
