@@ -2,10 +2,543 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Руководство пользователя GitPM</title>
+    <title>GitPM - Руководство пользователя</title>
     <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAhCAYAAABX5MJvAAAACXBIWXMAAAHnAAAB5wFXrjk2AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAABY9JREFUWIWdmG1sU2UUx//nacs2yJCxsBgFJsLWON1IbNbbLsA6VFwHLOIyQRBi/GIMCBjwNWEJMZFISITgBz8YE00UcEhQod0Q2CKDtYVOadwWcC5OSIA0mw6h3Xrv7fGD62jvS/dyPrXn5envnud/n5cSM2OqFgqFtjDzwXQfEc1UFMVeVVU1MNXxrFMmAJBMJmcQUUG6j5khhKDpjCemU0REqpHfarWajUfhcNg2JYhIJDIrFAr5g8FgjVGcTeaQmfOMAEKh0CFZlk/4/f4cQ0LteOFweKaqqj5mrgYQE0LUV1ZWnmtubrYUFxe/xMzrAawCkJdkxl/Dw5g/ezasQoCIRpm5nYi+GhgYONbY2KgGg8FPAOwcG943NDT0otfrHTWFCIfDMxVF+RHAyrScODPvJaLNAJ5MOWOyjN1nzqDr1i2UzZuHg7W1mJ2T8aDXAHQBeDnjB4laYrHYOo/HM6KD8Pv9OXPnzj0F4FmjlqVbXJaxawwgZaWFhTjs9eKh3NyJygHgpCRJ61JfxjXh9XoTRNQ7mRGOdndnAADA9cFBbPf7cXd01KTqwTMIIT5Nd6QLk51O5w4Ah8yqY7KM3mgUW5YuxXOPP66LXxscxJs+XzaQBBE1VlZWnjODAACWJOktIvpWhz+mgTdOn8bV27ext6YGtUuWGIJs8/kwPDKiixHRHqfTeVrn174d7e3t1ry8vB4AJSlfTJaxs6UFkTt3AAB5VisOer14qqgIN4aH0RONYl9HB2T1wfJhLyzE4bo6rVivSpL0NIBktk4gNzf3lWwAABBXFBy4dAkWIjw2Zw7qSkrgKS7WdcRgapYGg8F10JgOgog2ZANI2b+jo0imdfHh/HxdjgnIBm0eXb58eVxhiqLkCCF+YeacbAApW11aij0rViChqrAIgaa2Npzr79flaabmPjO/JoRgAGBmi1VV1T/SugBmHhdhNgAA6LxxAwDweVcX3AsW4MOaGliFQGtfn64j23y+1Doyi4iOpbRIRFEBIGMzGlVV7Ghp0a0D2Swuy9jV2oruaBRN1dU40tCApupqWOjBpppaR+4lEhm1zCwENEpt7eubsANGFpNl7L94ERYiLCooQF1JCZ7RrCXXBgdxvKdHWyoEEWVALCoogKBpHQtwVyPWmCzrch7RC1gI7bZcXlSE95ctmxbInXv30NTWhsDNm/jsyhVcHNNMyjZXVGDV4sXaMrIC2ArASkQjzJwA8OVau30GEeGjCxcynmwydra/H2cN3pCN5eXY6nQCwP1kMrnSYrH8I4RQFEVJWiVJ+iI9ORgMvgrg+TWlpWBm7OvoMAWpt9sBAFULF+JEby9Uk7zNFRUpADDzGbfbHUqP6xYrZj6a+rzWbjedmkfz8/G6wwEAcM+frxOhEQAACCGOaHN0EDab7WsAv08EklDVjNfKSIRaAGb+zel0fjchhMPhkJn5m3SfEUg0FkPT+fNZRZgOAABEFIJmSQAMdtHOzs5ai8Vykpl1h9JT169PSqwby8uxXZIMY8y83+VyvWsKEQwGVwH4HoDpGW0ikGwAaXZAkqS3U18ypoOZ38kGAABrSkvxwfLlhmKdJAAAPNHe3j5+8cqAGBkZeQHAz9qKMY38mQ3EACDCzHsAZGwWRNQyNDTU4PF4lHGfVhORSGRWPB4/BcAzVvSx0+l8LxwO21RV3cLMmwAsB2A929+P5u5urCguxqaKCgCIA2hl5iMul+s4gGQgEKgnomYAMwD8FI/H69OP+4YQwP/3D1mWfyCiXyVJ2q2NBwIBiYgCBh1b73K5dOfTUCi0mpm3JpPJBrfbHdfGDS/EDocj1tPTU1dWVpYwijNzjKawt4wdbnUH3JSZXojNAADAZrOZvaPT2n6n9deAqqrpC87f4wREikH6hPYfOruy6mMDwm4AAAAASUVORK5CYII=" type="image/png">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .header {
+            background: #006464;
+            color: white;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: normal;
+        }
+
+        .header .subtitle {
+            margin-top: 5px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+        }
+
+        .toc {
+            background: white;
+            padding: 20px;
+            border-radius: 4px;
+            border-left: 4px solid #006464;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .toc h2 {
+            margin-top: 0;
+            color: #006464;
+            font-size: 18px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc li {
+            margin: 8px 0;
+        }
+
+        .toc a {
+            color: #333;
+            text-decoration: none;
+            display: block;
+            padding: 6px 12px;
+            border-radius: 3px;
+        }
+
+        .toc a:hover {
+            background: rgba(0, 100, 100, 0.1);
+            color: #006464;
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: #006464;
+            border-bottom: 2px solid #006464;
+            padding-bottom: 10px;
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        .section h3 {
+            color: #333;
+            margin-top: 25px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .ui-element {
+            color: black;
+            display: inline-block;
+            background: rgba(0, 100, 100, 0.08);
+            border: 1px solid rgba(0, 100, 100, 0.2);
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 14px;
+            margin: 2px;
+            font-family: 'Consolas', monospace;
+        }
+
+        .ui-button {
+            background: #006464;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 3px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .step-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .step-list li {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .step-list li:before {
+            color: #006464;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+
+        .note strong {
+            color: #333;
+        }
+
+        .warning {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 3px;
+            border-left: 3px solid #006464;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+        }
+
+        .hotkey {
+            background: #e9ecef;
+            border: 1px solid #dee2e6;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        table th {
+            background: #f8f9fa;
+            border-bottom: 2px solid #006464;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+        }
+
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+
+        .screenshot-placeholder {
+            background: #f5f5f5;
+            border: 2px dashed #ddd;
+            padding: 40px;
+            text-align: center;
+            color: #666;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .screenshot {
+            max-height: 400px;
+            max-width: 600px;
+        }
+
+        .icon {
+            max-height: 28px;
+            translate: 0 4px;
+        }
+
+        .inline-icon {
+            max-height: 24px;
+            translate: 0 6px;
+        }
+    </style>
 </head>
 <body>
-<h1>Руководство пользователя GitPM</h1>
+<div class="header">
+    <h1>GitPM – Git Project Manager</h1>
+    <div class="subtitle">Руководство пользователя</div>
+</div>
+
+<div class="toc">
+    <h2>Содержание</h2>
+    <ul>
+        <li><a href="#intro">1. Знакомство с GitPM</a></li>
+        <li><a href="#interface">2. Интерфейс приложения</a></li>
+        <li><a href="#projects">3. Работа с проектами</a></li>
+        <li><a href="#tasks">4. Управление задачами</a></li>
+        <li><a href="#scripts">5. Настройка сценариев</a></li>
+        <li><a href="#settings">6. Меню и настройки приложения</a></li>
+        <li><a href="#shortcuts">7. Горячие клавиши</a></li>
+    </ul>
+</div>
+
+<div id="intro" class="section">
+    <h2>1. Знакомство с GitPM</h2>
+    <p><strong>GitPM – Git Project Manager</strong> – десктоп-приложение для управления локальными Git-проектами.</p>
+
+    <h3>Возможности ПО:</h3>
+    <ul class="step-list">
+        <li><strong>Централизованное управление проектами</strong> – единый интерфейс для всех локальных Git-репозиториев</li>
+        <li><strong>Контроль задач разработки</strong> – планирование и отслеживание задач по проектам</li>
+        <li><strong>Автоматизация рабочих процессов</strong> – создание и запуск пользовательских скриптов</li>
+        <li><strong>Быстрый доступ к файлам</strong> – открытие папок проектов и удаленных репозиториев</li>
+    </ul>
+</div>
+
+<div id="interface" class="section">
+    <h2>2. Интерфейс приложения</h2>
+
+    <h3>Структура главного окна</h3>
+    <p>Интерфейс разделен на две основные области:</p>
+
+    <img src="main-interface.png" class="screenshot">
+
+    <h4>Левая панель – управление проектами</h4>
+    <ul class="step-list">
+        <li>Список всех добавленных проектов</li>
+        <li>Поиск Git-репозиториев </li>
+        <li>Кнопки управления: добавить, изменить, удалить</li>
+    </ul>
+
+    <h4>Правая область – функциональные вкладки</h4>
+
+    <h5>Вкладка "Информация"</h5>
+    <p>Отображает основные сведения о выбранном проекте:</p>
+    <ul class="step-list">
+        <li>Название и описание проекта</li>
+        <li>Локальный путь к репозиторию</li>
+        <li>Ссылка на удаленный репозиторий (при наличии)</li>
+        <li>Дата добавления в приложение</li>
+        <li>Кнопки быстрого доступа: открыть папку проекта и удаленный репозиторий</li>
+    </ul>
+
+    <h5>Вкладка "Задачи"</h5>
+    <p>Обеспечивает управление задачами разработки:</p>
+    <ul class="step-list">
+        <li>Список задач с возможностью фильтрации</li>
+        <li>Инструменты добавления, редактирования, удаления задач</li>
+        <li>Назначение приоритетов и сроков выполнения</li>
+        <li>Отметка о выполнении</li>
+    </ul>
+
+    <h5>Вкладка "Сценарии"</h5>
+    <p>Предназначена для создания и выполнения скриптов:</p>
+    <ul class="step-list">
+        <li>Список пользовательских скриптов</li>
+        <li>Панель управления выполнением: запуск, остановка</li>
+        <li>Вывод результатов выполнения в реальном времени</li>
+    </ul>
+
+    <h3>Меню приложения</h3>
+    <ul class="step-list">
+        <li><strong>Файл</strong> – <span class="ui-element">Закрыть</span></li>
+        <li><strong>Проекты</strong> – <span class="ui-element">Добавить проект</span>, <span class="ui-element">Найти проекты</span></li>
+        <li><strong>Настройки</strong> – <span class="ui-element">Выбрать тип командной оболочки</span>, <span class="ui-element">Выбрать тип веб-браузера</span>, <span class="ui-element">Установить стандартный размер окна</span></li>
+        <li><strong>Документация</strong> – <span class="ui-element">Руководство пользователя</span></li>
+    </ul>
+</div>
+
+<div id="projects" class="section">
+    <h2>3. Работа с проектами</h2>
+
+    <h3>Добавление проекта</h3>
+    <p>Для добавления проекта нажмите кнопку <img src="icon-add.png" class="inline-icon"> в панели проектов или выберите в меню: <span class="ui-element">Проекты → Добавить проект</span></p>
+
+    <p>Заполните форму (поля "Описание" и "Remote URL" необязательны):</p>
+    <img src="add-project-dialog.png" class="screenshot">
+    <p>Нажмите кнопку <img src="create-button.png" class="inline-icon" ></p>
+
+    <div class="warning">
+        <strong>Требование:</strong> Для добавления проекта необходимо, чтобы в указанной директории уже был инициализирован Git-репозиторий (существовала папка .git).
+    </div>
+
+    <h3>Автоматический поиск проектов</h3>
+    <p>Функция позволяет автоматически обнаружить Git-репозитории в указанной директории.</p>
+    <p>Для поиска проектов нажмите кнопку <img src="icon-search.png" class="inline-icon"> и выберите корневую директорию для поиска. Глубина поиска составляет 3 вложенных папки.</p>
+
+    <h3>Управление проектами</h3>
+    <p>Для выбранного проекта доступно:</p>
+    <ul class="step-list">
+        <li><img src="icon-edit.png" class="inline-icon"> – редактирование информации о проекте</li>
+        <li><img src="icon-delete.png" class="inline-icon"> – удаление проекта из списка (не удаляет файлы)</li>
+        <li>Открытие папки проекта</li>
+        <li>Открытие удаленного репозитория</li>
+    </ul>
+    <p>Для списка проектов доступны:</p>
+    <ul class="step-list">
+        <li><img src="project-search-bar.png" class="inline-icon"> – поиск по названию проекта</li>
+        <li><img src="icon-remote.png" class="inline-icon"> – фильтр проектов по наличию удаленного репозитория</li>
+    </ul>
+
+    <h3>Информация о проектах</h3>
+
+    <p>Для просмотра полной информации о выбранном проекте перейдите на вкладку "Информация". Здесь представлены название, описание, локальный путь, удаленный репозиторий и дата добавления проекта. Адреса локального пути и удаленного репозитория можно скопировать, нажав на них. Открыть эти адреса можно по соответствующим кнопкам: "Открыть папку проекта" и "Удаленный репозиторий".</p>
+
+    <img src="info-tab.png" class="screenshot">
+
+</div>
+
+<div id="tasks" class="section">
+    <h2>4. Управление задачами</h2>
+
+    <h3>Создание задачи</h3>
+
+    <p>Для добавления задачи для выбранного проекта перейдите во вкладку "Задачи" и нажмите на кнопку <img src="icon-add.png" class="inline-icon"> в панели задач</p>
+
+    <p>Заполните форму (поля "Описание" и "Дедлайн" необязательны):</p>
+    <img src="add-task-dialog.png" class="screenshot">
+    <p>Нажмите кнопку <img src="create-button.png" class="inline-icon" ></p>
+
+    <p>В списке задач создастся карточка задачи. Например:</p>
+    <img src="task-card.png" class="screenshot">
+
+    <div class="note">
+        <strong>Примечание:</strong> Задачи привязаны к конкретному проекту. При смене проекта список задач обновляется.
+    </div>
+
+    <h3>Управление задачами</h3>
+    <p>Для каждой задачи доступны следующие действия:</p>
+    <ul class="step-list">
+        <li><img src="completed.png" class="icon"> – отметить выполнение задачи</li>
+        <li><img src="high-priority.png" class="icon"> – установить высокий приоритет</li>
+        <li><img src="medium-priority.png" class="icon"> – установить средний приоритет</li>
+        <li><img src="low-priority.png" class="icon"> – установить низкий приоритет</li>
+        <li><img src="icon-edit-task.png" class="icon"> – редактирование задачи</li>
+        <li><img src="icon-delete-task.png" class="icon"> – удаление задачи</li>
+    </ul>
+
+    <h3>Фильтрация задач</h3>
+    <p>Для удобной навигации для списка задач предусмотрены фильтры. Автоматически задачи сортируются по статусу выполнения (невыполненные выше), по приоритету (высокий выше), по дедлайну (срочные выше).</p>
+    <p>Задачи можно искать по названию:  <img src="task-search-bar.png" class="inline-icon"></p>
+    <p>Дополнительно доступны кнопки фильтрации:</p>
+    <ul class="step-list">
+        <li><img src="icon-completed.png" class="icon"> – отобразить выполненные задачи</li>
+        <li><img src="icon-overdue.png" class="icon"> – отобразить просроченные задачи</li>
+        <li><img src="icon-important.png" class="icon"> – отобразить важные задачи (высокий приоритет)</li>
+    </ul>
+
+    <p>Пример внешнего вида вкладки "Задачи":</p>
+    <img src="task-tab.png" class="screenshot">
+</div>
+
+<div id="scripts" class="section">
+    <h2>5. Настройка сценариев</h2>
+
+    <h3>Создание скрипта</h3>
+    <p>Для добавления скрипта для выбранного проекта перейдите во вкладку "Сценарии" и нажмите на кнопку <img src="icon-add.png" class="inline-icon"> в панели скриптов</p>
+
+    <p>Заполните форму (поле "Описание" необязательно):</p>
+    <img src="add-script-dialog.png" class="screenshot">
+    <p>Нажмите кнопку <img src="create-button.png" class="inline-icon" ></p>
+
+
+    <h3>Примеры команд</h3>
+    <pre>
+# Запуск фронтенда (CMD)
+cd frontend/ && npm run start
+
+# Сборка проекта (Bash Unix)
+mvn clean package
+
+# Запуск тестов (PowerShell)
+python -m pytest tests/
+
+# Операции с git (Git Bash)
+git status; git push
+
+# Запуск docker-контейнера (WSL Bash)
+docker run redis</pre>
+
+    <div class="note">
+        <strong>Примечание:</strong> Команды выполняются в рабочей директории (указываемой при добавлении или редактировании скрипта). По умолчанию – корневая директория проекта.
+    </div>
+
+    <h3>Управление скриптами</h3>
+    <p>Для списка скриптов доступно:</p>
+    <ul class="step-list">
+        <li><img src="script-search-bar.png" class="inline-icon"> – поиск по названию скрипта</li>
+    </ul>
+    <p>Для выбранного скрипта доступно:</p>
+    <ul class="step-list">
+        <li><img src="icon-edit.png" class="inline-icon"> – редактирование информации о скрипте</li>
+        <li><img src="icon-delete.png" class="inline-icon"> – удаление скрипта из списка</li>
+        <li><img src="icon-run.png" class="icon"> – начало выполнения скрипта</li>
+        <li><img src="icon-stop.png" class="icon"> – остановка выполнения скрипта</li>
+
+    </ul>
+
+    <ul class="step-list">
+        </ul>
+
+    <div class="note">
+        <strong>Примечание:</strong> Вывод скрипта отображается в реальном времени в поле "Вывод".
+    </div>
+
+    <div class="warning">
+        <strong>Предупреждение:</strong> Запускаемая команда должна соответствовать типу используемой командной оболочки. В ином случае ПО не гарантирует корректность выполнения скрипта. Подробнее о выборе типа оболочки – в разделе <a href="#settings">Меню и настройки приложения</a>
+    </div>
+
+    <p>Пример внешнего вида вкладки "Сценарии":</p>
+    <img src="script-tab.png" class="screenshot">
+
+</div>
+
+<div id="settings" class="section">
+    <h2>6. Меню и настройки приложения</h2>
+    <p>ПО предоставляет следующие пункты меню:</p>
+    <h3>Файл</h3>
+    <p>Элемент меню <span class="ui-element">Закрыть</span> завершает работу приложения.</p>
+
+    <h3>Проекты</h3>
+    <p>Элемент меню <span class="ui-element">Добавить проект</span> позволяет добавить новый Git-проект в список.</p>
+    <p>Элемент меню <span class="ui-element">Найти проекты</span> позволяет выбрать директорию и сканировать ее на наличие Git-репозиториев.</p>
+
+
+    <h3>Настройки</h3>
+    <p>Элемент меню <span class="ui-element">Выбрать тип командной оболочки</span> позволяет установить используемую оболочку для запуска скриптов.</p>
+    <img src="menu-settings.png" class="screenshot">
+    <div class="warning">
+        <strong>Предупреждение:</strong> Для корректной работы командная оболочка должна быть настроена на устройстве. В частности, для работы с Git Bash необходимо добавить в PATH папку Git (например, C:\Program Files\Git)
+    </div>
+    <p>Элемент меню <span class="ui-element">Выбрать тип веб-браузера</span> позволяет установить тип используемого веб-браузера для открытия ссылок и документации.</p>
+    <img src="menu-browser.png" class="screenshot">
+    <div class="warning">
+        <strong>Предупреждение:</strong> Для корректной работы выбранный браузер должен быть настроен на устройстве. Т.е. исполняемый файл браузера должен находиться в реестре (можно проверить командой <strong>start имя_браузера</strong> в консоли, например: <strong>start chrome</strong>).
+    </div>
+    <p>Элемент меню <span class="ui-element">Установить стандартный размер окна</span> восстанавливает размеры главного окна приложения по умолчанию.</p>
+
+    <h3>Документация</h3>
+    <p>Элемент меню <span class="ui-element">Руководство пользователя</span> открывает данное руководство по эксплуатации в браузере.</p>
+
+    <div class="note">
+        <strong>Примечание:</strong> Размеры окна, тип браузера и командной оболочки сохраняются автоматически при закрытии приложения.
+    </div>
+</div>
+
+<div id="shortcuts" class="section">
+    <h2>7. Горячие клавиши</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Действие</th>
+            <th>Сочетание клавиш</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Добавить проект</td>
+            <td><kbd class="hotkey">Ctrl</kbd> + <kbd class="hotkey">N</kbd></td>
+        </tr>
+        <tr>
+            <td>Поиск проекта</td>
+            <td><kbd class="hotkey">Ctrl</kbd> + <kbd class="hotkey">F</kbd></td>
+        </tr>
+        <tr>
+            <td>Добавить задачу</td>
+            <td><kbd class="hotkey">Ctrl</kbd> + <kbd class="hotkey">T</kbd></td>
+        </tr>
+        <tr>
+            <td>Добавить скрипт</td>
+            <td><kbd class="hotkey">Ctrl</kbd> + <kbd class="hotkey">S</kbd></td>
+        </tr>
+        <tr>
+            <td>Открыть справку</td>
+            <td><kbd class="hotkey">F1</kbd></td>
+        </tr>
+        <tr>
+            <td>Закрыть приложение</td>
+            <td><kbd class="hotkey">Alt</kbd> + <kbd class="hotkey">F4</kbd></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="footer">
+    <p>© 2025-2026 GitPM – Git Project Manager</p>
+    <p>Руководство пользователя. Версия 1.0</p>
+</div>
 </body>
 </html>
