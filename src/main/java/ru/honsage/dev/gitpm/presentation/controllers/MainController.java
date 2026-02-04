@@ -17,6 +17,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -220,6 +223,7 @@ public class MainController {
         // onClose
         Platform.runLater(() -> {
             Stage mainStage = (Stage) root.getScene().getWindow();
+            setupKeyboardShortcuts();
             mainStage.setOnCloseRequest(event -> {
                 stopOutputPolling();
                 stopAllRunningScripts();
@@ -769,5 +773,99 @@ public class MainController {
                 ((Stage) window).close();
             }
         }
+    }
+
+    private void setupKeyboardShortcuts() {
+        Scene scene = root.getScene();
+
+        // Ctrl+N - Добавить сущность
+        scene.getAccelerators().put(
+                new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN),
+                () -> {
+                    switch (tabContainer.getSelectionModel().getSelectedItem().getText()) {
+                        case "Задачи" -> onAddTask(new ActionEvent());
+                        case "Сценарии" -> onAddScript(new ActionEvent());
+                        default -> onAddProject(new ActionEvent());
+                    }
+                }
+        );
+
+        // Ctrl+S - Сканировать проекты
+        scene.getAccelerators().put(
+                new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
+                () -> onScanDirectory(new ActionEvent())
+        );
+
+        // Ctrl+F - Фокус на поисковую строку
+        scene.getAccelerators().put(
+                new KeyCodeCombination(KeyCode.F, KeyCombination.CONTROL_DOWN),
+                () -> {
+                    switch (tabContainer.getSelectionModel().getSelectedItem().getText()) {
+                        case "Задачи" -> taskSearchEntry.requestFocus();
+                        case "Сценарии" -> scriptSearchEntry.requestFocus();
+                        default -> projectSearchEntry.requestFocus();
+                    }
+                }
+        );
+
+        // Ctrl+E - Редактировать сущность
+        scene.getAccelerators().put(
+                new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_DOWN),
+                () -> {
+                    if (tabContainer.getSelectionModel().getSelectedItem().getText().equals("Сценарии")) {
+                        onEditScript(new ActionEvent());
+                    } else {
+                        onEditProject(new ActionEvent());
+                    }
+                }
+        );
+
+        // Ctrl+D - Удалить сущность
+        scene.getAccelerators().put(
+                new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN),
+                () -> {
+                    if (tabContainer.getSelectionModel().getSelectedItem().getText().equals("Сценарии")) {
+                        onDeleteScript(new ActionEvent());
+                    } else {
+                        onDeleteProject(new ActionEvent());
+                    }
+                }
+        );
+
+        // F1 - Открыть справку
+        scene.getAccelerators().put(
+                new KeyCodeCombination(KeyCode.F1),
+                () -> onShowUserManual(new ActionEvent())
+        );
+
+        // F11 - Стандартный размер окна
+        scene.getAccelerators().put(
+                new KeyCodeCombination(KeyCode.F11),
+                () -> onNormalizeWindow(new ActionEvent())
+        );
+
+        // F12 - запустить выбранный скрипт
+        scene.getAccelerators().put(
+                new KeyCodeCombination(KeyCode.F12),
+                () -> onRunScript(new ActionEvent())
+        );
+
+        // Shift+F12 - остановить выбранный скрипт
+        scene.getAccelerators().put(
+                new KeyCodeCombination(KeyCode.F12, KeyCombination.SHIFT_DOWN),
+                () -> onStopScript(new ActionEvent())
+        );
+
+        // Ctrl+Shift+C - выбор оболочки
+        scene.getAccelerators().put(
+                new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN),
+                () -> onChangeShell(new ActionEvent())
+        );
+
+        // Ctrl+Shift+B - выбор браузера
+        scene.getAccelerators().put(
+                new KeyCodeCombination(KeyCode.B, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN),
+                () -> onChangeBrowser(new ActionEvent())
+        );
     }
 }
