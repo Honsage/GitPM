@@ -16,18 +16,18 @@ public record LocalRepositoryPath(String value) {
         }
 
         Path path = Paths.get(value);
-        if (!Files.exists(path)) {
-            throw ExceptionFactory.validation(
-                    String.format("Local repository at path: %s does not exist", value),
-                    "LocalRepositoryPath"
-            );
-        }
-        if (!Files.isDirectory(path)) {
-            throw ExceptionFactory.validation(
-                    String.format("Local repository: %s is not a directory", value),
-                    "LocalRepositoryPath"
-            );
-        }
+//        if (!Files.exists(path)) {
+//            throw ExceptionFactory.validation(
+//                    String.format("Local repository at path: %s does not exist", value),
+//                    "LocalRepositoryPath"
+//            );
+//        }
+//        if (!Files.isDirectory(path)) {
+//            throw ExceptionFactory.validation(
+//                    String.format("Local repository: %s is not a directory", value),
+//                    "LocalRepositoryPath"
+//            );
+//        }
 
         value = path.toAbsolutePath().normalize().toString();
     }
